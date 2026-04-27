@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { BillingCardManager } from "@/components/billing/billing-card-manager";
@@ -19,7 +20,20 @@ export default async function BillingPage(): Promise<React.JSX.Element> {
           <h1 className="text-2xl font-semibold">Billing account</h1>
           <p className="text-sm text-zinc-600">{session.user.email}</p>
         </div>
-        <SignOutButton />
+        <div className="flex gap-2">
+          <Link className="text-sm underline" href="/clubs">
+            Clubs
+          </Link>
+          <Link className="text-sm underline" href="/account/memberships">
+            Memberships
+          </Link>
+          {session.user.role === "admin" ? (
+            <Link className="text-sm underline" href="/admin/clubs">
+              Admin
+            </Link>
+          ) : null}
+          <SignOutButton />
+        </div>
       </header>
 
       <Card>

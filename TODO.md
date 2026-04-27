@@ -37,7 +37,7 @@
 ## Phase 3 - Data and App Polish
 
 - [x] Add Drizzle schema and config.
-- [ ] Create and run migration files in `drizzle/`.
+- [x] Create and run migration files in `drizzle/`.
 - [x] Add TanStack Query provider and billing query usage.
 - [x] Add Zustand store for advanced billing UI state.
 - [ ] Add stronger server-side audit logging for billing actions.
@@ -50,7 +50,16 @@
 - [ ] Verify add/update/remove card via Stripe Elements.
 - [ ] Verify responsive behavior on mobile and desktop.
 
-## Phase 5 - Admin Invite Workflow (Later Phase)
+## Phase 5 - Clubs and Memberships
+
+- [x] Add clubs/plans/memberships/cancellation-request schema and migration.
+- [x] Add admin-only club and plan API routes.
+- [x] Add member club browse/detail/join APIs and pages.
+- [x] Add membership list and cancellation request flow.
+- [x] Add admin cancellation request queue and resolution endpoints/pages.
+- [ ] Add membership lifecycle reconciliation for status drift without webhooks.
+
+## Phase 6 - Admin Invite Workflow (Later Phase)
 
 - [ ] Define admin role/permissions for invitation management.
 - [ ] Add `admin_invites` table and token hashing/expiry rules.

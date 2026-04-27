@@ -1,0 +1,131 @@
+"use client";
+
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import * as React from "react";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+type Plan = {
+  id: string;
+  name: string;
+  interval: "month" | "year";
+  amountCents: number;
+  currency: string;
+};
+
+export function AdminClubPlansManager({ clubId }: { clubId: string }): React.JSX.Element {
+  const queryClient = useQueryClient();
+  const [name, setName] = React.useState("");
+  const [interval, setInterval] = React.useState<"month" | "year">("month");
+  const [amountCents, setAmountCents] = React.useState("1000");
+  const [currency, setCurrency] = React.useState("usd");
+  const [message, setMessage] = React.useState("");
+
+  const plansQuery = useQuery({
+    queryKey: ["admin-club-plans", clubId],
+    queryFn: async () => {
+      const response = await fetch(`/api/admin/clubs/${clubId}/plans`);
+      const payload = (await response.json()) as { plans?: Plan[]; error?: string };
+      if (!response.ok || !payload.plans) {
+        throw new Error(payload.error ?? "Failed to load plans.");
+      }
+      return payload.plans;
+    },
+  });
+
+  const createPlanMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`/api/admin/clubs/${clubId}/plans`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          interval,
+          amountCents: Number(amountCents),
+          currency,
+        }),
+      });
+      const payload = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        throw new Error(payload.error ?? "Failed to create plan.");
+      }
+    },
+    onSuccess: async () => {
+      setMessage("Plan created.");
+      setName("");
+      await queryClient.invalidateQueries({ queryKey: ["admin-club-plans", clubId] });
+    },
+    onError: (error: Error) => setMessage(error.message),
+  });
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Create plan</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="space-y-2">
+            <Label htmlFor="plan-name">Name</Label>
+            <Input id="plan-name" value={name} onChange={(event) => setName(event.target.value)} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="plan-interval">Interval</Label>
+            <select
+              id="plan-interval"
+              className="h-10 w-full rounded-md border border-zinc-300 px-3"
+              value={interval}
+              onChange={(event) => setInterval(event.target.value as "month" | "year")}
+            >
+              <option value="month">month</option>
+              <option value="year">year</option>
+            </select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="plan-amount">Amount (cents)</Label>
+            <Input
+              id="plan-amount"
+              value={amountCents}
+              onChange={(event) => setAmountCents(event.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="plan-currency">Currency</Label>
+            <Input
+              id="plan-currency"
+              value={currency}
+              onChange={(event) => setCurrency(event.target.value)}
+            />
+          </div>
+          <Button onClick={() => createPlanMutation.mutate()} disabled={createPlanMutation.isPending}>
+            {createPlanMutation.isPending ? "Creating..." : "Create plan"}
+          </Button>
+          {message ? <p className="text-sm text-zinc-700">{message}</p> : null}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Existing plans</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {plansQuery.isLoading ? <p>Loading plans...</p> : null}
+          {plansQuery.error ? (
+            <p className="text-sm text-red-600">{(plansQuery.error as Error).message}</p>
+          ) : null}
+          <ul className="space-y-1 text-sm">
+            {(plansQuery.data ?? []).map((plan) => (
+              <li key={plan.id}>
+                {plan.name} - {(plan.amountCents / 100).toFixed(2)} {plan.currency.toUpperCase()}/
+                {plan.interval}
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

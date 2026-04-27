@@ -19,9 +19,17 @@ export default async function Home() {
         </CardHeader>
         <CardContent className="flex flex-wrap gap-3">
           {session?.user ? (
-            <Link href="/account/billing">
-              <Button>Go to billing</Button>
-            </Link>
+            <>
+              <Link href="/account/billing">
+                <Button>Go to billing</Button>
+              </Link>
+              <Link href="/clubs">
+                <Button variant="outline">Browse clubs</Button>
+              </Link>
+              <Link href="/account/memberships">
+                <Button variant="outline">My memberships</Button>
+              </Link>
+            </>
           ) : (
             <>
               <Link href="/sign-in">

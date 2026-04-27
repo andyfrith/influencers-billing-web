@@ -35,7 +35,15 @@
 - Run manual end-to-end verification of auth and billing flows.
 - Finalize docs and deployment checklist.
 
-## Phase 6: Admin Invite Workflow (Later Phase)
+## Phase 6: Clubs and Memberships
+- Add clubs, plans, memberships, and cancellation request schema/migrations.
+- Add admin-only club creation and plan creation flows.
+- Add member club directory and club detail views with member lists.
+- Add member subscription flow using Stripe subscriptions.
+- Add member cancellation request workflow and admin resolution queue.
+- Validate manual end-to-end memberships flow.
+
+## Phase 7: Admin Invite Workflow (Later Phase)
 - Define invite-only onboarding requirements and admin permissions.
 - Add `admin_invites` schema/table and token lifecycle rules.
 - Add admin endpoint(s) to create/revoke invites.

@@ -45,6 +45,7 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           email: user.email,
+          role: user.role,
         };
       },
     }),
@@ -54,12 +55,18 @@ export const authOptions: NextAuthOptions = {
       if (user?.id) {
         token.sub = user.id;
       }
+      if (user && "role" in user) {
+        token.role = user.role as string;
+      }
 
       return token;
     },
     async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
+      }
+      if (session.user) {
+        session.user.role = typeof token.role === "string" ? token.role : "member";
       }
 
       return session;
