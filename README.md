@@ -1,5 +1,51 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+Customer billing UI with Postgres, Drizzle, next-auth, and Stripe.
+
+## Local services (Postgres + Mailpit)
+
+1. Copy `.env.example` to `.env.local` and set variables (including `DATABASE_URL` and Stripe keys).
+2. Start databases and Mailpit:
+
+```bash
+docker compose up -d db mailpit
+```
+
+3. Open **Mailpit** at [http://localhost:8025](http://localhost:8025) to read outbound mail (verification and password reset).
+4. Point the app at Mailpit’s SMTP by setting in `.env.local`:
+
+- `SMTP_HOST=localhost`
+- `SMTP_PORT=1025`
+- Optional: `EMAIL_FROM=Influencers Billing <billing@localhost>`
+
+If `SMTP_HOST` is unset, the app still works in development by logging email links to the server console.
+
+## Current implemented flows
+
+- Auth:
+  - Sign up (`/sign-up`)
+  - Verify email (`/verify-email?token=...`)
+  - Sign in (`/sign-in`)
+  - Forgot/reset password (`/forgot-password`, `/reset-password?token=...`)
+- Billing:
+  - Authenticated billing screen (`/account/billing`)
+  - Stripe Elements card add/update/remove
+  - Live payment method reads from Stripe
+- Local email testing:
+  - Verification/reset messages are sent to Mailpit (when SMTP vars are configured)
+  - Mailpit inbox UI: [http://localhost:8025](http://localhost:8025)
+
+## Manual MVP local test checklist
+
+1. `docker compose up -d db mailpit`
+2. `bun run db:migrate`
+3. `bun dev`
+4. Sign up with a new email.
+5. Open Mailpit and click verification link.
+6. Confirm sign-in succeeds only after verification.
+7. Trigger forgot-password and complete reset from Mailpit link.
+8. Sign in and test billing card add/update/remove.
+
 ## Getting Started
 
 First, run the development server:
