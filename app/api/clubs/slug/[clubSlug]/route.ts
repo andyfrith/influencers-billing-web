@@ -19,7 +19,9 @@ export async function GET(
     const plans = await db
       .select()
       .from(clubSubscriptionPlans)
-      .where(and(eq(clubSubscriptionPlans.clubId, club.id), eq(clubSubscriptionPlans.isActive, true)));
+      .where(
+        and(eq(clubSubscriptionPlans.clubId, club.id), eq(clubSubscriptionPlans.isActive, true)),
+      );
 
     const members = await db
       .select({

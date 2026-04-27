@@ -42,7 +42,7 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
   const detailQuery = useQuery({
     queryKey: ["club-detail", slug],
     queryFn: async () => {
-      const response = await fetch(`/api/clubs/${slug}`);
+      const response = await fetch(`/api/clubs/slug/${slug}`);
       const payload = (await response.json()) as ClubDetailResponse & { error?: string };
       if (!response.ok || !payload.club) {
         throw new Error(payload.error ?? "Failed to load club.");
