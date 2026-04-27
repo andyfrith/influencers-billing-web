@@ -31,9 +31,28 @@ If `SMTP_HOST` is unset, the app still works in development by logging email lin
   - Authenticated billing screen (`/account/billing`)
   - Stripe Elements card add/update/remove
   - Live payment method reads from Stripe
+- Clubs and memberships:
+  - Club directory and detail pages (`/clubs`, `/clubs/[slug]`)
+  - Club subscription via Stripe subscriptions
+  - Membership list and cancellation requests (`/account/memberships`)
+- Admin:
+  - Admin dashboard (`/admin`)
+  - Club creation/archival (`/admin/clubs`)
+  - Plan creation/enable/disable (`/admin/clubs/[clubId]/plans`)
+  - Cancellation queue processing (`/admin/cancellation-requests`)
+  - Admin bootstrap promotion endpoint (`/api/admin/bootstrap/promote`)
 - Local email testing:
   - Verification/reset messages are sent to Mailpit (when SMTP vars are configured)
   - Mailpit inbox UI: [http://localhost:8025](http://localhost:8025)
+
+## Admin bootstrap (local)
+
+1. Ensure a user exists (sign up normally).
+2. Set `ADMIN_BOOTSTRAP_KEY` in `.env.local`.
+3. Use Admin Bootstrap card at `/admin` (or call `/api/admin/bootstrap/promote`) with:
+   - user email
+   - bootstrap key
+4. Re-sign in if needed to refresh session role claims.
 
 ## Manual MVP local test checklist
 

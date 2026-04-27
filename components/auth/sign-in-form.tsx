@@ -85,6 +85,13 @@ export function SignInForm(): React.JSX.Element {
             Forgot password?
           </Link>
         </div>
+        <p className="mt-3 text-xs text-zinc-600">
+          Need first-time admin access?{" "}
+          <Link className="font-medium text-zinc-900 underline" href="/admin/bootstrap">
+            Open admin bootstrap
+          </Link>
+          .
+        </p>
       </CardContent>
     </Card>
   );

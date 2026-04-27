@@ -29,3 +29,16 @@ export const createCancellationRequestSchema = z.object({
 export const resolveCancellationRequestSchema = z.object({
   action: z.enum(["approve", "reject", "complete"]),
 });
+
+export const updateClubStatusSchema = z.object({
+  status: z.enum(["active", "archived"]),
+});
+
+export const updateClubPlanStatusSchema = z.object({
+  isActive: z.boolean(),
+});
+
+export const promoteAdminSchema = z.object({
+  email: z.string().trim().email(),
+  bootstrapKey: z.string().min(1),
+});

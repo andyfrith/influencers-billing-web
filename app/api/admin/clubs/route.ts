@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db/client";
 import { clubs } from "@/db/schema";
 import { requireAdminSession } from "@/lib/authorization";
-import { createClubSchema } from "@/lib/validators/memberships";
+import { createClubSchema, updateClubStatusSchema } from "@/lib/validators/memberships";
 
 export async function GET(): Promise<Response> {
   const { errorResponse } = await requireAdminSession();
@@ -43,5 +43,43 @@ export async function POST(request: Request): Promise<Response> {
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Failed to create club." }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: Request): Promise<Response> {
+  const { errorResponse } = await requireAdminSession();
+  if (errorResponse) {
+    return errorResponse;
+  }
+
+  try {
+    const payload = (await request.json()) as { clubId?: string; status?: string };
+    if (!payload.clubId) {
+      return NextResponse.json({ error: "clubId is required." }, { status: 400 });
+    }
+
+    const parsed = updateClubStatusSchema.safeParse({ status: payload.status });
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid status." }, { status: 400 });
+    }
+
+    const [club] = await db.select().from(clubs).where(eq(clubs.id, payload.clubId)).limit(1);
+    if (!club) {
+      return NextResponse.json({ error: "Club not found." }, { status: 404 });
+    }
+
+    const [updated] = await db
+      .update(clubs)
+      .set({
+        status: parsed.data.status,
+        updatedAt: new Date(),
+      })
+      .where(eq(clubs.id, club.id))
+      .returning();
+
+    return NextResponse.json({ club: updated });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Failed to update club status." }, { status: 500 });
   }
 }

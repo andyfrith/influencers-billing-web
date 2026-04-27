@@ -28,7 +28,7 @@ export default async function BillingPage(): Promise<React.JSX.Element> {
             Memberships
           </Link>
           {session.user.role === "admin" ? (
-            <Link className="text-sm underline" href="/admin/clubs">
+            <Link className="text-sm underline" href="/admin">
               Admin
             </Link>
           ) : null}

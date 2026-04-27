@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 type Club = {
   id: string;
   name: string;
   slug: string;
   description: string;
+  status: "active" | "archived";
 };
 
 export function AdminClubsManager(): React.JSX.Element {
@@ -51,6 +53,24 @@ export function AdminClubsManager(): React.JSX.Element {
       setName("");
       setSlug("");
       setDescription("");
+      await queryClient.invalidateQueries({ queryKey: ["admin-clubs"] });
+    },
+    onError: (error: Error) => setMessage(error.message),
+  });
+
+  const archiveClubMutation = useMutation({
+    mutationFn: async (input: { clubId: string; status: "active" | "archived" }) => {
+      const response = await fetch("/api/admin/clubs", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      });
+      const payload = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        throw new Error(payload.error ?? "Failed to update club.");
+      }
+    },
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["admin-clubs"] });
     },
     onError: (error: Error) => setMessage(error.message),
@@ -97,8 +117,35 @@ export function AdminClubsManager(): React.JSX.Element {
           ) : null}
           <ul className="space-y-1 text-sm">
             {(clubsQuery.data ?? []).map((club) => (
-              <li key={club.id}>
-                {club.name} ({club.slug})
+              <li
+                key={club.id}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-zinc-200 p-2"
+              >
+                <span>
+                  {club.name} ({club.slug}) - <span className="uppercase">{club.status}</span>
+                </span>
+                <div className="flex gap-2">
+                  <Link href={`/admin/clubs/${club.id}/plans`} className="text-xs underline">
+                    Manage plans
+                  </Link>
+                  {club.status === "active" ? (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => archiveClubMutation.mutate({ clubId: club.id, status: "archived" })}
+                    >
+                      Archive
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => archiveClubMutation.mutate({ clubId: club.id, status: "active" })}
+                    >
+                      Re-activate
+                    </Button>
+                  )}
+                </div>
               </li>
             ))}
           </ul>

@@ -14,6 +14,7 @@ type Plan = {
   interval: "month" | "year";
   amountCents: number;
   currency: string;
+  isActive: boolean;
 };
 
 export function AdminClubPlansManager({ clubId }: { clubId: string }): React.JSX.Element {
@@ -56,6 +57,24 @@ export function AdminClubPlansManager({ clubId }: { clubId: string }): React.JSX
     onSuccess: async () => {
       setMessage("Plan created.");
       setName("");
+      await queryClient.invalidateQueries({ queryKey: ["admin-club-plans", clubId] });
+    },
+    onError: (error: Error) => setMessage(error.message),
+  });
+
+  const updatePlanStatusMutation = useMutation({
+    mutationFn: async (input: { planId: string; isActive: boolean }) => {
+      const response = await fetch(`/api/admin/clubs/${clubId}/plans/${input.planId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isActive: input.isActive }),
+      });
+      const payload = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        throw new Error(payload.error ?? "Failed to update plan.");
+      }
+    },
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["admin-club-plans", clubId] });
     },
     onError: (error: Error) => setMessage(error.message),
@@ -118,9 +137,27 @@ export function AdminClubPlansManager({ clubId }: { clubId: string }): React.JSX
           ) : null}
           <ul className="space-y-1 text-sm">
             {(plansQuery.data ?? []).map((plan) => (
-              <li key={plan.id}>
-                {plan.name} - {(plan.amountCents / 100).toFixed(2)} {plan.currency.toUpperCase()}/
-                {plan.interval}
+              <li
+                key={plan.id}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-zinc-200 p-2"
+              >
+                <span>
+                  {plan.name} - {(plan.amountCents / 100).toFixed(2)}{" "}
+                  {plan.currency.toUpperCase()}/{plan.interval} -{" "}
+                  <span className="uppercase">{plan.isActive ? "active" : "inactive"}</span>
+                </span>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    updatePlanStatusMutation.mutate({
+                      planId: plan.id,
+                      isActive: !plan.isActive,
+                    })
+                  }
+                >
+                  {plan.isActive ? "Disable" : "Enable"}
+                </Button>
               </li>
             ))}
           </ul>
