@@ -50,3 +50,9 @@
 - Send invite links via email provider abstraction.
 - Add invite acceptance flow (prefill email, set password, verify token, activate account).
 - Add admin UI for invite status (pending, expired, accepted).
+
+## Phase 8: Shadcn UI Standardization
+- Standardize all shared UI primitives in `components/ui` on canonical Shadcn patterns.
+- Replace native form controls in feature components with Shadcn primitives.
+- Prefer composition of Shadcn components (`Button`, `Card`, `Input`, `Label`, `Select`) for all net-new UI.
+- Keep Radix dependencies aligned with Shadcn component usage.

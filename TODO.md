@@ -67,3 +67,12 @@
 - [ ] Add invite acceptance route/page and account activation logic.
 - [ ] Integrate invite email template via email abstraction.
 - [ ] Add admin invite status UI (pending/accepted/expired/revoked).
+
+## Phase 7 - Shadcn UI Migration
+
+- [x] Standardize `components/ui/button` to canonical Shadcn pattern (`asChild`, Radix Slot, `forwardRef`).
+- [x] Standardize `components/ui/card` to canonical Shadcn pattern (`forwardRef` exports).
+- [x] Standardize `components/ui/input` and `components/ui/label` to canonical Shadcn pattern.
+- [x] Add Shadcn `Select` component in `components/ui/select`.
+- [x] Migrate club detail subscription plan picker to Shadcn `Select`.
+- [x] Migrate admin club plan interval picker to Shadcn `Select`.

@@ -5,6 +5,7 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type ClubDetailProps = {
   slug: string;
@@ -110,18 +111,19 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
             <p className="text-sm text-zinc-600">No active plans available.</p>
           ) : (
             <>
-              <select
-                className="h-10 w-full rounded-md border border-zinc-300 px-3"
-                value={effectivePlanId}
-                onChange={(event) => setSelectedPlanId(event.target.value)}
-              >
+              <Select value={effectivePlanId} onValueChange={setSelectedPlanId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a plan" />
+                </SelectTrigger>
+                <SelectContent>
                 {detail.plans.map((plan) => (
-                  <option key={plan.id} value={plan.id}>
+                  <SelectItem key={plan.id} value={plan.id}>
                     {plan.name} - {(plan.amountCents / 100).toFixed(2)}{" "}
                     {plan.currency.toUpperCase()}/{plan.interval}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
+                </SelectContent>
+              </Select>
 
               <Button
                 onClick={() => {

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type Plan = {
   id: string;
@@ -93,15 +94,18 @@ export function AdminClubPlansManager({ clubId }: { clubId: string }): React.JSX
           </div>
           <div className="space-y-2">
             <Label htmlFor="plan-interval">Interval</Label>
-            <select
-              id="plan-interval"
-              className="h-10 w-full rounded-md border border-zinc-300 px-3"
+            <Select
               value={interval}
-              onChange={(event) => setInterval(event.target.value as "month" | "year")}
+              onValueChange={(value) => setInterval(value as "month" | "year")}
             >
-              <option value="month">month</option>
-              <option value="year">year</option>
-            </select>
+              <SelectTrigger id="plan-interval">
+                <SelectValue placeholder="Select interval" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="month">month</SelectItem>
+                <SelectItem value="year">year</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-2">
             <Label htmlFor="plan-amount">Amount (cents)</Label>
