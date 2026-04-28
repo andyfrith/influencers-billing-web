@@ -56,3 +56,11 @@
 - Replace native form controls in feature components with Shadcn primitives.
 - Prefer composition of Shadcn components (`Button`, `Card`, `Input`, `Label`, `Select`) for all net-new UI.
 - Keep Radix dependencies aligned with Shadcn component usage.
+
+## Phase 9: Security Hardening and Governance
+- Maintain `SECURITY.md` as a living audit log with findings, determinations, and remediation status.
+- Lock bootstrap admin elevation behind explicit non-production and local-only guards.
+- Add route-level rate limiting for auth, admin, and other sensitive mutation endpoints.
+- Add centralized CSRF/origin validation policy for custom authenticated mutations.
+- Add structured security audit logging for privileged actions and repeated failures.
+- Add release-time security review checklist and dependency vulnerability review.

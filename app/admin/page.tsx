@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { AdminBootstrap } from "@/components/admin/admin-bootstrap";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { isAdminBootstrapEnabled } from "@/lib/security";
 import { getAppSession } from "@/lib/session";
 
 export default async function AdminHomePage(): Promise<React.JSX.Element> {
@@ -32,7 +33,7 @@ export default async function AdminHomePage(): Promise<React.JSX.Element> {
         </CardContent>
       </Card>
 
-      <AdminBootstrap />
+      {isAdminBootstrapEnabled() ? <AdminBootstrap /> : null}
     </main>
   );
 }

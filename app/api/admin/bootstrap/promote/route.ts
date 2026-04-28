@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
+import { isAdminBootstrapEnabled, isLocalRequest } from "@/lib/security";
 import { promoteAdminSchema } from "@/lib/validators/memberships";
 
 /**
@@ -11,6 +12,14 @@ import { promoteAdminSchema } from "@/lib/validators/memberships";
  */
 export async function POST(request: Request): Promise<Response> {
   try {
+    if (!isAdminBootstrapEnabled()) {
+      return NextResponse.json({ error: "Not found." }, { status: 404 });
+    }
+
+    if (!isLocalRequest(request)) {
+      return NextResponse.json({ error: "Forbidden." }, { status: 403 });
+    }
+
     const parsed = promoteAdminSchema.safeParse(await request.json());
     if (!parsed.success) {
       return NextResponse.json({ error: "Invalid input." }, { status: 400 });

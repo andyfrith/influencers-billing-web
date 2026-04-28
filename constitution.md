@@ -34,6 +34,14 @@ Manual verification and linting where already configured are allowed; expanding 
 application behavior is not. Rationale: explicit project policy—quality is pursued through code review,
 simplicity, and manual checks instead of automated test suites.
 
+### VI. Mandatory Security Audit Before Commit
+
+All net-new code changes MUST receive a security audit before commit. The audit MUST cover authentication,
+authorization, input validation, privilege boundaries, sensitive data handling, and abuse paths relevant to
+the changed scope. Findings MUST be recorded in `SECURITY.md` with severity, determination, and remediation
+status, and high-severity findings MUST be fixed before commit unless explicitly accepted as risk by product
+owners. Rationale: continuous security review is required to reduce regression risk and privilege escalation.
+
 ## Authorized Technology Stack
 
 The application MUST be built with the following, at the dependency versions declared in `package.json` at
@@ -91,8 +99,13 @@ here with an updated version line, `Last Amended` date, and a Sync Impact Report
 change. **Versioning**: MAJOR for incompatible principle removals or redefinitions; MINOR for new principles
 or materially expanded obligations; PATCH for clarifications and non-semantic edits. **Compliance**: Feature
 specs and implementation plans MUST pass a constitution check (no automated tests; stack and UX principles
-respected) before implementation work is treated as approved. **Review**: When principles change,
+respected; security audit requirement met) before implementation work is treated as approved. **Review**: When principles change,
 dependent templates under `.specify/templates/` SHOULD be updated in the same change or tracked in the Sync
 Impact Report.
 
-**Version**: 1.1.1 | **Ratified**: 2026-04-17 | **Last Amended**: 2026-04-27
+<!-- Sync Impact Report
+- Added Principle VI requiring a documented pre-commit security audit for all new work.
+- Expanded governance compliance checks to enforce the security-audit gate alongside existing constraints.
+-->
+
+**Version**: 1.2.0 | **Ratified**: 2026-04-17 | **Last Amended**: 2026-04-28

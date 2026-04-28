@@ -49,10 +49,12 @@ If `SMTP_HOST` is unset, the app still works in development by logging email lin
 
 1. Ensure a user exists (sign up normally).
 2. Set `ADMIN_BOOTSTRAP_KEY` in `.env.local`.
+3. Set `ENABLE_ADMIN_BOOTSTRAP=true` (bootstrap is disabled unless explicitly enabled).
 3. Use Admin Bootstrap card at `/admin` (or call `/api/admin/bootstrap/promote`) with:
    - user email
    - bootstrap key
-4. Re-sign in if needed to refresh session role claims.
+4. Bootstrap is restricted to non-production and local requests only.
+5. Re-sign in if needed to refresh session role claims.
 
 ## Manual MVP local test checklist
 
