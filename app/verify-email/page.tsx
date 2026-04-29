@@ -13,7 +13,7 @@ export default async function VerifyEmailPage({
       {token ? (
         <VerifyEmailStatus token={token} />
       ) : (
-        <p className="text-sm text-red-600">Missing verification token.</p>
+        <p className="text-sm text-destructive">Missing verification token.</p>
       )}
     </main>
   );

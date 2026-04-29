@@ -58,7 +58,7 @@ export function MembershipsList(): React.JSX.Element {
     return <p>Loading memberships...</p>;
   }
   if (membershipsQuery.error) {
-    return <p className="text-sm text-red-600">{(membershipsQuery.error as Error).message}</p>;
+    return <p className="text-sm text-destructive">{(membershipsQuery.error as Error).message}</p>;
   }
 
   return (
@@ -74,7 +74,7 @@ export function MembershipsList(): React.JSX.Element {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <p className="text-sm text-zinc-700">Status: {membership.status}</p>
+            <p className="text-sm text-muted-foreground">Status: {membership.status}</p>
             <div className="space-y-2">
               <Label htmlFor={`reason-${membership.membershipId}`}>
                 Reason for cancellation request

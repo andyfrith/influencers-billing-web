@@ -83,7 +83,7 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
     return <p>Loading club...</p>;
   }
   if (detailQuery.error) {
-    return <p className="text-sm text-red-600">{(detailQuery.error as Error).message}</p>;
+    return <p className="text-sm text-destructive">{(detailQuery.error as Error).message}</p>;
   }
 
   const detail = detailQuery.data;
@@ -108,7 +108,7 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
         </CardHeader>
         <CardContent className="space-y-3">
           {detail.plans.length === 0 ? (
-            <p className="text-sm text-zinc-600">No active plans available.</p>
+            <p className="text-sm text-muted-foreground">No active plans available.</p>
           ) : (
             <>
               <Select value={effectivePlanId} onValueChange={setSelectedPlanId}>
@@ -135,7 +135,7 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
               </Button>
             </>
           )}
-          {resultMessage ? <p className="text-sm text-zinc-700">{resultMessage}</p> : null}
+          {resultMessage ? <p className="text-sm text-muted-foreground">{resultMessage}</p> : null}
         </CardContent>
       </Card>
 
@@ -146,7 +146,7 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
         </CardHeader>
         <CardContent>
           {detail.members.length === 0 ? (
-            <p className="text-sm text-zinc-600">No members yet.</p>
+            <p className="text-sm text-muted-foreground">No members yet.</p>
           ) : (
             <ul className="space-y-1 text-sm">
               {detail.members.map((member) => (

@@ -42,7 +42,7 @@ export function ClubsDirectory(): React.JSX.Element {
       <h1 className="text-2xl font-semibold">Clubs</h1>
       {clubsQuery.isLoading ? <p>Loading clubs...</p> : null}
       {clubsQuery.error ? (
-        <p className="text-sm text-red-600">{(clubsQuery.error as Error).message}</p>
+        <p className="text-sm text-destructive">{(clubsQuery.error as Error).message}</p>
       ) : null}
 
       {(clubsQuery.data ?? []).map((club) => (
@@ -52,7 +52,7 @@ export function ClubsDirectory(): React.JSX.Element {
             <CardDescription>{club.description}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <p className="text-sm text-zinc-700">
+            <p className="text-sm text-muted-foreground">
               Plans:{" "}
               {club.plans.length > 0
                 ? club.plans

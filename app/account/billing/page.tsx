@@ -18,7 +18,7 @@ export default async function BillingPage(): Promise<React.JSX.Element> {
       <header className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h1 className="text-2xl font-semibold">Billing account</h1>
-          <p className="text-sm text-zinc-600">{session.user.email}</p>
+          <p className="text-sm text-muted-foreground">{session.user.email}</p>
         </div>
         <div className="flex gap-2">
           <Link className="text-sm underline" href="/clubs">
@@ -44,7 +44,7 @@ export default async function BillingPage(): Promise<React.JSX.Element> {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-zinc-700">
+          <p className="text-sm text-muted-foreground">
             This page always reads current payment method details directly from Stripe.
           </p>
         </CardContent>

@@ -102,7 +102,7 @@ export function AdminClubsManager(): React.JSX.Element {
           <Button onClick={() => createClubMutation.mutate()} disabled={createClubMutation.isPending}>
             {createClubMutation.isPending ? "Creating..." : "Create club"}
           </Button>
-          {message ? <p className="text-sm text-zinc-700">{message}</p> : null}
+          {message ? <p className="text-sm text-muted-foreground">{message}</p> : null}
         </CardContent>
       </Card>
 
@@ -113,13 +113,13 @@ export function AdminClubsManager(): React.JSX.Element {
         <CardContent>
           {clubsQuery.isLoading ? <p>Loading clubs...</p> : null}
           {clubsQuery.error ? (
-            <p className="text-sm text-red-600">{(clubsQuery.error as Error).message}</p>
+            <p className="text-sm text-destructive">{(clubsQuery.error as Error).message}</p>
           ) : null}
           <ul className="space-y-1 text-sm">
             {(clubsQuery.data ?? []).map((club) => (
               <li
                 key={club.id}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-zinc-200 p-2"
+                className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border p-2"
               >
                 <span>
                   {club.name} ({club.slug}) - <span className="uppercase">{club.status}</span>

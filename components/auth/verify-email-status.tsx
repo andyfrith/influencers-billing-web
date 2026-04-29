@@ -44,10 +44,10 @@ export function VerifyEmailStatus({ token }: { token: string }): React.JSX.Eleme
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className={status === "error" ? "text-sm text-red-600" : "text-sm text-zinc-700"}>
+        <p className={status === "error" ? "text-sm text-destructive" : "text-sm text-muted-foreground"}>
           {message}
         </p>
-        <Link href="/sign-in" className="text-sm font-medium text-zinc-900">
+        <Link href="/sign-in" className="text-sm font-medium text-foreground">
           Go to sign in
         </Link>
       </CardContent>

@@ -135,10 +135,10 @@ function PaymentMethodForm(): React.JSX.Element {
 
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
-      <div className="rounded-md border border-zinc-300 p-3">
+      <div className="rounded-md border border-border p-3">
         <CardElement />
       </div>
-      {formError ? <p className="text-sm text-red-600">{formError}</p> : null}
+      {formError ? <p className="text-sm text-destructive">{formError}</p> : null}
       <div className="flex flex-wrap gap-2">
         <Button
           type="submit"
@@ -197,23 +197,23 @@ export function BillingCardManager(): React.JSX.Element {
       </CardHeader>
       <CardContent className="space-y-5">
         {paymentMethodQuery.isLoading ? (
-          <p className="text-sm text-zinc-600">Loading billing data...</p>
+          <p className="text-sm text-muted-foreground">Loading billing data...</p>
         ) : paymentMethodQuery.error ? (
-          <p className="text-sm text-red-600">
+          <p className="text-sm text-destructive">
             {(paymentMethodQuery.error as Error).message}
           </p>
         ) : paymentMethodQuery.data ? (
-          <div className="rounded-md border border-zinc-200 p-4">
-            <p className="text-sm text-zinc-700">
+          <div className="rounded-md border border-border p-4">
+            <p className="text-sm text-muted-foreground">
               {paymentMethodQuery.data.brand.toUpperCase()} ending in{" "}
               {paymentMethodQuery.data.last4}
             </p>
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-muted-foreground">
               Expires {paymentMethodQuery.data.expMonth}/{paymentMethodQuery.data.expYear}
             </p>
           </div>
         ) : (
-          <p className="text-sm text-zinc-600">No card saved yet.</p>
+          <p className="text-sm text-muted-foreground">No card saved yet.</p>
         )}
 
         <Elements stripe={stripePromise}>

@@ -65,7 +65,7 @@ export function AdminBootstrap(): React.JSX.Element {
         <Button onClick={onSubmit} disabled={isSubmitting}>
           {isSubmitting ? "Promoting..." : "Promote to admin"}
         </Button>
-        {message ? <p className="text-sm text-zinc-700">{message}</p> : null}
+        {message ? <p className="text-sm text-muted-foreground">{message}</p> : null}
       </CardContent>
     </Card>
   );

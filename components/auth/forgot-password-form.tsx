@@ -55,19 +55,19 @@ export function ForgotPasswordForm(): React.JSX.Element {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" autoComplete="email" {...form.register("email")} />
-            <p className="text-xs text-red-600">{form.formState.errors.email?.message}</p>
+            <p className="text-xs text-destructive">{form.formState.errors.email?.message}</p>
           </div>
 
-          {error ? <p className="text-sm text-red-600">{error}</p> : null}
-          {message ? <p className="text-sm text-green-700">{message}</p> : null}
+          {error ? <p className="text-sm text-destructive">{error}</p> : null}
+          {message ? <p className="text-sm text-foreground">{message}</p> : null}
 
           <Button className="w-full" type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Requesting..." : "Request reset"}
           </Button>
         </form>
-        <p className="mt-4 text-sm text-zinc-600">
+        <p className="mt-4 text-sm text-muted-foreground">
           Back to{" "}
-          <Link href="/sign-in" className="font-medium text-zinc-900">
+          <Link href="/sign-in" className="font-medium text-foreground">
             sign in
           </Link>
           .

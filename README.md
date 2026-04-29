@@ -2,6 +2,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 Customer billing UI with Postgres, Drizzle, next-auth, and Stripe.
 
+## Design docs
+
+- `DESIGN.md` is the canonical visual design-system spec (Google `design.md` format) for coding agents and contributors.
+- `PRODUCT_DESIGN.md` preserves the prior architecture-style design narrative for historical context.
+
 ## Local services (Postgres + Mailpit)
 
 1. Copy `.env.example` to `.env.local` and set variables (including `DATABASE_URL` and Stripe keys).

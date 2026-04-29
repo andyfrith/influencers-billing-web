@@ -56,15 +56,15 @@ export function AdminCancellationRequests(): React.JSX.Element {
       <CardContent>
         {requestsQuery.isLoading ? <p>Loading requests...</p> : null}
         {requestsQuery.error ? (
-          <p className="text-sm text-red-600">{(requestsQuery.error as Error).message}</p>
+          <p className="text-sm text-destructive">{(requestsQuery.error as Error).message}</p>
         ) : null}
         <div className="space-y-3">
           {(requestsQuery.data ?? []).map((request) => (
-            <div key={request.id} className="rounded-md border border-zinc-200 p-3">
+            <div key={request.id} className="rounded-md border border-border p-3">
               <p className="text-sm">
                 <span className="font-medium">{request.requestedByEmail}</span>: {request.reason}
               </p>
-              <p className="mb-2 text-xs text-zinc-500">status: {request.status}</p>
+              <p className="mb-2 text-xs text-muted-foreground">status: {request.status}</p>
               <div className="flex flex-wrap gap-2">
                 <Button
                   size="sm"

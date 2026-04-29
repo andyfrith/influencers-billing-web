@@ -42,6 +42,15 @@ the changed scope. Findings MUST be recorded in `SECURITY.md` with severity, det
 status, and high-severity findings MUST be fixed before commit unless explicitly accepted as risk by product
 owners. Rationale: continuous security review is required to reduce regression risk and privilege escalation.
 
+### VII. Semantic Token-Only Styling
+
+All UI styling MUST use semantic design tokens mapped in `app/globals.css` and consumed through Shadcn/Tailwind
+semantic utilities (e.g., `bg-background`, `text-foreground`, `border-border`, `text-muted-foreground`,
+`text-destructive`). Contributors MUST NOT introduce hardcoded color utility classes or raw color literals in
+component/page styling when an existing semantic token applies. Each completed UI change MUST include a token
+compliance check confirming no new hardcoded color utilities were added in changed files. Rationale: consistent
+theme behavior and maintainable design evolution depend on strict semantic token usage.
+
 ## Authorized Technology Stack
 
 The application MUST be built with the following, at the dependency versions declared in `package.json` at
@@ -99,13 +108,16 @@ here with an updated version line, `Last Amended` date, and a Sync Impact Report
 change. **Versioning**: MAJOR for incompatible principle removals or redefinitions; MINOR for new principles
 or materially expanded obligations; PATCH for clarifications and non-semantic edits. **Compliance**: Feature
 specs and implementation plans MUST pass a constitution check (no automated tests; stack and UX principles
-respected; security audit requirement met) before implementation work is treated as approved. **Review**: When principles change,
+respected; security audit requirement met; semantic token-only styling requirement met) before implementation
+work is treated as approved. **Review**: When principles change,
 dependent templates under `.specify/templates/` SHOULD be updated in the same change or tracked in the Sync
 Impact Report.
 
 <!-- Sync Impact Report
 - Added Principle VI requiring a documented pre-commit security audit for all new work.
 - Expanded governance compliance checks to enforce the security-audit gate alongside existing constraints.
+- Added Principle VII requiring semantic token-only UI styling and a completion-time token compliance check.
+- Expanded governance compliance checks to enforce semantic token compliance before work is treated as complete.
 -->
 
-**Version**: 1.2.0 | **Ratified**: 2026-04-17 | **Last Amended**: 2026-04-28
+**Version**: 1.3.0 | **Ratified**: 2026-04-17 | **Last Amended**: 2026-04-29

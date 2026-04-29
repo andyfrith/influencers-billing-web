@@ -126,7 +126,7 @@ export function AdminClubPlansManager({ clubId }: { clubId: string }): React.JSX
           <Button onClick={() => createPlanMutation.mutate()} disabled={createPlanMutation.isPending}>
             {createPlanMutation.isPending ? "Creating..." : "Create plan"}
           </Button>
-          {message ? <p className="text-sm text-zinc-700">{message}</p> : null}
+          {message ? <p className="text-sm text-muted-foreground">{message}</p> : null}
         </CardContent>
       </Card>
 
@@ -137,13 +137,13 @@ export function AdminClubPlansManager({ clubId }: { clubId: string }): React.JSX
         <CardContent>
           {plansQuery.isLoading ? <p>Loading plans...</p> : null}
           {plansQuery.error ? (
-            <p className="text-sm text-red-600">{(plansQuery.error as Error).message}</p>
+            <p className="text-sm text-destructive">{(plansQuery.error as Error).message}</p>
           ) : null}
           <ul className="space-y-1 text-sm">
             {(plansQuery.data ?? []).map((plan) => (
               <li
                 key={plan.id}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-zinc-200 p-2"
+                className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border p-2"
               >
                 <span>
                   {plan.name} - {(plan.amountCents / 100).toFixed(2)}{" "}

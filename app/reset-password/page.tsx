@@ -13,7 +13,7 @@ export default async function ResetPasswordPage({
       {token ? (
         <ResetPasswordForm token={token} />
       ) : (
-        <p className="text-sm text-red-600">Missing reset token.</p>
+        <p className="text-sm text-destructive">Missing reset token.</p>
       )}
     </main>
   );

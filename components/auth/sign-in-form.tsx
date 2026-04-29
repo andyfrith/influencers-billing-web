@@ -56,7 +56,7 @@ export function SignInForm(): React.JSX.Element {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" autoComplete="email" {...form.register("email")} />
-            <p className="text-xs text-red-600">{form.formState.errors.email?.message}</p>
+            <p className="text-xs text-destructive">{form.formState.errors.email?.message}</p>
           </div>
 
           <div className="space-y-2">
@@ -67,10 +67,10 @@ export function SignInForm(): React.JSX.Element {
               autoComplete="current-password"
               {...form.register("password")}
             />
-            <p className="text-xs text-red-600">{form.formState.errors.password?.message}</p>
+            <p className="text-xs text-destructive">{form.formState.errors.password?.message}</p>
           </div>
 
-          {formError ? <p className="text-sm text-red-600">{formError}</p> : null}
+          {formError ? <p className="text-sm text-destructive">{formError}</p> : null}
 
           <Button className="w-full" type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Signing in..." : "Sign in"}
@@ -78,16 +78,16 @@ export function SignInForm(): React.JSX.Element {
         </form>
 
         <div className="mt-4 flex justify-between text-sm">
-          <Link className="font-medium text-zinc-900" href="/sign-up">
+          <Link className="font-medium text-foreground" href="/sign-up">
             Create account
           </Link>
-          <Link className="font-medium text-zinc-900" href="/forgot-password">
+          <Link className="font-medium text-foreground" href="/forgot-password">
             Forgot password?
           </Link>
         </div>
-        <p className="mt-3 text-xs text-zinc-600">
+        <p className="mt-3 text-xs text-muted-foreground">
           Need first-time admin access?{" "}
-          <Link className="font-medium text-zinc-900 underline" href="/admin/bootstrap">
+          <Link className="font-medium text-foreground underline" href="/admin/bootstrap">
             Open admin bootstrap
           </Link>
           .
