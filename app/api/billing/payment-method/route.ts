@@ -114,6 +114,8 @@ export async function DELETE(): Promise<Response> {
 
       await stripe.paymentMethods.detach(paymentMethodId);
       await stripe.customers.update(billingCustomer.stripeCustomerId, {
+        // Stripe REST accepts null to clear the default payment method; SDK typings omit null.
+        // @ts-expect-error — runtime payload matches Stripe API
         invoice_settings: { default_payment_method: null },
       });
     }

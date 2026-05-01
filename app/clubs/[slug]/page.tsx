@@ -8,7 +8,7 @@ export default async function ClubDetailPage({
   const { slug } = await params;
 
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 p-6">
+    <main className="flex min-h-0 w-full flex-1 flex-col">
       <ClubDetail slug={slug} />
     </main>
   );

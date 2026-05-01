@@ -39,7 +39,15 @@ export function ClubsDirectory(): React.JSX.Element {
 
   return (
     <div className="grid gap-4">
-      <h1 className="text-2xl font-semibold">Clubs</h1>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <h1 className="text-2xl font-semibold">Clubs</h1>
+        <Link
+          className="text-sm font-medium text-primary underline underline-offset-4"
+          href="/clubs/navigator"
+        >
+          Club Navigator — Amber Nocturne (design)
+        </Link>
+      </div>
       {clubsQuery.isLoading ? <p>Loading clubs...</p> : null}
       {clubsQuery.error ? (
         <p className="text-sm text-destructive">{(clubsQuery.error as Error).message}</p>

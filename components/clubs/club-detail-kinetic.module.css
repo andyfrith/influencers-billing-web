@@ -1,0 +1,6 @@
+/* Matches Stitch “Club Detail - The Kinetic Lab” (.glass-panel) */
+.glassPanel {
+  background: rgba(26, 22, 20, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(45, 40, 36, 0.5);
+}

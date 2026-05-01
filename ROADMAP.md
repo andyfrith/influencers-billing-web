@@ -1,5 +1,10 @@
 # Roadmap
 
+## Current Phase Status (2026-05-01)
+- Phase 0-5: Completed.
+- Phase 6: Implemented with active polish and UX hardening.
+- Phase 7+: Planned.
+
 ## Phase 0: Planning and Setup
 - Confirm architecture and MVP scope.
 - Finalize dependency list aligned to constitution.
@@ -35,12 +40,18 @@
 - Run manual end-to-end verification of auth and billing flows.
 - Finalize docs and deployment checklist.
 
-## Phase 6: Clubs and Memberships
+## Phase 6: Clubs and Memberships (Implemented, polish in progress)
 - Add clubs, plans, memberships, and cancellation request schema/migrations.
 - Add admin-only club creation and plan creation flows.
 - Add member club directory and club detail views with member lists.
 - Add member subscription flow using Stripe subscriptions.
 - Add member cancellation request workflow and admin resolution queue.
+- Add shared account and admin navigation components for clubs and memberships workflows.
+- Add a global authenticated side navigation shell (Kinetic SideNavBar) rendered across signed-in pages.
+- Integrate Google Stitch MCP to generate and iterate club detail design concepts (starting with "Club Detail - The Kinetic Lab").
+- Build the **Club Navigator - Amber Nocturne** screen from Stitch (export in `public/designs`, route `/clubs/navigator`) and keep assets in sync with MCP-generated HTML.
+- Route all "Clubs" navigation entry points to `/clubs/navigator`.
+- Ensure Club Navigator lists all clubs (membership-independent) and routes selections to `/clubs/[slug]`.
 - Validate manual end-to-end memberships flow.
 
 ## Phase 7: Admin Invite Workflow (Later Phase)

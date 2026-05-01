@@ -18,6 +18,30 @@ if (!secretKey) {
 
 export const stripe = new Stripe(secretKey);
 
+type MembershipStatus = "active" | "incomplete" | "past_due" | "canceled" | "unpaid";
+
+/**
+ * Maps Stripe subscription statuses onto the narrower `membership_status` enum.
+ */
+function mapStripeSubscriptionStatus(status: Stripe.Subscription.Status): MembershipStatus {
+  if (status === "incomplete_expired") {
+    return "canceled";
+  }
+  if (status === "trialing" || status === "paused") {
+    return "active";
+  }
+  if (
+    status === "active" ||
+    status === "incomplete" ||
+    status === "past_due" ||
+    status === "canceled" ||
+    status === "unpaid"
+  ) {
+    return status;
+  }
+  return "incomplete";
+}
+
 /**
  * Returns an existing Stripe customer id for a user or creates one.
  */
@@ -145,9 +169,10 @@ export async function createMembershipSubscription(input: {
     expand: ["latest_invoice.payment_intent"],
   });
 
-  const currentPeriodEnd = subscription.current_period_end
-    ? new Date(subscription.current_period_end * 1000)
-    : null;
+  const periodEndSeconds = (subscription as unknown as { current_period_end?: number })
+    .current_period_end;
+  const currentPeriodEnd = periodEndSeconds ? new Date(periodEndSeconds * 1000) : null;
+  const membershipStatus = mapStripeSubscriptionStatus(subscription.status);
 
   await db
     .insert(clubMemberships)
@@ -156,7 +181,7 @@ export async function createMembershipSubscription(input: {
       clubId: plan.clubId,
       planId: plan.id,
       stripeSubscriptionId: subscription.id,
-      status: subscription.status,
+      status: membershipStatus,
       currentPeriodEnd,
     })
     .onConflictDoUpdate({
@@ -164,7 +189,7 @@ export async function createMembershipSubscription(input: {
       set: {
         planId: plan.id,
         stripeSubscriptionId: subscription.id,
-        status: subscription.status,
+        status: membershipStatus,
         currentPeriodEnd,
         updatedAt: new Date(),
       },
@@ -172,7 +197,7 @@ export async function createMembershipSubscription(input: {
 
   return {
     subscriptionId: subscription.id,
-    status: subscription.status,
+    status: membershipStatus,
     currentPeriodEnd,
   };
 }

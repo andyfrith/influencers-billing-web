@@ -1,7 +1,5 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 
-import { SignOutButton } from "@/components/auth/sign-out-button";
 import { BillingCardManager } from "@/components/billing/billing-card-manager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAppSession } from "@/lib/session";
@@ -19,20 +17,6 @@ export default async function BillingPage(): Promise<React.JSX.Element> {
         <div>
           <h1 className="text-2xl font-semibold">Billing account</h1>
           <p className="text-sm text-muted-foreground">{session.user.email}</p>
-        </div>
-        <div className="flex gap-2">
-          <Link className="text-sm underline" href="/clubs">
-            Clubs
-          </Link>
-          <Link className="text-sm underline" href="/account/memberships">
-            Memberships
-          </Link>
-          {session.user.role === "admin" ? (
-            <Link className="text-sm underline" href="/admin">
-              Admin
-            </Link>
-          ) : null}
-          <SignOutButton />
         </div>
       </header>
 

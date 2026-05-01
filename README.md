@@ -37,9 +37,13 @@ If `SMTP_HOST` is unset, the app still works in development by logging email lin
   - Stripe Elements card add/update/remove
   - Live payment method reads from Stripe
 - Clubs and memberships:
+  - Club Navigator (`/clubs/navigator`) displays all clubs and links to each detail page (`/clubs/[slug]`)
   - Club directory and detail pages (`/clubs`, `/clubs/[slug]`)
   - Club subscription via Stripe subscriptions
   - Membership list and cancellation requests (`/account/memberships`)
+- Authenticated navigation shell:
+  - Global side navigation is shown on signed-in routes
+  - "Clubs" navigation targets Club Navigator (`/clubs/navigator`)
 - Admin:
   - Admin dashboard (`/admin`)
   - Club creation/archival (`/admin/clubs`)

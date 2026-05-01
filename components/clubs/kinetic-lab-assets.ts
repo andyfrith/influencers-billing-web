@@ -1,0 +1,15 @@
+/**
+ * Image URLs from the Google Stitch export for “Club Detail - The Kinetic Lab”
+ * (screen `e011e2024ac243a29e3233b3a41cb504`). Keep in sync when re-exporting from Stitch.
+ */
+export const KINETIC_LAB_HERO_IMAGE =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBbJHhumQ5okurpkKOOrUUwiXgP0UmY4ndkrUkfoR7KixaqM4jH8OZHL2NMf-fx2_KR_qL3uV3ZPPsTDTXXpoK9LUmKz-nHJkj0TR7aOk9S9loBChMne9aG5xsRuyRvidF0E34NPgqVg1cjLj7XSi4jTvcOsJyEPX9DqRzfAM0DkXDKYhzkAnop3tp1-ko4n0e2e4PJcjd3J1V8scdRII63Ru0j36mU7uNkI_kxViERVkcSN3yF2P1kaUD9Nh4fw5MklhaoO-dSv-rc";
+
+export const KINETIC_LAB_AVATAR_IMAGE =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuABKi_NAj8xRHw3_mb7QjZ7a-Pc7djnTcnItn5jW4UefRUDAhaPkPqmRn9Jod243798DDP--f4WDF27IFRi7omzrioJHPAYv-TpzAZ5uW6zjtEUGAv9iZpqdQykw_6kmTKhRESSWUR5AO3WawicZ3cASfzaZogEOc5KCFG3ClO6K5Qgk8wmW9CbwNAR_hfSkUSYJgfUCLPUT6DgPO7uzyPwLNGGUpN-6YBWVh80iIy4nUJpGvG2YQQLT4oTpS2-3qWBngJH92S_BlXl";
+
+export const KINETIC_LAB_EVENT_HIIT_IMAGE =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBeVv393FPV7tK8goJdzjBDsYB0CUU8FeDD3C_lqZrcIuTTZ-bd24o5k67XE1rh555KDA2MK6KK8bmWajYz8lqG092QSuwZ2R98L0zdLKg9MizDfSf54cXWOeLO7V4FTKOOpSjTadH6Dqmzn72igplJclHpkrJXyDaumWA6tNkZ-rSGe5jkmEMzKhLMKufG0SswiWxBZIcp_FDS3qrMyK6R5fGf2ZayFsYAZSTO9_l3M7Smn7-lth_qragJb1LqVcOhc2-JzsJHCuHV";
+
+export const KINETIC_LAB_EVENT_YOGA_IMAGE =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBvI7Prz2-C4HCadu8cDLdqa-iTIVftTcn0WoqFm4dwPf7HNW4s4pMgYxKnl6Kb1_Ho9TH-JgZca8F-XXGaIraOJatGY8s9rfijf-WpVlYJFuL0HIMgYJfK_m3fDzoxq_1lPwLtuicWvfsuwrO80avDzN1ovn2MdlK1Go1D4aLACtGj09tex25zrohsI4yFlyR8YdiXrtyd-vwM15UrFa7MEc2HJNh1-XMBa9poYG5nt0gbK4bDHlnH3QtmMrF9yDEurb4FV10cYucr";

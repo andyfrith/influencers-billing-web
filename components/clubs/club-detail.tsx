@@ -3,9 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ClubDetailKineticView } from "@/components/clubs/club-detail-kinetic-view";
 
 type ClubDetailProps = {
   slug: string;
@@ -53,13 +51,18 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
   });
 
   const subscribeMutation = useMutation({
-    mutationFn: async () => {
-      const effectivePlanId = selectedPlanId || detailQuery.data?.plans[0]?.id;
+    mutationFn: async (planIdOverride?: string) => {
+      const detail = detailQuery.data;
+      if (!detail?.club.id) {
+        throw new Error("Club not loaded.");
+      }
+      const effectivePlanId =
+        planIdOverride ?? (selectedPlanId || detail.plans[0]?.id);
       if (!effectivePlanId) {
         throw new Error("Select a plan.");
       }
 
-      const response = await fetch(`/api/clubs/${detailQuery.data?.club.id}/subscribe`, {
+      const response = await fetch(`/api/clubs/${detail.club.id}/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ planId: effectivePlanId }),
@@ -73,6 +76,7 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
     onSuccess: async (message) => {
       setResultMessage(message);
       await queryClient.invalidateQueries({ queryKey: ["memberships"] });
+      await queryClient.invalidateQueries({ queryKey: ["club-detail", slug] });
     },
     onError: (error: Error) => {
       setResultMessage(error.message);
@@ -80,84 +84,44 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
   });
 
   if (detailQuery.isLoading) {
-    return <p>Loading club...</p>;
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center bg-[#161311] text-stone-400">
+        Loading club…
+      </div>
+    );
   }
   if (detailQuery.error) {
-    return <p className="text-sm text-destructive">{(detailQuery.error as Error).message}</p>;
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center bg-[#161311] px-6 text-sm text-red-400">
+        {(detailQuery.error as Error).message}
+      </div>
+    );
   }
 
   const detail = detailQuery.data;
   if (!detail) {
-    return <p>Club not found.</p>;
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center bg-[#161311] text-stone-400">
+        Club not found.
+      </div>
+    );
   }
+
   const effectivePlanId = selectedPlanId || detail.plans[0]?.id || "";
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>{detail.club.name}</CardTitle>
-          <CardDescription>{detail.club.description}</CardDescription>
-        </CardHeader>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Subscribe</CardTitle>
-          <CardDescription>Select a plan to join this club.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {detail.plans.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No active plans available.</p>
-          ) : (
-            <>
-              <Select value={effectivePlanId} onValueChange={setSelectedPlanId}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a plan" />
-                </SelectTrigger>
-                <SelectContent>
-                {detail.plans.map((plan) => (
-                  <SelectItem key={plan.id} value={plan.id}>
-                    {plan.name} - {(plan.amountCents / 100).toFixed(2)}{" "}
-                    {plan.currency.toUpperCase()}/{plan.interval}
-                  </SelectItem>
-                ))}
-                </SelectContent>
-              </Select>
-
-              <Button
-                onClick={() => {
-                  subscribeMutation.mutate();
-                }}
-                disabled={subscribeMutation.isPending}
-              >
-                {subscribeMutation.isPending ? "Subscribing..." : "Join club"}
-              </Button>
-            </>
-          )}
-          {resultMessage ? <p className="text-sm text-muted-foreground">{resultMessage}</p> : null}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Members</CardTitle>
-          <CardDescription>Current club members.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {detail.members.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No members yet.</p>
-          ) : (
-            <ul className="space-y-1 text-sm">
-              {detail.members.map((member) => (
-                <li key={member.userId}>
-                  {member.email} ({member.status})
-                </li>
-              ))}
-            </ul>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+    <ClubDetailKineticView
+      club={detail.club}
+      plans={detail.plans}
+      members={detail.members}
+      selectedPlanId={effectivePlanId}
+      subscribePending={subscribeMutation.isPending}
+      resultMessage={resultMessage}
+      onSelectPlan={setSelectedPlanId}
+      onJoinPlan={(planId) => {
+        setSelectedPlanId(planId);
+        subscribeMutation.mutate(planId);
+      }}
+    />
   );
 }

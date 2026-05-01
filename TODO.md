@@ -57,6 +57,9 @@
 - [x] Add member club browse/detail/join APIs and pages.
 - [x] Add membership list and cancellation request flow.
 - [x] Add admin cancellation request queue and resolution endpoints/pages.
+- [x] Add shared account/admin nav components and global authenticated side navigation shell.
+- [x] Add Club Navigator route (`/clubs/navigator`) and route "Clubs" navigation to it.
+- [x] Add interactive Club Navigator list that displays all clubs and routes selection to `/clubs/[slug]`.
 - [ ] Add membership lifecycle reconciliation for status drift without webhooks.
 
 ## Phase 6 - Admin Invite Workflow (Later Phase)

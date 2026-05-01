@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+/docker-data
 .pnp.*
 .yarn/*
 !.yarn/patches

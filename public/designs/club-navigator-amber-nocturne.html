@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Club Navigator - Amber Nocturne</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed-dim": "#ffb693",
+                        "secondary": "#ffb77a",
+                        "surface-variant": "#393431",
+                        "surface-tint": "#ffb693",
+                        "primary-container": "#ff6b00",
+                        "surface-container-highest": "#393431",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "tertiary-fixed": "#ebe1da",
+                        "inverse-on-surface": "#342f2d",
+                        "on-primary-container": "#572000",
+                        "surface": "#161311",
+                        "outline-variant": "#5a4136",
+                        "outline": "#a98a7d",
+                        "secondary-container": "#d37b20",
+                        "on-secondary-fixed-variant": "#6d3a00",
+                        "on-secondary-container": "#432100",
+                        "surface-container-high": "#2e2927",
+                        "on-background": "#eae1dd",
+                        "inverse-primary": "#a04100",
+                        "primary": "#ffb693",
+                        "primary-fixed": "#ffdbcc",
+                        "secondary-fixed": "#ffdcc2",
+                        "tertiary-container": "#9f9792",
+                        "surface-bright": "#3d3836",
+                        "on-tertiary-fixed": "#1f1b17",
+                        "on-tertiary-fixed-variant": "#4c4641",
+                        "tertiary": "#cec5bf",
+                        "surface-container": "#231f1d",
+                        "background": "#161311",
+                        "on-secondary-fixed": "#2e1500",
+                        "error": "#ffb4ab",
+                        "secondary-fixed-dim": "#ffb77a",
+                        "tertiary-fixed-dim": "#cec5bf",
+                        "on-tertiary": "#352f2b",
+                        "on-primary": "#561f00",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#161311",
+                        "on-surface": "#eae1dd",
+                        "on-tertiary-container": "#35302c",
+                        "on-error": "#690005",
+                        "on-secondary": "#4c2700",
+                        "on-primary-fixed": "#351000",
+                        "surface-container-low": "#1f1b19",
+                        "surface-container-lowest": "#110d0c",
+                        "inverse-surface": "#eae1dd",
+                        "on-surface-variant": "#e2bfb0"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1.5rem"
+                    },
+                    spacing: {
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "margin": "32px",
+                        "unit": "4px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "xxl": "64px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "headline-xl": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-xxl selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Web) -->
+<nav class="hidden md:flex sticky top-0 z-50 justify-between items-center px-6 py-4 w-full max-w-7xl mx-auto bg-[#0F0D0C]/80 backdrop-blur-md font-['Plus_Jakarta_Sans'] antialiased docked full-width top-0 border-b border-stone-800 dark:border-[#2D2824] shadow-xl shadow-black/40 hover:text-orange-500 dark:hover:text-[#FF6B00] transition-all active:scale-95 duration-200 ease-out">
+<div class="text-xl font-bold tracking-tight text-orange-600 dark:text-[#FF6B00]">
+            Club Navigator
+        </div>
+<div class="flex-1 max-w-md mx-8 relative">
+<input class="w-full bg-surface-container-low text-on-surface font-body-md rounded-xl py-3 pl-12 pr-4 border border-outline-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all placeholder:text-surface-variant" placeholder="Search clubs..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface" data-icon="person">person</span>
+</button>
+</div>
+</nav>
+<!-- TopNavBar (Mobile Fallback - Only Logo/Profile) -->
+<nav class="md:hidden sticky top-0 z-50 flex justify-between items-center px-6 py-4 w-full bg-[#0F0D0C]/80 backdrop-blur-md font-['Plus_Jakarta_Sans'] antialiased border-b border-stone-800 shadow-xl shadow-black/40">
+<div class="text-xl font-bold tracking-tight text-orange-600">
+            Club Navigator
+        </div>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface" data-icon="person">person</span>
+</button>
+</nav>
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto px-6 pt-8 pb-32">
+<!-- Hero Section -->
+<section class="mb-16 relative overflow-hidden rounded-[2rem] bg-surface-container-low border border-outline-variant/30">
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent z-10"></div>
+<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1920&amp;q=80')] bg-cover bg-center opacity-40" data-alt="A sophisticated luxury club interior illuminated by warm, glowing amber lights against deep charcoal walls. Elegant leather seating and a premium marble bar setup are visible. The atmosphere is exclusive, high-end, and vibrant, embodying a modern 'warm tech' nocturne aesthetic with deep bister tones and fiery orange accents."></div>
+<div class="relative z-20 p-12 md:p-16 max-w-2xl">
+<h1 class="font-headline-xl text-headline-xl text-on-background mb-4">Discover your club</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">Access exclusive experiences, connect with elite creators, and immerse yourself in curated nightlife and wellness venues.</p>
+<button class="bg-primary-container text-on-primary-container font-label-md text-label-md px-8 py-4 rounded-xl hover:bg-secondary-container transition-all shadow-[0_0_20px_rgba(255,107,0,0.2)] hover:shadow-[0_0_30px_rgba(255,107,0,0.4)] active:scale-95">
+                    Explore Venues
+                </button>
+</div>
+</section>
+<!-- Bento Grid / Cards Area -->
+<section>
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-headline-lg text-headline-lg text-on-background">Featured Venues</h2>
+<div class="flex gap-2">
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm border border-outline-variant hover:border-primary-container transition-colors">All</button>
+<button class="px-4 py-2 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm shadow-[0_0_15px_rgba(255,107,0,0.3)]">Nightlife</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm border border-outline-variant hover:border-primary-container transition-colors hidden sm:block">Wellness</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<article class="group relative rounded-[24px] bg-surface-container border border-[#2D2824] overflow-hidden hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(0,0,0,0.5),0_0_20px_rgba(255,107,0,0.05)] transition-all duration-300 flex flex-col h-[420px]">
+<div class="h-3/5 w-full relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700" data-alt="A moody, high-end cocktail bar setting with dark wood paneling and glowing amber backlighting illuminating premium spirits. The scene is shot with shallow depth of field, focusing on a beautifully crafted cocktail with an orange twist. The vibe is sophisticated, intimate, and distinctly nocturnal, fitting a luxury brand identity." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuANMYhsy-5mLnKzINwVz1SViyNUiTkNc_Fv8JYQLK5UTvxCPuVdSEQqHtTun2OyRvDoM1ofTGiQNctHB_KbNsqRum8DnepUBbOxiBRS5vuTVUz8J0aFaSTiRyL3sb0EhNyyvikj6q8Zu3Z4qJvcr_kivKYDQc3rL3OH8rmrrBLTM0aGLx73HJ0SUi0--hL5M3FWl2Z0xeV9md1u-ERBFm2XjMiWWOxmX2n8HLxD54wMlO0yLng1S1rYiIk3BhnVvrdMCL65GYDvYQl6')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent"></div>
+<div class="absolute top-4 right-4 bg-background/80 backdrop-blur-md px-3 py-1 rounded-full border border-outline-variant/50 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary-container fill">star</span>
+<span class="font-label-sm text-label-sm text-on-surface">4.9</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1 justify-between relative z-10 -mt-8">
+<div>
+<div class="flex gap-2 mb-3">
+<span class="bg-[#2D2824] text-on-surface-variant font-label-sm text-[10px] px-2 py-1 rounded-md uppercase tracking-wider">Elite</span>
+<span class="bg-[#2D2824] text-on-surface-variant font-label-sm text-[10px] px-2 py-1 rounded-md uppercase tracking-wider">Nightlife</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 group-hover:text-primary transition-colors">The Obsidian Room</h3>
+<p class="font-body-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">group</span>
+                                2.4k Members
+                            </p>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/30">
+<span class="font-label-md text-label-md text-on-surface-variant">Downtown</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="group relative rounded-[24px] bg-surface-container border border-[#2D2824] overflow-hidden hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(0,0,0,0.5),0_0_20px_rgba(255,107,0,0.05)] transition-all duration-300 flex flex-col h-[420px]">
+<div class="h-3/5 w-full relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700" data-alt="A state-of-the-art wellness and fitness studio bathed in low-key, warm ambient lighting. Rows of sleek, modern exercise equipment stand against dark, textured walls. Subtle orange neon accents outline the architectural features, creating a futuristic yet inviting fitness sanctuary perfect for elite training sessions." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4v-KDfm0D-_MHfe_MsrCpqpOAUruUc0BQp1ovviZ-R1OfDAeES_BGUoJrTZFBdUhRwMT63ejOAMYeMuinF0DmP-DPF9MIGYfPKX5JNkioEdQeiH39QcVwcF12hUJslIr4CLecjGN99SjcZ250e1L8uilIZO5kpaUyqKFQY_dYEAGeppfe2HBi-EGVnLA-DbmXpFFTKgy8tz2qluTGhe5HIDGasByAdM5c1xyHsxbh07RgjADnHyn3EKW07pYsqAKIwrR_HK4dVYer')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent"></div>
+<div class="absolute top-4 right-4 bg-background/80 backdrop-blur-md px-3 py-1 rounded-full border border-outline-variant/50 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary-container fill">star</span>
+<span class="font-label-sm text-label-sm text-on-surface">4.8</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1 justify-between relative z-10 -mt-8">
+<div>
+<div class="flex gap-2 mb-3">
+<span class="bg-[#2D2824] text-on-surface-variant font-label-sm text-[10px] px-2 py-1 rounded-md uppercase tracking-wider">Fitness</span>
+<span class="bg-[#2D2824] text-on-surface-variant font-label-sm text-[10px] px-2 py-1 rounded-md uppercase tracking-wider">Wellness</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 group-hover:text-primary transition-colors">Ember Athletics</h3>
+<p class="font-body-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">group</span>
+                                1.2k Members
+                            </p>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/30">
+<span class="font-label-md text-label-md text-on-surface-variant">Westside</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="group relative rounded-[24px] bg-surface-container border border-[#2D2824] overflow-hidden hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(0,0,0,0.5),0_0_20px_rgba(255,107,0,0.05)] transition-all duration-300 flex flex-col h-[420px] md:hidden lg:flex">
+<div class="h-3/5 w-full relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700" data-alt="An exclusive rooftop lounge at dusk, featuring plush seating arrangements surrounding modern fire pits. The city skyline twinkles in the background beneath a deep twilight sky. The warm glow of the fire creates a stark, beautiful contrast against the surrounding darkness, emphasizing a luxurious, relaxed social atmosphere." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7hyGmMFTl-jackZ9O-Oeywa1P1RJbmlzgKXgOtIJfxrM5ZnWo7rm9hTUnIbvzHI_0dfOldaEhlVILUWLlR8LkTsBNhKJxGoPy3X_YynJWeIx9qaxhLdY-UwI4LjpTO5EO46QBJXoI5q6-YUz1lHTVzdGqO2Cjpd5BX1qYZwQQ6zq2QXfzfKYxH3rj1eVuuqZCkZAORM05jn39v0szhrALdaAnSwKOtgeE4LtzcBAIwMiB88YURolXXjJRC7tlkLnYJ_lQ0hKdtsP8')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent"></div>
+<div class="absolute top-4 right-4 bg-background/80 backdrop-blur-md px-3 py-1 rounded-full border border-outline-variant/50 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary-container fill">star</span>
+<span class="font-label-sm text-label-sm text-on-surface">5.0</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1 justify-between relative z-10 -mt-8">
+<div>
+<div class="flex gap-2 mb-3">
+<span class="bg-[#2D2824] text-on-surface-variant font-label-sm text-[10px] px-2 py-1 rounded-md uppercase tracking-wider">Lounge</span>
+<span class="bg-[#2D2824] text-on-surface-variant font-label-sm text-[10px] px-2 py-1 rounded-md uppercase tracking-wider">Social</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 group-hover:text-primary transition-colors">Apex Terrace</h3>
+<p class="font-body-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">group</span>
+                                850 Members
+                            </p>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/30">
+<span class="font-label-md text-label-md text-on-surface-variant">Midtown</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<div class="fixed bottom-0 w-full z-50 flex justify-center items-center pb-8 md:hidden">
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-full px-4 py-2 border border-stone-800 dark:border-[#2D2824] bg-[#1A1614]/90 backdrop-blur-lg shadow-[0_10px_40px_rgba(0,0,0,0.7)] flex gap-2 font-['Plus_Jakarta_Sans'] text-[10px] font-medium uppercase tracking-wider">
+<!-- Active Tab: Discover -->
+<button class="flex flex-col items-center justify-center bg-orange-600 dark:bg-[#FF6B00] text-white rounded-full p-3 shadow-[0_0_20px_rgba(255,107,0,0.3)] active:scale-90 duration-150 w-16 h-16">
+<span class="material-symbols-outlined mb-1" data-icon="explore">explore</span>
+<span class="leading-none">Discover</span>
+</button>
+<!-- Inactive Tab: Map -->
+<button class="flex flex-col items-center justify-center text-stone-500 dark:text-stone-400 p-3 hover:text-stone-200 transition-colors active:scale-90 duration-150 w-16 h-16">
+<span class="material-symbols-outlined mb-1" data-icon="location_on">location_on</span>
+<span class="leading-none">Map</span>
+</button>
+<!-- Inactive Tab: Saved -->
+<button class="flex flex-col items-center justify-center text-stone-500 dark:text-stone-400 p-3 hover:text-stone-200 transition-colors active:scale-90 duration-150 w-16 h-16">
+<span class="material-symbols-outlined mb-1" data-icon="bookmark">bookmark</span>
+<span class="leading-none">Saved</span>
+</button>
+<!-- Inactive Tab: Profile -->
+<button class="flex flex-col items-center justify-center text-stone-500 dark:text-stone-400 p-3 hover:text-stone-200 transition-colors active:scale-90 duration-150 w-16 h-16">
+<span class="material-symbols-outlined mb-1" data-icon="account_circle">account_circle</span>
+<span class="leading-none">Profile</span>
+</button>
+</nav>
+</div>
+</body></html>
