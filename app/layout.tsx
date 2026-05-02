@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { AuthenticatedShell } from "@/components/authenticated-shell";
+import { PublicSiteHeader } from "@/components/layout/public-site-header";
 import { Providers } from "@/components/providers";
-import { SideNavBar } from "@/components/side-nav-bar";
 import { getAppSession } from "@/lib/session";
 
 const geistSans = Geist({
@@ -49,12 +50,14 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Providers>
           {isAuthenticated ? (
-            <div className="flex min-h-full flex-1 flex-col lg:pl-64">
-              <SideNavBar isAdmin={session?.user?.role === "admin"} />
+            <AuthenticatedShell isAdmin={session?.user?.role === "admin"}>
+              {children}
+            </AuthenticatedShell>
+          ) : (
+            <div className="flex min-h-full flex-1 flex-col">
+              <PublicSiteHeader />
               <div className="flex min-h-0 flex-1 flex-col">{children}</div>
             </div>
-          ) : (
-            children
           )}
         </Providers>
       </body>

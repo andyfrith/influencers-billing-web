@@ -19,7 +19,11 @@ export function SignInForm(): React.JSX.Element {
   const router = useRouter();
   const [formError, setFormError] = React.useState<string>("");
   const [keepSignedIn, setKeepSignedIn] = React.useState<boolean>(false);
-  const [heroParallax, setHeroParallax] = React.useState<{ x: number; y: number; active: boolean }>({
+  const [heroParallax, setHeroParallax] = React.useState<{
+    x: number;
+    y: number;
+    active: boolean;
+  }>({
     x: 0,
     y: 0,
     active: false,
@@ -56,7 +60,9 @@ export function SignInForm(): React.JSX.Element {
    * Runs a short electric-style flicker sequence.
    */
   const triggerNeonFlicker = React.useCallback(() => {
-    neonTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
+    neonTimeoutsRef.current.forEach((timeoutId) =>
+      window.clearTimeout(timeoutId),
+    );
     neonTimeoutsRef.current = [];
 
     const flickerFrames: Array<{ delayMs: number; level: number }> = [
@@ -81,7 +87,9 @@ export function SignInForm(): React.JSX.Element {
   React.useEffect(() => {
     triggerNeonFlicker();
     return () => {
-      neonTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
+      neonTimeoutsRef.current.forEach((timeoutId) =>
+        window.clearTimeout(timeoutId),
+      );
       neonTimeoutsRef.current = [];
     };
   }, [triggerNeonFlicker]);
@@ -89,24 +97,30 @@ export function SignInForm(): React.JSX.Element {
   /**
    * Tracks pointer movement to create a subtle hover parallax effect.
    */
-  const handleHeroPointerMove = React.useCallback((event: React.MouseEvent<HTMLElement>) => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-    const normalizedX = (event.clientX - bounds.left) / bounds.width - 0.5;
-    const normalizedY = (event.clientY - bounds.top) / bounds.height - 0.5;
-    setHeroParallax({
-      x: normalizedX,
-      y: normalizedY,
-      active: true,
-    });
-  }, []);
+  const handleHeroPointerMove = React.useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      const bounds = event.currentTarget.getBoundingClientRect();
+      const normalizedX = (event.clientX - bounds.left) / bounds.width - 0.5;
+      const normalizedY = (event.clientY - bounds.top) / bounds.height - 0.5;
+      setHeroParallax({
+        x: normalizedX,
+        y: normalizedY,
+        active: true,
+      });
+    },
+    [],
+  );
 
   /**
    * Triggers a short neon bloom whenever hover starts.
    */
-  const handleHeroPointerEnter = React.useCallback((event: React.MouseEvent<HTMLElement>) => {
-    handleHeroPointerMove(event);
-    triggerNeonFlicker();
-  }, [handleHeroPointerMove, triggerNeonFlicker]);
+  const handleHeroPointerEnter = React.useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      handleHeroPointerMove(event);
+      triggerNeonFlicker();
+    },
+    [handleHeroPointerMove, triggerNeonFlicker],
+  );
 
   /**
    * Resets image animation when pointer exits the hero section.
@@ -120,27 +134,8 @@ export function SignInForm(): React.JSX.Element {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-[#0b0807] text-[#efe7e2]">
-      <header className="bg-[#0f0d0c]">
-        <div className="flex h-20 w-full items-center justify-between px-6 md:px-12">
-          <Link href="/" className="text-xl font-bold uppercase tracking-[0.14em] text-[#ff6b00]">
-            VANGUARD CLUB
-          </Link>
-          <nav className="hidden items-center gap-8 text-sm text-stone-400 md:flex">
-            <Link className="transition-colors hover:text-white" href="/">
-              Home
-            </Link>
-            <span>About</span>
-            <span>Support</span>
-            <span className="border-b-2 border-[#ff6b00] pb-1 font-semibold text-[#ff6b00]">
-              Membership
-            </span>
-          </nav>
-          <div className="w-[140px] md:block" />
-        </div>
-      </header>
-
-      <main className="grid min-h-[calc(100vh-80px-57px)] w-full grid-cols-1 lg:grid-cols-[1fr_1fr]">
+    <div className="flex min-h-0 flex-1 flex-col w-full bg-[#0b0807] text-[#efe7e2]">
+      <main className="grid min-h-0 w-full flex-1 grid-cols-1 lg:grid-cols-[1fr_1fr]">
         <section
           className="relative hidden overflow-hidden md:block"
           onMouseMove={handleHeroPointerMove}
@@ -189,7 +184,8 @@ export function SignInForm(): React.JSX.Element {
             style={{
               background:
                 "radial-gradient(180px circle at 70% 30%, rgba(255, 106, 0, 0.38), transparent 72%), radial-gradient(240px circle at 17% 58%, rgba(0, 246, 255, 0.34), transparent 75%), radial-gradient(200px circle at 80% 66%, rgba(255, 0, 168, 0.28), transparent 78%)",
-              opacity: 0.22 + neonFlickerLevel * (heroParallax.active ? 0.78 : 0.66),
+              opacity:
+                0.22 + neonFlickerLevel * (heroParallax.active ? 0.78 : 0.66),
               filter: `blur(${12 + neonFlickerLevel * 13}px) saturate(${1.08 + neonFlickerLevel * 0.24})`,
               mixBlendMode: "screen",
               transform: `translate3d(${heroParallax.x * -6}px, ${heroParallax.y * -6}px, 0) scale(${1 + neonFlickerLevel * 0.06})`,
@@ -204,7 +200,8 @@ export function SignInForm(): React.JSX.Element {
                 The Pinnacle of Private Membership.
               </h2>
               <p className="mt-5 text-2xl leading-snug text-[#e2bfb0cc]">
-                Experience the intersection of high-technology and exclusive luxury.
+                Experience the intersection of high-technology and exclusive
+                luxury.
               </p>
             </div>
           </div>
@@ -221,7 +218,10 @@ export function SignInForm(): React.JSX.Element {
 
             <form className="mt-8 space-y-6" onSubmit={onSubmit}>
               <div>
-                <Label htmlFor="email" className="mb-2 block text-sm font-semibold text-[#e2bfb0]">
+                <Label
+                  htmlFor="email"
+                  className="mb-2 block text-sm font-semibold text-[#e2bfb0]"
+                >
                   Email Address
                 </Label>
                 <Input
@@ -231,15 +231,23 @@ export function SignInForm(): React.JSX.Element {
                   className="h-12 rounded-xl border-[#2d2824] bg-[#1a1614] px-4 text-base text-[#eae1dd] placeholder:text-stone-600"
                   {...form.register("email")}
                 />
-                <p className="mt-1 text-sm text-[#ffb4ab]">{form.formState.errors.email?.message}</p>
+                <p className="mt-1 text-sm text-[#ffb4ab]">
+                  {form.formState.errors.email?.message}
+                </p>
               </div>
 
               <div>
                 <div className="mb-2 flex items-center justify-between">
-                  <Label htmlFor="password" className="text-sm font-semibold text-[#e2bfb0]">
+                  <Label
+                    htmlFor="password"
+                    className="text-sm font-semibold text-[#e2bfb0]"
+                  >
                     Password
                   </Label>
-                  <Link href="/forgot-password" className="text-xs text-[#ff6b00] hover:underline">
+                  <Link
+                    href="/forgot-password"
+                    className="text-xs text-[#ff6b00] hover:underline"
+                  >
                     Forgot Password?
                   </Link>
                 </div>
@@ -251,7 +259,9 @@ export function SignInForm(): React.JSX.Element {
                   className="h-12 rounded-xl border-[#2d2824] bg-[#1a1614] px-4 text-base text-[#eae1dd] placeholder:text-stone-600"
                   {...form.register("password")}
                 />
-                <p className="mt-1 text-sm text-[#ffb4ab]">{form.formState.errors.password?.message}</p>
+                <p className="mt-1 text-sm text-[#ffb4ab]">
+                  {form.formState.errors.password?.message}
+                </p>
               </div>
 
               <label className="flex items-center gap-2 py-1 text-xs tracking-[0.02em] text-[#e2bfb0]">
@@ -264,7 +274,9 @@ export function SignInForm(): React.JSX.Element {
                 Keep me logged in for 30 days
               </label>
 
-              {formError ? <p className="text-base text-[#ffb4ab]">{formError}</p> : null}
+              {formError ? (
+                <p className="text-base text-[#ffb4ab]">{formError}</p>
+              ) : null}
 
               <Button
                 className="h-14 w-full rounded-xl bg-[#ff6b00] text-2xl font-semibold text-[#561f00] shadow-lg shadow-[#ff6b00]/20 hover:brightness-110"
@@ -277,18 +289,25 @@ export function SignInForm(): React.JSX.Element {
 
             <p className="mt-8 text-center text-base text-[#e2bfb0]">
               Don&apos;t have an account?{" "}
-              <Link className="font-semibold text-[#ff6b00] hover:underline" href="/sign-up">
+              <Link
+                className="font-semibold text-[#ff6b00] hover:underline"
+                href="/sign-up"
+              >
                 Apply for Membership
               </Link>
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <div className="flex items-center gap-3 rounded-2xl border border-[#2d2824] bg-[#1a1614] px-4 py-3 text-[#e2bfb0]">
-                <span className="material-symbols-outlined text-[#ff6b00]">verified_user</span>
+                <span className="material-symbols-outlined text-[#ff6b00]">
+                  verified_user
+                </span>
                 <span className="text-xs">Encrypted Access</span>
               </div>
               <div className="flex items-center gap-3 rounded-2xl border border-[#2d2824] bg-[#1a1614] px-4 py-3 text-[#e2bfb0]">
-                <span className="material-symbols-outlined text-[#ff6b00]">support_agent</span>
+                <span className="material-symbols-outlined text-[#ff6b00]">
+                  support_agent
+                </span>
                 <span className="text-xs">VIP Support</span>
               </div>
             </div>

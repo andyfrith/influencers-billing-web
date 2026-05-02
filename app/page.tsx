@@ -75,50 +75,37 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-[#100d0b] text-[#f2ece8]">
-      <header className="sticky top-0 z-50 border-b border-[#2f2722] bg-[#0f0c0a]/90 backdrop-blur">
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 md:px-6">
-          <Link href="/" className="text-xs font-bold uppercase tracking-[0.18em] text-[#ff9f3f]">
-            Vanguard Club
-          </Link>
-          <nav className="hidden items-center gap-8 text-xs text-[#b9aaa0] md:flex">
-            <Link href="/clubs" className="transition-colors hover:text-white">
-              Clubs
+      {isAuthenticated ? (
+        <header className="sticky top-0 z-50 border-b border-[#2f2722] bg-[#0f0c0a]/90 backdrop-blur">
+          <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 md:px-6">
+            <Link href="/" className="text-xs font-bold uppercase tracking-[0.18em] text-[#ff9f3f]">
+              Vanguard Club
             </Link>
-            <Link href="/account/memberships" className="transition-colors hover:text-white">
-              Benefits
-            </Link>
-            <Link href="/account/billing" className="transition-colors hover:text-white">
-              Concierge
-            </Link>
-            <span className="text-[#ff9f3f]">Memberships</span>
-          </nav>
-          <div className="flex items-center gap-2">
-            {isAuthenticated ? (
-              <>
-                <Link href="/account/billing" className="text-xs text-[#c7b9ae] hover:text-white">
-                  Account
-                </Link>
-                <Link href="/clubs">
-                  <Button className="h-8 rounded-full bg-[#ff7a00] px-4 text-xs font-semibold text-black hover:bg-[#ff8e27]">
-                    Explore
-                  </Button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link href="/sign-in" className="text-xs text-[#c7b9ae] hover:text-white">
-                  Login
-                </Link>
-                <Link href="/sign-up">
-                  <Button className="h-8 rounded-full bg-[#ff7a00] px-4 text-xs font-semibold text-black hover:bg-[#ff8e27]">
-                    Join
-                  </Button>
-                </Link>
-              </>
-            )}
+            <nav className="hidden items-center gap-8 text-xs text-[#b9aaa0] md:flex">
+              <Link href="/clubs" className="transition-colors hover:text-white">
+                Clubs
+              </Link>
+              <Link href="/account/memberships" className="transition-colors hover:text-white">
+                Benefits
+              </Link>
+              <Link href="/account/billing" className="transition-colors hover:text-white">
+                Concierge
+              </Link>
+              <span className="text-[#ff9f3f]">Memberships</span>
+            </nav>
+            <div className="flex items-center gap-2">
+              <Link href="/account/billing" className="text-xs text-[#c7b9ae] hover:text-white">
+                Account
+              </Link>
+              <Link href="/clubs">
+                <Button className="h-8 rounded-full bg-[#ff7a00] px-4 text-xs font-semibold text-black hover:bg-[#ff8e27]">
+                  Explore
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+      ) : null}
 
       <section className="relative overflow-hidden border-b border-[#2f2722]">
         <div
@@ -158,7 +145,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-6 py-14">
+      <section id="about" className="mx-auto w-full max-w-6xl px-6 py-14">
         <div className="text-center">
           <h2 className="text-3xl font-semibold text-white">Redefining Premium Living</h2>
           <p className="mx-auto mt-2 max-w-2xl text-sm text-[#bdaea5]">
