@@ -5,6 +5,7 @@ Customer billing UI with Postgres, Drizzle, next-auth, and Stripe.
 ## Design docs
 
 - `DESIGN.md` is the canonical visual design-system spec (Google `design.md` format) for coding agents and contributors.
+- `THEMING.md` describes how named color themes (`data-color-theme`) and light/dark interact, and how to add a new theme bundle.
 - `PRODUCT_DESIGN.md` preserves the prior architecture-style design narrative for historical context.
 
 ## Local services (Postgres + Mailpit)

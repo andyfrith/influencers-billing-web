@@ -94,11 +94,11 @@ export function ClubDetailKineticView({
   }, [club.description]);
 
   return (
-    <div className="min-h-screen bg-[#161311] text-[#eae1dd] antialiased">
+    <div className="min-h-screen bg-background text-foreground antialiased">
       {/* TopAppBar */}
-      <header className="fixed top-0 z-50 flex h-16 w-full items-center justify-between border-b border-stone-800/50 bg-stone-950/60 px-6 shadow-xl shadow-orange-950/5 backdrop-blur-md">
+      <header className="fixed top-0 z-50 flex h-16 w-full items-center justify-between border-b border-border/50 bg-background/60 px-6 shadow-xl shadow-primary/10 backdrop-blur-md">
         <div className="flex items-center gap-4">
-          <Link href="/clubs/navigator" className="text-xl font-bold tracking-tight text-orange-500">
+          <Link href="/clubs/navigator" className="text-xl font-bold tracking-tight text-primary">
             Amber Nocturne
           </Link>
         </div>
@@ -106,25 +106,25 @@ export function ClubDetailKineticView({
           <nav className="flex items-center gap-6">
             <Link
               href="/"
-              className="rounded-lg px-3 py-2 text-sm font-semibold tracking-wide text-stone-400 transition-all duration-300 hover:bg-stone-800/40 hover:text-stone-200"
+              className="rounded-lg px-3 py-2 text-sm font-semibold tracking-wide text-muted-foreground transition-all duration-300 hover:bg-muted/40 hover:text-foreground/90"
             >
               Home
             </Link>
             <Link
               href="/clubs/navigator"
-              className="rounded-lg px-3 py-2 text-sm font-semibold tracking-wide text-orange-500"
+              className="rounded-lg px-3 py-2 text-sm font-semibold tracking-wide text-primary"
             >
               Clubs
             </Link>
             <Link
               href="/account/memberships"
-              className="rounded-lg px-3 py-2 text-sm font-semibold tracking-wide text-stone-400 transition-all duration-300 hover:bg-stone-800/40 hover:text-stone-200"
+              className="rounded-lg px-3 py-2 text-sm font-semibold tracking-wide text-muted-foreground transition-all duration-300 hover:bg-muted/40 hover:text-foreground/90"
             >
               Benefits
             </Link>
             <Link
               href="/account/billing"
-              className="rounded-lg px-3 py-2 text-sm font-semibold tracking-wide text-stone-400 transition-all duration-300 hover:bg-stone-800/40 hover:text-stone-200"
+              className="rounded-lg px-3 py-2 text-sm font-semibold tracking-wide text-muted-foreground transition-all duration-300 hover:bg-muted/40 hover:text-foreground/90"
             >
               Account
             </Link>
@@ -132,25 +132,25 @@ export function ClubDetailKineticView({
           <div className="flex items-center gap-4">
             <button
               type="button"
-              className="text-stone-400 transition-colors hover:text-orange-500"
+              className="text-muted-foreground transition-colors hover:text-primary"
               aria-label="Notifications"
             >
               <MatIcon name="notifications" />
             </button>
             <button
               type="button"
-              className="text-stone-400 transition-colors hover:text-orange-500"
+              className="text-muted-foreground transition-colors hover:text-primary"
               aria-label="Help"
             >
               <MatIcon name="help" />
             </button>
-            <div className="h-8 w-8 overflow-hidden rounded-full border border-stone-700">
+            <div className="h-8 w-8 overflow-hidden rounded-full border border-border">
               {/* eslint-disable-next-line @next/next/no-img-element -- external Stitch asset; no optimization required */}
               <img alt="" src={KINETIC_LAB_AVATAR_IMAGE} className="h-full w-full object-cover" />
             </div>
           </div>
         </div>
-        <button type="button" className="text-stone-400 md:hidden" aria-label="Menu">
+        <button type="button" className="text-muted-foreground md:hidden" aria-label="Menu">
           <MatIcon name="menu" />
         </button>
       </header>
@@ -160,23 +160,23 @@ export function ClubDetailKineticView({
         <section className="relative h-[clamp(320px,85vh,614px)] w-full overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img alt="" src={KINETIC_LAB_HERO_IMAGE} className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-linear-to-t from-[#161311] via-[#161311]/40 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-background via-background/40 to-transparent" />
           <div className="absolute bottom-0 left-0 w-full max-w-5xl p-8 lg:p-16">
             <div className="mb-4 flex flex-wrap items-center gap-4">
-              <span className="rounded-full bg-orange-600 px-3 py-1 text-xs font-medium uppercase tracking-wide text-white">
+              <span className="rounded-full bg-primary px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary-foreground">
                 Premium Venue
               </span>
-              <div className="flex items-center gap-0.5 text-orange-500">
+              <div className="flex items-center gap-0.5 text-primary">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <MatIcon key={i} name="star" className="text-sm" filled />
                 ))}
-                <span className="ml-2 text-sm font-semibold text-stone-300">(128 reviews)</span>
+                <span className="ml-2 text-sm font-semibold text-foreground/85">(128 reviews)</span>
               </div>
             </div>
-            <h1 className="mb-2 text-4xl font-bold leading-[1.2] tracking-[-0.02em] text-[#eae1dd]">
+            <h1 className="mb-2 text-4xl font-bold leading-[1.2] tracking-[-0.02em] text-foreground">
               {club.name}
             </h1>
-            <p className="max-w-2xl text-lg leading-relaxed text-stone-300">{club.description}</p>
+            <p className="max-w-2xl text-lg leading-relaxed text-foreground/85">{club.description}</p>
           </div>
         </section>
 
@@ -184,10 +184,10 @@ export function ClubDetailKineticView({
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-8">
             {/* About + amenities */}
             <div className="space-y-6 lg:col-span-2">
-              <h2 className="text-2xl font-semibold leading-snug tracking-tight text-orange-500">
+              <h2 className="text-2xl font-semibold leading-snug tracking-tight text-primary">
                 Elite Standards, Precision Results
               </h2>
-              <div className="space-y-4 text-base leading-relaxed text-stone-400">
+              <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                 {aboutParagraphs.map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
@@ -203,11 +203,11 @@ export function ClubDetailKineticView({
                     key={item.label}
                     className={cn(
                       kineticStyles.glassPanel,
-                      "flex flex-col items-center rounded-2xl p-4 text-center transition-colors hover:bg-stone-800/40",
+                      "flex flex-col items-center rounded-2xl p-4 text-center transition-colors hover:bg-muted/40",
                     )}
                   >
-                    <MatIcon name={item.icon} className="mb-2 text-orange-500" />
-                    <span className="text-sm font-semibold tracking-wide text-[#eae1dd]">
+                    <MatIcon name={item.icon} className="mb-2 text-primary" />
+                    <span className="text-sm font-semibold tracking-wide text-foreground">
                       {item.label}
                     </span>
                   </div>
@@ -217,37 +217,37 @@ export function ClubDetailKineticView({
 
             {/* Quick details */}
             <div className="space-y-4">
-              <div className="rounded-3xl border border-[#5a4136] bg-[#231f1d] p-6 shadow-xl">
+              <div className="rounded-3xl border border-border bg-card p-6 shadow-xl">
                 <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
-                  <MatIcon name="info" className="text-orange-500" />
+                  <MatIcon name="info" className="text-primary" />
                   Quick Details
                 </h3>
                 <ul className="space-y-6">
                   <li className="flex items-start gap-4">
-                    <MatIcon name="location_on" className="text-stone-500" />
+                    <MatIcon name="location_on" className="text-muted-foreground" />
                     <div>
-                      <p className="text-sm font-semibold text-[#eae1dd]">402 Vector Drive</p>
-                      <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
+                      <p className="text-sm font-semibold text-foreground">402 Vector Drive</p>
+                      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Tech District, SF
                       </p>
                     </div>
                   </li>
                   <li className="flex items-start gap-4">
-                    <MatIcon name="schedule" className="text-stone-500" />
+                    <MatIcon name="schedule" className="text-muted-foreground" />
                     <div>
-                      <p className="text-sm font-semibold text-[#eae1dd]">Open 24/7</p>
-                      <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
+                      <p className="text-sm font-semibold text-foreground">Open 24/7</p>
+                      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Members Only Access
                       </p>
                     </div>
                   </li>
                   <li className="flex items-start gap-4">
-                    <MatIcon name="group" className="text-stone-500" />
+                    <MatIcon name="group" className="text-muted-foreground" />
                     <div>
-                      <p className="text-sm font-semibold text-[#eae1dd]">
+                      <p className="text-sm font-semibold text-foreground">
                         {members.length} member{members.length === 1 ? "" : "s"}
                       </p>
-                      <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
+                      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Roster
                       </p>
                     </div>
@@ -262,7 +262,7 @@ export function ClubDetailKineticView({
                       onJoinPlan(first);
                     }
                   }}
-                  className="mt-8 w-full rounded-xl bg-[#ff6b00] py-4 text-sm font-bold text-[#572000] transition-all hover:shadow-[0_0_20px_rgba(255,107,0,0.4)] active:scale-95 disabled:opacity-50"
+                  className="mt-8 w-full rounded-xl bg-primary py-4 text-sm font-bold text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/40 active:scale-95 disabled:opacity-50"
                 >
                   Book a Consultation
                 </button>
@@ -273,18 +273,18 @@ export function ClubDetailKineticView({
           {/* Membership tiers — data from API, layout from Stitch */}
           <div className="mt-16">
             <div className="mb-8 text-center">
-              <h2 className="mb-2 text-3xl font-semibold leading-tight tracking-tight text-[#eae1dd]">
+              <h2 className="mb-2 text-3xl font-semibold leading-tight tracking-tight text-foreground">
                 Select Your Membership
               </h2>
-              <p className="mx-auto max-w-xl text-stone-400">
+              <p className="mx-auto max-w-xl text-muted-foreground">
                 Choose the tier that aligns with your ambitions. All memberships include a 15-day recovery pass.
               </p>
             </div>
             {resultMessage ? (
-              <p className="mb-6 text-center text-sm text-stone-400">{resultMessage}</p>
+              <p className="mb-6 text-center text-sm text-muted-foreground">{resultMessage}</p>
             ) : null}
             {sortedPlans.length === 0 ? (
-              <p className="text-center text-stone-400">No active plans for this club yet.</p>
+              <p className="text-center text-muted-foreground">No active plans for this club yet.</p>
             ) : (
               <div
                 className={cn(
@@ -305,49 +305,49 @@ export function ClubDetailKineticView({
                       className={cn(
                         "group rounded-3xl border p-6 transition-all hover:-translate-y-2 hover:shadow-2xl",
                         isPopular
-                          ? "relative border-2 border-orange-600/50 bg-[#2e2927] shadow-[0_20px_50px_rgba(255,107,0,0.15)]"
-                          : "border-stone-800 bg-[#1f1b19]",
+                          ? "relative border-2 border-primary/50 bg-popover shadow-xl shadow-primary/20"
+                          : "border-border bg-surface-container-low",
                       )}
                     >
                       {isPopular ? (
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-orange-600 px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-primary-foreground">
                           Most Popular
                         </div>
                       ) : null}
                       <div className="mb-6">
-                        <span className="text-xs font-medium uppercase tracking-widest text-stone-500">
+                        <span className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
                           {plan.interval === "year" ? "Annual" : "Monthly"}
                         </span>
-                        <h3 className="mt-1 text-2xl font-semibold text-[#eae1dd]">{plan.name}</h3>
+                        <h3 className="mt-1 text-2xl font-semibold text-foreground">{plan.name}</h3>
                         <div className="mt-4 flex items-baseline gap-1">
-                          <span className="text-3xl font-bold text-[#eae1dd]">${price}</span>
-                          <span className="text-stone-500">/{interval}</span>
-                          <span className="ml-2 text-xs uppercase text-stone-500">
+                          <span className="text-3xl font-bold text-foreground">${price}</span>
+                          <span className="text-muted-foreground">/{interval}</span>
+                          <span className="ml-2 text-xs uppercase text-muted-foreground">
                             {plan.currency}
                           </span>
                         </div>
                       </div>
                       <ul className="mb-8 space-y-4">
-                        <li className="flex items-center gap-2 text-stone-300">
+                        <li className="flex items-center gap-2 text-foreground/85">
                           <MatIcon
                             name="check_circle"
-                            className={cn("text-lg", isPopular ? "text-orange-500" : "text-orange-500/60")}
+                            className={cn("text-lg", isPopular ? "text-primary" : "text-primary/60")}
                             filled={isPopular}
                           />
                           Full access to club facilities
                         </li>
-                        <li className="flex items-center gap-2 text-stone-300">
+                        <li className="flex items-center gap-2 text-foreground/85">
                           <MatIcon
                             name="check_circle"
-                            className={cn("text-lg", isPopular ? "text-orange-500" : "text-orange-500/60")}
+                            className={cn("text-lg", isPopular ? "text-primary" : "text-primary/60")}
                             filled={isPopular}
                           />
                           Billing through your saved payment method
                         </li>
-                        <li className="flex items-center gap-2 text-stone-300">
+                        <li className="flex items-center gap-2 text-foreground/85">
                           <MatIcon
                             name="check_circle"
-                            className={cn("text-lg", isPopular ? "text-orange-500" : "text-orange-500/60")}
+                            className={cn("text-lg", isPopular ? "text-primary" : "text-primary/60")}
                             filled={isPopular}
                           />
                           Cancel requests from memberships
@@ -363,9 +363,9 @@ export function ClubDetailKineticView({
                         className={cn(
                           "w-full rounded-xl py-4 text-sm font-bold transition-all active:scale-95 disabled:opacity-50",
                           isPopular
-                            ? "bg-orange-600 text-white shadow-lg hover:bg-orange-500"
-                            : "border border-stone-700 text-stone-300 hover:bg-stone-800 hover:text-white",
-                          isSelected && !isPopular && "ring-2 ring-orange-500/60",
+                            ? "bg-primary text-primary-foreground shadow-lg hover:bg-primary/90"
+                            : "border border-border text-foreground/85 hover:bg-muted hover:text-foreground",
+                          isSelected && !isPopular && "ring-2 ring-primary/60",
                         )}
                       >
                         {subscribePending && isSelected ? "Joining…" : `Join ${plan.name}`}
@@ -381,12 +381,12 @@ export function ClubDetailKineticView({
           <div className="mt-16">
             <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
               <div>
-                <h2 className="mb-1 text-3xl font-semibold text-[#eae1dd]">Upcoming Events</h2>
-                <p className="text-stone-400">Exclusive community workshops and athlete showcases.</p>
+                <h2 className="mb-1 text-3xl font-semibold text-foreground">Upcoming Events</h2>
+                <p className="text-muted-foreground">Exclusive community workshops and athlete showcases.</p>
               </div>
               <button
                 type="button"
-                className="flex items-center gap-1 text-sm font-semibold text-orange-500 transition-all hover:gap-2"
+                className="flex items-center gap-1 text-sm font-semibold text-primary transition-all hover:gap-2"
               >
                 View Full Calendar <MatIcon name="arrow_forward" className="text-sm" />
               </button>
@@ -409,30 +409,30 @@ export function ClubDetailKineticView({
                 <div className="flex flex-col justify-between py-2">
                   <div>
                     <div className="mb-1 flex flex-wrap items-center gap-2">
-                      <span className="rounded bg-orange-600/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-orange-500">
+                      <span className="rounded bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
                         Workshop
                       </span>
-                      <span className="text-[10px] font-bold uppercase text-stone-500">
+                      <span className="text-[10px] font-bold uppercase text-muted-foreground">
                         Oct 24 • 6:00 PM
                       </span>
                     </div>
-                    <h4 className="mb-1 text-lg font-semibold text-[#eae1dd]">Metabolic Ignition Series</h4>
-                    <p className="line-clamp-2 text-sm text-stone-400">
+                    <h4 className="mb-1 text-lg font-semibold text-foreground">Metabolic Ignition Series</h4>
+                    <p className="line-clamp-2 text-sm text-muted-foreground">
                       Master the science of high-intensity conditioning with guest coach Marcus Thorne.
                     </p>
                   </div>
                   <div className="mt-4 flex items-center justify-between">
                     <div className="flex items-center">
                       <div className="-space-x-2 flex">
-                        <div className="h-6 w-6 rounded-full border-2 border-stone-900 bg-stone-700" />
-                        <div className="h-6 w-6 rounded-full border-2 border-stone-900 bg-stone-600" />
-                        <div className="h-6 w-6 rounded-full border-2 border-stone-900 bg-stone-500" />
+                        <div className="h-6 w-6 rounded-full border-2 border-background bg-muted" />
+                        <div className="h-6 w-6 rounded-full border-2 border-background bg-border" />
+                        <div className="h-6 w-6 rounded-full border-2 border-background bg-secondary" />
                       </div>
-                      <span className="ml-4 self-center text-[10px] text-stone-500">+42 attending</span>
+                      <span className="ml-4 self-center text-[10px] text-muted-foreground">+42 attending</span>
                     </div>
                     <MatIcon
                       name="arrow_forward_ios"
-                      className="text-stone-600 transition-colors group-hover:text-orange-500"
+                      className="text-muted-foreground/70 transition-colors group-hover:text-primary"
                     />
                   </div>
                 </div>
@@ -454,30 +454,30 @@ export function ClubDetailKineticView({
                 <div className="flex flex-col justify-between py-2">
                   <div>
                     <div className="mb-1 flex flex-wrap items-center gap-2">
-                      <span className="rounded bg-orange-600/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-orange-500">
+                      <span className="rounded bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
                         Mindset
                       </span>
-                      <span className="text-[10px] font-bold uppercase text-stone-500">
+                      <span className="text-[10px] font-bold uppercase text-muted-foreground">
                         Oct 28 • 7:30 AM
                       </span>
                     </div>
-                    <h4 className="mb-1 text-lg font-semibold text-[#eae1dd]">Mind-Muscle Equilibrium</h4>
-                    <p className="line-clamp-2 text-sm text-stone-400">
+                    <h4 className="mb-1 text-lg font-semibold text-foreground">Mind-Muscle Equilibrium</h4>
+                    <p className="line-clamp-2 text-sm text-muted-foreground">
                       A sunrise recovery flow focused on neurological downregulation and mobility.
                     </p>
                   </div>
                   <div className="mt-4 flex items-center justify-between">
                     <div className="flex items-center">
                       <div className="-space-x-2 flex">
-                        <div className="h-6 w-6 rounded-full border-2 border-stone-900 bg-stone-700" />
-                        <div className="h-6 w-6 rounded-full border-2 border-stone-900 bg-stone-600" />
-                        <div className="h-6 w-6 rounded-full border-2 border-stone-900 bg-stone-500" />
+                        <div className="h-6 w-6 rounded-full border-2 border-background bg-muted" />
+                        <div className="h-6 w-6 rounded-full border-2 border-background bg-border" />
+                        <div className="h-6 w-6 rounded-full border-2 border-background bg-secondary" />
                       </div>
-                      <span className="ml-4 self-center text-[10px] text-stone-500">+18 attending</span>
+                      <span className="ml-4 self-center text-[10px] text-muted-foreground">+18 attending</span>
                     </div>
                     <MatIcon
                       name="arrow_forward_ios"
-                      className="text-stone-600 transition-colors group-hover:text-orange-500"
+                      className="text-muted-foreground/70 transition-colors group-hover:text-primary"
                     />
                   </div>
                 </div>
@@ -488,25 +488,25 @@ export function ClubDetailKineticView({
           {/* Members — not in original Stitch hero file; matches billing-table density */}
           {members.length > 0 ? (
             <div className="mt-16">
-              <h2 className="mb-4 text-2xl font-semibold text-[#eae1dd]">Current members</h2>
+              <h2 className="mb-4 text-2xl font-semibold text-foreground">Current members</h2>
               <div
                 className={cn(
                   kineticStyles.glassPanel,
-                  "overflow-x-auto rounded-3xl border border-[#5a4136]/50",
+                  "overflow-x-auto rounded-3xl border border-border/50",
                 )}
               >
                 <table className="w-full min-w-[480px] text-left text-sm">
                   <thead>
-                    <tr className="border-b border-stone-800 text-stone-500">
+                    <tr className="border-b border-border text-muted-foreground">
                       <th className="px-4 py-3 font-semibold">Member</th>
                       <th className="px-4 py-3 font-semibold">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {members.map((m) => (
-                      <tr key={m.userId} className="border-b border-stone-800/80 last:border-0">
-                        <td className="px-4 py-3 text-[#eae1dd]">{m.email}</td>
-                        <td className="px-4 py-3 capitalize text-stone-400">{m.status}</td>
+                      <tr key={m.userId} className="border-b border-border/80 last:border-0">
+                        <td className="px-4 py-3 text-foreground">{m.email}</td>
+                        <td className="px-4 py-3 capitalize text-muted-foreground">{m.status}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -518,26 +518,26 @@ export function ClubDetailKineticView({
       </main>
 
       {/* Mobile bottom nav */}
-      <nav className="fixed bottom-0 left-0 z-50 flex h-20 w-full items-center justify-around border-t border-stone-800 bg-stone-900/80 pb-4 pt-2 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] backdrop-blur-lg md:hidden">
-        <Link href="/" className="flex flex-col items-center text-stone-500 active:scale-90">
+      <nav className="fixed bottom-0 left-0 z-50 flex h-20 w-full items-center justify-around border-t border-border bg-card/80 pb-4 pt-2 shadow-lg shadow-background/50 backdrop-blur-lg md:hidden">
+        <Link href="/" className="flex flex-col items-center text-muted-foreground active:scale-90">
           <MatIcon name="home" />
           <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider">Home</span>
         </Link>
         <Link
           href="/clubs/navigator"
-          className="flex scale-110 flex-col items-center text-orange-500 active:scale-90"
+          className="flex scale-110 flex-col items-center text-primary active:scale-90"
         >
           <MatIcon name="explore" />
           <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider">Explore</span>
         </Link>
         <Link
           href="/account/memberships"
-          className="flex flex-col items-center text-stone-500 active:scale-90"
+          className="flex flex-col items-center text-muted-foreground active:scale-90"
         >
           <MatIcon name="military_tech" />
           <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider">Benefits</span>
         </Link>
-        <Link href="/account/billing" className="flex flex-col items-center text-stone-500 active:scale-90">
+        <Link href="/account/billing" className="flex flex-col items-center text-muted-foreground active:scale-90">
           <MatIcon name="person" />
           <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider">Account</span>
         </Link>

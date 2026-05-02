@@ -6,8 +6,7 @@ import { getAppSession } from "@/lib/session";
 
 export default async function BillingPage(): Promise<React.JSX.Element> {
   const session = await getAppSession();
-
-  if (!session?.user?.id || !session.user.email) {
+  if (!session?.user?.email) {
     redirect("/sign-in");
   }
 

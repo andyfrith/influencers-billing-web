@@ -85,14 +85,14 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
 
   if (detailQuery.isLoading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center bg-[#161311] text-stone-400">
+      <div className="flex min-h-[50vh] items-center justify-center bg-background text-muted-foreground">
         Loading club…
       </div>
     );
   }
   if (detailQuery.error) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center bg-[#161311] px-6 text-sm text-red-400">
+      <div className="flex min-h-[50vh] items-center justify-center bg-background px-6 text-sm text-form-error-text">
         {(detailQuery.error as Error).message}
       </div>
     );
@@ -101,7 +101,7 @@ export function ClubDetail({ slug }: ClubDetailProps): React.JSX.Element {
   const detail = detailQuery.data;
   if (!detail) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center bg-[#161311] text-stone-400">
+      <div className="flex min-h-[50vh] items-center justify-center bg-background text-muted-foreground">
         Club not found.
       </div>
     );

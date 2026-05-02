@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { SignOutButton } from "@/components/auth/sign-out-button";
+import { ThemePicker } from "@/components/theme-picker";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
 type SideNavBarProps = {
@@ -13,16 +15,16 @@ type SideNavBarProps = {
 };
 
 const baseLinkClassName =
-  "flex cursor-pointer items-center gap-4 rounded-xl p-3 text-stone-400 transition-transform duration-200 hover:translate-x-1 hover:bg-stone-800/30 hover:text-stone-200 active:opacity-80";
+  "flex cursor-pointer items-center gap-4 rounded-xl p-3 text-muted-foreground transition-transform duration-200 hover:translate-x-1 hover:bg-muted/30 hover:text-foreground/90 active:opacity-80";
 
 const activeLinkClassName =
-  "flex cursor-pointer items-center gap-4 rounded-l-xl border-r-2 border-orange-500 bg-stone-800/50 p-3 text-orange-500 transition-transform duration-200 hover:translate-x-1 active:opacity-80";
+  "flex cursor-pointer items-center gap-4 rounded-l-xl border-r-2 border-primary bg-muted/50 p-3 text-primary transition-transform duration-200 hover:translate-x-1 active:opacity-80";
 
 const collapsedBaseLink =
-  "flex cursor-pointer items-center justify-center rounded-xl p-3 text-stone-400 transition-colors duration-200 hover:bg-stone-800/30 hover:text-stone-200 active:opacity-80";
+  "flex cursor-pointer items-center justify-center rounded-xl p-3 text-muted-foreground transition-colors duration-200 hover:bg-muted/30 hover:text-foreground/90 active:opacity-80";
 
 const collapsedActiveLink =
-  "flex cursor-pointer items-center justify-center rounded-xl border-2 border-orange-500/80 bg-stone-800/50 p-3 text-orange-500 transition-colors duration-200 active:opacity-80";
+  "flex cursor-pointer items-center justify-center rounded-xl border-2 border-primary/80 bg-muted/50 p-3 text-primary transition-colors duration-200 active:opacity-80";
 
 function MatIcon({
   name,
@@ -89,7 +91,7 @@ export function SideNavBar({
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-stone-800/50 bg-stone-950/90 px-4 py-2 backdrop-blur-md lg:hidden">
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/90 px-4 py-2 backdrop-blur-md lg:hidden">
         <nav className="flex items-center gap-2 overflow-x-auto">
           {navItems.map((item) => (
             <Link
@@ -97,33 +99,42 @@ export function SideNavBar({
               href={item.href}
               className={`rounded-lg px-3 py-2 text-sm font-semibold tracking-wide ${
                 isItemActive(item.href, item.matchPrefix)
-                  ? "text-orange-500"
-                  : "text-stone-400 transition-all duration-300 hover:bg-stone-800/40 hover:text-stone-200"
+                  ? "text-primary"
+                  : "text-muted-foreground transition-all duration-300 hover:bg-muted/40 hover:text-foreground/90"
               }`}
             >
               {item.label}
             </Link>
           ))}
+          <ThemePicker className="inline-flex max-w-[7.5rem] shrink-0" />
+          <ThemeToggle size="sm" className="h-8 shrink-0 border-border bg-transparent px-2" />
           <SignOutButton
             size="sm"
-            className="h-8 border-stone-700 bg-transparent px-3 text-xs text-stone-300 hover:bg-stone-800/40 hover:text-stone-100"
+            className="h-8 border-border bg-transparent px-3 text-xs text-muted-foreground hover:bg-muted/40 hover:text-foreground"
           />
         </nav>
       </header>
 
       <aside
         className={cn(
-          "fixed left-0 top-0 z-40 hidden h-screen flex-col rounded-r-2xl border-r border-stone-800 bg-[#1A1614] pb-8 pt-4 shadow-2xl shadow-black lg:flex",
+          "fixed left-0 top-0 z-40 hidden h-screen flex-col rounded-r-2xl border-r border-border bg-surface-panel pb-8 pt-4 shadow-2xl shadow-background/80 lg:flex",
           collapsed ? "w-20 items-stretch px-2" : "w-64 space-y-2 p-4",
         )}
       >
-        <div className={cn("mb-2 flex shrink-0", collapsed ? "justify-center" : "justify-end px-2")}>
+        <div
+          className={cn(
+            "mb-2 flex shrink-0 items-center gap-1",
+            collapsed ? "justify-center" : "justify-end px-2",
+          )}
+        >
+          <ThemePicker className="hidden shrink-0 lg:inline-flex" />
+          <ThemeToggle size="sm" className="h-8 shrink-0 border-border bg-transparent px-2" />
           <button
             type="button"
             onClick={onToggleCollapsed}
             aria-expanded={!collapsed}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            className="rounded-lg p-2 text-stone-400 transition-colors hover:bg-stone-800/50 hover:text-stone-200"
+            className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground/90"
           >
             <MatIcon name={collapsed ? "chevron_right" : "chevron_left"} />
           </button>
@@ -134,20 +145,20 @@ export function SideNavBar({
             className="mb-6 flex justify-center"
             title="Amber Hub — Elite Member"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500">
-              <MatIcon name="bolt" className="text-stone-950" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
+              <MatIcon name="bolt" className="text-primary-foreground" />
             </div>
           </div>
         ) : (
           <>
-            <div className="mb-6 px-2 text-lg font-black text-orange-500">Amber Hub</div>
-            <div className="mb-6 flex items-center gap-4 rounded-xl border border-stone-800/50 bg-stone-800/20 p-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-500">
-                <MatIcon name="bolt" className="text-stone-950" />
+            <div className="mb-6 px-2 text-lg font-black text-primary">Amber Hub</div>
+            <div className="mb-6 flex items-center gap-4 rounded-xl border border-border/50 bg-muted/20 p-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary">
+                <MatIcon name="bolt" className="text-primary-foreground" />
               </div>
               <div className="min-w-0">
-                <div className="font-bold text-[#eae1dd]">Elite Member</div>
-                <div className="text-xs text-stone-500">Influencers Billing</div>
+                <div className="font-bold text-foreground">Elite Member</div>
+                <div className="text-xs text-muted-foreground">Influencers Billing</div>
               </div>
             </div>
           </>
@@ -169,13 +180,13 @@ export function SideNavBar({
 
         <div
           className={cn(
-            "mt-auto space-y-1 border-t border-stone-800 pt-4",
+            "mt-auto space-y-1 border-t border-border pt-4",
             collapsed && "flex flex-col items-stretch",
           )}
         >
           <div
             className={cn(
-              "flex cursor-pointer items-center rounded-xl p-3 text-stone-400 transition-colors hover:bg-stone-800/30 hover:text-stone-200",
+              "flex cursor-pointer items-center rounded-xl p-3 text-muted-foreground transition-colors hover:bg-muted/30 hover:text-foreground/90",
               collapsed ? "justify-center" : "gap-4",
             )}
             title={collapsed ? "Support" : undefined}
@@ -189,7 +200,7 @@ export function SideNavBar({
               type="button"
               title="Upgrade tier"
               aria-label="Upgrade tier"
-              className="flex w-full cursor-pointer items-center justify-center rounded-xl bg-orange-600/10 p-3 font-bold text-orange-500 transition-all hover:bg-orange-600/20 active:scale-95"
+              className="flex w-full cursor-pointer items-center justify-center rounded-xl bg-primary/10 p-3 font-bold text-primary transition-all hover:bg-primary/20 active:scale-95"
             >
               <MatIcon name="workspace_premium" />
             </button>
@@ -197,7 +208,7 @@ export function SideNavBar({
             <div className="mt-4">
               <button
                 type="button"
-                className="w-full rounded-xl bg-orange-600/10 px-4 py-3 font-bold text-orange-500 transition-all hover:bg-orange-600/20 active:scale-95"
+                className="w-full rounded-xl bg-primary/10 px-4 py-3 font-bold text-primary transition-all hover:bg-primary/20 active:scale-95"
               >
                 Upgrade Tier
               </button>
@@ -208,7 +219,7 @@ export function SideNavBar({
             <SignOutButton
               iconOnly={collapsed}
               className={cn(
-                "border-stone-700 bg-transparent text-stone-300 hover:bg-stone-800/40 hover:text-stone-100",
+                "border-border bg-transparent text-muted-foreground hover:bg-muted/40 hover:text-foreground",
                 collapsed && "size-10 shrink-0 p-0",
               )}
             />

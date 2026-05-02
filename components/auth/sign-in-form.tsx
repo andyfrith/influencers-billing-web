@@ -134,7 +134,7 @@ export function SignInForm(): React.JSX.Element {
   }, []);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col w-full bg-[#0b0807] text-[#efe7e2]">
+    <div className="flex min-h-0 w-full flex-1 flex-col bg-surface-void text-foreground">
       <main className="grid min-h-0 w-full flex-1 grid-cols-1 lg:grid-cols-[1fr_1fr]">
         <section
           className="relative hidden overflow-hidden md:block"
@@ -191,15 +191,15 @@ export function SignInForm(): React.JSX.Element {
               transform: `translate3d(${heroParallax.x * -6}px, ${heroParallax.y * -6}px, 0) scale(${1 + neonFlickerLevel * 0.06})`,
             }}
           />
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-transparent to-[#0f0d0c]" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-linear-to-r from-[#0f0d0c00] via-[#0f0d0c88] to-[#0f0d0c]" />
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#0f0d0ce6] via-[#0f0d0c33] to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-transparent to-surface-deepest" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-linear-to-r from-surface-deepest/0 via-surface-deepest/50 to-surface-deepest" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-surface-deepest/90 via-surface-deepest/20 to-transparent" />
           <div className="relative flex h-full items-end p-16">
             <div className="max-w-md">
-              <h2 className="text-5xl font-semibold leading-tight text-[#eae1dd]">
+              <h2 className="text-5xl font-semibold leading-tight text-foreground">
                 The Pinnacle of Private Membership.
               </h2>
-              <p className="mt-5 text-2xl leading-snug text-[#e2bfb0cc]">
+              <p className="mt-5 text-2xl leading-snug text-muted-foreground/80">
                 Experience the intersection of high-technology and exclusive
                 luxury.
               </p>
@@ -207,12 +207,12 @@ export function SignInForm(): React.JSX.Element {
           </div>
         </section>
 
-        <section className="relative flex items-center justify-center bg-[#0f0d0c] p-8 md:p-24">
+        <section className="relative flex items-center justify-center bg-surface-deepest p-8 md:p-24">
           <div className="w-full max-w-md">
-            <h1 className="text-5xl font-semibold leading-tight text-[#eae1dd] md:text-[2rem]">
+            <h1 className="text-5xl font-semibold leading-tight text-foreground md:text-[2rem]">
               Welcome Back
             </h1>
-            <p className="mt-2 text-base text-[#e2bfb0]">
+            <p className="mt-2 text-base text-muted-foreground">
               Please enter your credentials to access the club.
             </p>
 
@@ -220,7 +220,7 @@ export function SignInForm(): React.JSX.Element {
               <div>
                 <Label
                   htmlFor="email"
-                  className="mb-2 block text-sm font-semibold text-[#e2bfb0]"
+                  className="mb-2 block text-sm font-semibold text-muted-foreground"
                 >
                   Email Address
                 </Label>
@@ -228,10 +228,10 @@ export function SignInForm(): React.JSX.Element {
                   id="email"
                   autoComplete="email"
                   placeholder="name@vanguard.club"
-                  className="h-12 rounded-xl border-[#2d2824] bg-[#1a1614] px-4 text-base text-[#eae1dd] placeholder:text-stone-600"
+                  className="h-12 rounded-xl border-border-subtle bg-surface-panel px-4 text-base text-foreground placeholder:text-muted-foreground/50"
                   {...form.register("email")}
                 />
-                <p className="mt-1 text-sm text-[#ffb4ab]">
+                <p className="mt-1 text-sm text-form-error-text">
                   {form.formState.errors.email?.message}
                 </p>
               </div>
@@ -240,13 +240,13 @@ export function SignInForm(): React.JSX.Element {
                 <div className="mb-2 flex items-center justify-between">
                   <Label
                     htmlFor="password"
-                    className="text-sm font-semibold text-[#e2bfb0]"
+                    className="text-sm font-semibold text-muted-foreground"
                   >
                     Password
                   </Label>
                   <Link
                     href="/forgot-password"
-                    className="text-xs text-[#ff6b00] hover:underline"
+                    className="text-xs text-primary hover:underline"
                   >
                     Forgot Password?
                   </Link>
@@ -256,30 +256,30 @@ export function SignInForm(): React.JSX.Element {
                   type="password"
                   autoComplete="current-password"
                   placeholder="••••••••"
-                  className="h-12 rounded-xl border-[#2d2824] bg-[#1a1614] px-4 text-base text-[#eae1dd] placeholder:text-stone-600"
+                  className="h-12 rounded-xl border-border-subtle bg-surface-panel px-4 text-base text-foreground placeholder:text-muted-foreground/50"
                   {...form.register("password")}
                 />
-                <p className="mt-1 text-sm text-[#ffb4ab]">
+                <p className="mt-1 text-sm text-form-error-text">
                   {form.formState.errors.password?.message}
                 </p>
               </div>
 
-              <label className="flex items-center gap-2 py-1 text-xs tracking-[0.02em] text-[#e2bfb0]">
+              <label className="flex items-center gap-2 py-1 text-xs tracking-[0.02em] text-muted-foreground">
                 <input
                   type="checkbox"
                   checked={keepSignedIn}
                   onChange={(event) => setKeepSignedIn(event.target.checked)}
-                  className="h-4 w-4 rounded border-[#2d2824] bg-[#1a1614] accent-[#ff6b00]"
+                  className="h-4 w-4 rounded border-border-subtle bg-surface-panel accent-primary"
                 />
                 Keep me logged in for 30 days
               </label>
 
               {formError ? (
-                <p className="text-base text-[#ffb4ab]">{formError}</p>
+                <p className="text-base text-form-error-text">{formError}</p>
               ) : null}
 
               <Button
-                className="h-14 w-full rounded-xl bg-[#ff6b00] text-2xl font-semibold text-[#561f00] shadow-lg shadow-[#ff6b00]/20 hover:brightness-110"
+                className="h-14 w-full rounded-xl bg-primary text-2xl font-semibold text-primary-foreground shadow-lg shadow-primary/20 hover:brightness-110"
                 type="submit"
                 disabled={form.formState.isSubmitting}
               >
@@ -287,10 +287,10 @@ export function SignInForm(): React.JSX.Element {
               </Button>
             </form>
 
-            <p className="mt-8 text-center text-base text-[#e2bfb0]">
+            <p className="mt-8 text-center text-base text-muted-foreground">
               Don&apos;t have an account?{" "}
               <Link
-                className="font-semibold text-[#ff6b00] hover:underline"
+                className="font-semibold text-primary hover:underline"
                 href="/sign-up"
               >
                 Apply for Membership
@@ -298,14 +298,14 @@ export function SignInForm(): React.JSX.Element {
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="flex items-center gap-3 rounded-2xl border border-[#2d2824] bg-[#1a1614] px-4 py-3 text-[#e2bfb0]">
-                <span className="material-symbols-outlined text-[#ff6b00]">
+              <div className="flex items-center gap-3 rounded-2xl border border-border-subtle bg-surface-panel px-4 py-3 text-muted-foreground">
+                <span className="material-symbols-outlined text-primary">
                   verified_user
                 </span>
                 <span className="text-xs">Encrypted Access</span>
               </div>
-              <div className="flex items-center gap-3 rounded-2xl border border-[#2d2824] bg-[#1a1614] px-4 py-3 text-[#e2bfb0]">
-                <span className="material-symbols-outlined text-[#ff6b00]">
+              <div className="flex items-center gap-3 rounded-2xl border border-border-subtle bg-surface-panel px-4 py-3 text-muted-foreground">
+                <span className="material-symbols-outlined text-primary">
                   support_agent
                 </span>
                 <span className="text-xs">VIP Support</span>
@@ -315,14 +315,14 @@ export function SignInForm(): React.JSX.Element {
         </section>
       </main>
 
-      <footer className="bg-[#0f0d0c] py-7">
-        <div className="flex w-full flex-col items-start gap-4 px-6 text-[10px] uppercase tracking-[0.2em] text-stone-600 md:flex-row md:items-center md:justify-between md:px-12">
+      <footer className="bg-surface-deepest py-7">
+        <div className="flex w-full flex-col items-start gap-4 px-6 text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 md:flex-row md:items-center md:justify-between md:px-12">
           <span>© 2024 VANGUARD CLUB. PRESTIGE DEFINED.</span>
           <div className="flex flex-wrap gap-8">
             <span>Privacy Policy</span>
             <span>Terms of Service</span>
             <span>VIP Access</span>
-            <span className="text-[#ff6b00]">Concierge</span>
+            <span className="text-primary">Concierge</span>
           </div>
         </div>
       </footer>

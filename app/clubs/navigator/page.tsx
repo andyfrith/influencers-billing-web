@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function ClubNavigatorAmberNocturnePage(): React.JSX.Element {
   return (
-    <div className="flex min-h-dvh flex-col bg-[#161311]">
-      <section className="min-h-[70vh] border-b border-[#2D2824]">
+    <div className="flex min-h-dvh flex-col bg-background">
+      <section className="min-h-[70vh] border-b border-border-subtle">
         <ClubNavigatorAmberNocturneFrame className="h-[70vh] min-h-[560px]" />
       </section>
       <ClubNavigator />

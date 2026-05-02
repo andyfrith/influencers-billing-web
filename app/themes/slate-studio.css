@@ -1,0 +1,65 @@
+/* Slate Studio — second bundle to validate multi-DESIGN switching (cool neutral + teal accent) */
+
+html[data-color-theme="slate-studio"] {
+  --background: #0c1017;
+  --foreground: #e8edf4;
+  --card: #141b26;
+  --card-foreground: #e8edf4;
+  --popover: #1a2330;
+  --popover-foreground: #e8edf4;
+  --primary: #2dd4bf;
+  --primary-foreground: #042f2e;
+  --secondary: #334155;
+  --secondary-foreground: #f1f5f9;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #38bdf8;
+  --accent-foreground: #082f49;
+  --destructive: #be123c;
+  --destructive-foreground: #ffe4e6;
+  --border: #2d3b4f;
+  --input: #1a2330;
+  --ring: #2dd4bf;
+  --primary-hover: #5eead4;
+
+  --surface-container-lowest: #080b10;
+  --surface-deepest: #0a0e14;
+  --surface-void: #06090d;
+  --surface-panel: #121a24;
+  --surface-container-low: #161f2c;
+  --border-subtle: #243244;
+  --form-error-text: #fda4af;
+  --form-success-note: #94a3b8;
+}
+
+html[data-color-theme="slate-studio"].light {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #0d9488;
+  --primary-foreground: #ecfdf5;
+  --secondary: #64748b;
+  --secondary-foreground: #f8fafc;
+  --muted: #e2e8f0;
+  --muted-foreground: #475569;
+  --accent: #bae6fd;
+  --accent-foreground: #0c4a6e;
+  --destructive: #be123c;
+  --destructive-foreground: #fff1f2;
+  --border: #cbd5e1;
+  --input: #f1f5f9;
+  --ring: #0d9488;
+  --primary-hover: #14b8a6;
+
+  --surface-container-lowest: #f1f5f9;
+  --surface-deepest: #e2e8f0;
+  --surface-void: #f8fafc;
+  --surface-panel: #ffffff;
+  --surface-container-low: #f1f5f9;
+  --border-subtle: #cbd5e1;
+  --form-error-text: #b91c1c;
+  --form-success-note: #64748b;
+}

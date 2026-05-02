@@ -15,7 +15,7 @@ export function ClubNavigatorAmberNocturneFrame({
     <iframe
       title="Club Navigator - Amber Nocturne"
       src="/designs/club-navigator-amber-nocturne.html"
-      className={cn("h-full min-h-0 w-full border-0 bg-[#161311]", className)}
+      className={cn("h-full min-h-0 w-full border-0 bg-background", className)}
     />
   );
 }

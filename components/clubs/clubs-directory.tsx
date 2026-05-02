@@ -3,7 +3,13 @@
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 type ClubPlan = {
   id: string;
@@ -50,7 +56,9 @@ export function ClubsDirectory(): React.JSX.Element {
       </div>
       {clubsQuery.isLoading ? <p>Loading clubs...</p> : null}
       {clubsQuery.error ? (
-        <p className="text-sm text-destructive">{(clubsQuery.error as Error).message}</p>
+        <p className="text-sm text-destructive">
+          {(clubsQuery.error as Error).message}
+        </p>
       ) : null}
 
       {(clubsQuery.data ?? []).map((club) => (
@@ -71,7 +79,10 @@ export function ClubsDirectory(): React.JSX.Element {
                     .join(", ")
                 : "No active plans"}
             </p>
-            <Link className="text-sm font-medium underline" href={`/clubs/${club.slug}`}>
+            <Link
+              className="text-sm font-medium underline"
+              href={`/clubs/${club.slug}`}
+            >
               View club
             </Link>
           </CardContent>

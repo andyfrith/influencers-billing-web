@@ -1,6 +1,6 @@
-/* Matches Stitch “Club Detail - The Kinetic Lab” (.glass-panel) */
+/* Glass panel — uses theme tokens (DESIGN.md elevation) */
 .glassPanel {
-  background: rgba(26, 22, 20, 0.6);
+  background: color-mix(in srgb, var(--surface-panel) 60%, transparent);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(45, 40, 36, 0.5);
+  border: 1px solid color-mix(in srgb, var(--border-subtle) 50%, transparent);
 }

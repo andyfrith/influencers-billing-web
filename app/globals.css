@@ -1,27 +1,9 @@
 @import "tailwindcss";
+@import "./themes/amber-nocturne.css";
+@import "./themes/slate-studio.css";
 
+/* Structural tokens shared by every color theme */
 :root {
-  /* Shadcn semantic tokens mapped from DESIGN.md (Amber Nocturne) */
-  --background: #161311;
-  --foreground: #eae1dd;
-  --card: #231f1d;
-  --card-foreground: #eae1dd;
-  --popover: #2e2927;
-  --popover-foreground: #eae1dd;
-  --primary: #ff6b00;
-  --primary-foreground: #572000;
-  --secondary: #d37b20;
-  --secondary-foreground: #432100;
-  --muted: #393431;
-  --muted-foreground: #e2bfb0;
-  --accent: #ffb693;
-  --accent-foreground: #561f00;
-  --destructive: #93000a;
-  --destructive-foreground: #ffdad6;
-  --border: #5a4136;
-  --input: #2e2927;
-  --ring: #ffb693;
-
   /* Radius scale */
   --radius: 0.75rem;
   --radius-sm: 0.25rem;
@@ -30,7 +12,7 @@
   --radius-xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Typography scale (Stitch spec) */
+  /* Typography scale */
   --font-sans: var(--font-club-kinetic);
   --font-mono: var(--font-geist-mono);
   --text-headline-xl: 2.5rem;
@@ -69,6 +51,15 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-primary-hover: var(--primary-hover);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-deepest: var(--surface-deepest);
+  --color-surface-void: var(--surface-void);
+  --color-surface-panel: var(--surface-panel);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-border-subtle: var(--border-subtle);
+  --color-form-error-text: var(--form-error-text);
+  --color-form-success-note: var(--form-success-note);
 
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);

@@ -1,0 +1,65 @@
+/* Amber Nocturne — maps to DESIGN.md (warm dark + light companion) */
+
+html[data-color-theme="amber-nocturne"] {
+  --background: #161311;
+  --foreground: #eae1dd;
+  --card: #231f1d;
+  --card-foreground: #eae1dd;
+  --popover: #2e2927;
+  --popover-foreground: #eae1dd;
+  --primary: #ff6b00;
+  --primary-foreground: #572000;
+  --secondary: #d37b20;
+  --secondary-foreground: #432100;
+  --muted: #393431;
+  --muted-foreground: #e2bfb0;
+  --accent: #ffb693;
+  --accent-foreground: #561f00;
+  --destructive: #93000a;
+  --destructive-foreground: #ffdad6;
+  --border: #5a4136;
+  --input: #2e2927;
+  --ring: #ffb693;
+  --primary-hover: #ff8533;
+
+  --surface-container-lowest: #110d0c;
+  --surface-deepest: #0f0d0c;
+  --surface-void: #0b0807;
+  --surface-panel: #1a1614;
+  --surface-container-low: #1f1b19;
+  --border-subtle: #2d2824;
+  --form-error-text: #ffb4ab;
+  --form-success-note: #cec5bf;
+}
+
+html[data-color-theme="amber-nocturne"].light {
+  --background: #faf6f3;
+  --foreground: #1a1512;
+  --card: #ffffff;
+  --card-foreground: #1a1512;
+  --popover: #ffffff;
+  --popover-foreground: #1a1512;
+  --primary: #e65300;
+  --primary-foreground: #fffaf8;
+  --secondary: #b85a0f;
+  --secondary-foreground: #fff8f3;
+  --muted: #efe6df;
+  --muted-foreground: #5a5048;
+  --accent: #ffd4bf;
+  --accent-foreground: #5a2100;
+  --destructive: #c41c1c;
+  --destructive-foreground: #fff5f5;
+  --border: #e0d5cc;
+  --input: #f3ebe4;
+  --ring: #ff8c42;
+  --primary-hover: #ff7a1a;
+
+  --surface-container-lowest: #f2ebe5;
+  --surface-deepest: #ebe3dc;
+  --surface-void: #f5f0ec;
+  --surface-panel: #fffefb;
+  --surface-container-low: #f8f2ed;
+  --border-subtle: #ddd3cb;
+  --form-error-text: #b42318;
+  --form-success-note: #5a534d;
+}

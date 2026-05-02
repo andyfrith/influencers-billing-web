@@ -1,22 +1,11 @@
-import { redirect } from "next/navigation";
-
 import { AdminNav } from "@/components/admin-nav";
 import { AdminClubPlansManager } from "@/components/admin/admin-club-plans-manager";
-import { getAppSession } from "@/lib/session";
 
 export default async function AdminClubPlansPage({
   params,
 }: {
   params: Promise<{ clubId: string }>;
 }): Promise<React.JSX.Element> {
-  const session = await getAppSession();
-  if (!session?.user?.id) {
-    redirect("/sign-in");
-  }
-  if (session.user.role !== "admin") {
-    redirect("/");
-  }
-
   const { clubId } = await params;
 
   return (

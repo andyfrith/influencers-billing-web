@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
 
+import { ThemePicker } from "@/components/theme-picker";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 
 type NavItem = {
@@ -42,15 +44,15 @@ export function PublicSiteHeader(): React.JSX.Element {
   const pathname = usePathname();
 
   return (
-    <header className="shrink-0 bg-[#0f0d0c]">
-      <div className="flex h-20 w-full items-center justify-between px-6 md:px-12">
+    <header className="shrink-0 bg-surface-deepest">
+      <div className="flex h-20 w-full items-center justify-between gap-3 px-4 sm:px-5 md:px-6">
         <Link
           href="/"
-          className="text-xl font-bold uppercase tracking-[0.14em] text-[#ff6b00]"
+          className="text-xl font-bold uppercase tracking-[0.14em] text-primary"
         >
           Vanguard Club
         </Link>
-        <nav className="hidden items-center gap-8 text-sm text-stone-400 md:flex">
+        <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
           {NAV_ITEMS.map((item) => {
             const active = isNavActive(pathname, item);
             return (
@@ -59,8 +61,8 @@ export function PublicSiteHeader(): React.JSX.Element {
                 href={item.href}
                 className={
                   active
-                    ? "border-b-2 border-[#ff6b00] pb-1 font-semibold text-[#ff6b00]"
-                    : "transition-colors hover:text-white"
+                    ? "border-b-2 border-primary pb-1 font-semibold text-primary"
+                    : "transition-colors hover:text-foreground"
                 }
               >
                 {item.label}
@@ -68,16 +70,18 @@ export function PublicSiteHeader(): React.JSX.Element {
             );
           })}
         </nav>
-        <div className="flex shrink-0 items-center justify-end gap-3 md:w-[140px] md:gap-0">
+        <div className="flex shrink-0 items-center justify-end gap-2">
+          <ThemePicker className="inline-flex max-sm:max-w-[8.5rem]" />
+          <ThemeToggle size="sm" className="shrink-0 border-border bg-card/80" />
           <Link
             href="/sign-in"
-            className="text-xs font-semibold text-[#ff6b00] hover:underline md:hidden"
+            className="text-xs font-semibold text-primary hover:underline md:hidden"
           >
             Sign in
           </Link>
           <Button
             asChild
-            className="h-9 rounded-full bg-[#ff6b00] px-4 text-xs font-semibold text-[#561f00] hover:bg-[#ff8533]"
+            className="h-9 rounded-full bg-primary px-4 text-xs font-semibold text-primary-foreground hover:bg-primary-hover"
           >
             <Link href="/sign-up">Join</Link>
           </Button>
