@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 
 import "./globals.css";
@@ -30,6 +30,13 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-club-kinetic",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -64,6 +71,7 @@ export default async function RootLayout({
         geistSans.variable,
         geistMono.variable,
         plusJakarta.variable,
+        inter.variable,
         "h-full antialiased",
         initialThemeIsLight && "light",
       )}

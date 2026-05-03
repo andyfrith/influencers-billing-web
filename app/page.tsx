@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import Landing from "@/components/clubs/vanguard/landing";
+import Landing from "@/components/home/welcome";
 
 type Feature = {
   icon: string;

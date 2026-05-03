@@ -2,7 +2,12 @@
  * Named color themes (each maps to a token bundle under `app/themes/*.css`).
  * Add a new id here, ship a matching CSS file, and optionally pair with a `DESIGN*.md` spec.
  */
-export const COLOR_THEME_IDS = ["amber-nocturne", "slate-studio"] as const;
+export const COLOR_THEME_IDS = [
+  "amber-nocturne",
+  "slate-studio",
+  "nocturne-lavender",
+  "obsidian-precision",
+] as const;
 
 export type ColorThemeId = (typeof COLOR_THEME_IDS)[number];
 
@@ -19,6 +24,8 @@ export type ColorThemeMeta = {
 export const COLOR_THEME_OPTIONS: readonly ColorThemeMeta[] = [
   { id: "amber-nocturne", label: "Amber Nocturne", designDoc: "DESIGN.md" },
   { id: "slate-studio", label: "Slate Studio", designDoc: "(add DESIGN.slate-studio.md)" },
+  { id: "nocturne-lavender", label: "Nocturne Lavender", designDoc: "(add DESIGN.nocturne-lavender.md)" },
+  { id: "obsidian-precision", label: "Obsidian Precision", designDoc: "(add DESIGN.obsidian-precision.md)" },
 ] as const;
 
 /**
