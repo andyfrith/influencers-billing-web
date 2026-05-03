@@ -20,7 +20,7 @@ export function ThemePicker({ className }: ThemePickerProps): React.JSX.Element 
       <select
         value={colorTheme}
         onChange={(event) => setColorTheme(event.target.value as ColorThemeId)}
-        className="h-9 max-w-42 cursor-pointer rounded-md border border-border bg-card px-2 text-xs text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="h-9 max-w-[min(100%,14rem)] cursor-pointer rounded-md border border-border bg-card px-2 text-xs text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="Color theme"
       >
         {COLOR_THEME_OPTIONS.map((option) => (

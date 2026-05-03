@@ -150,7 +150,7 @@ export const clubLandingContent: ClubLandingContent[] = [
             "Precision longevity and holistic recovery in the heart of the city.",
           image: {
             src: "https://lh3.googleusercontent.com/aida-public/AB6AXuANMYhsy-5mLnKzINwVz1SViyNUiTkNc_Fv8JYQLK5UTvxCPuVdSEQqHtTun2OyRvDoM1ofTGiQNctHB_KbNsqRum8DnepUBbOxiBRS5vuTVUz8J0aFaSTiRyL3sb0EhNyyvikj6q8Zu3Z4qJvcr_kivKYDQc3rL3OH8rmrrBLTM0aGLx73HJ0SUi0--hL5M3FWl2Z0xeV9md1u-ERBFm2XjMiWWOxmX2n8HLxD54wMlO0yLng1S1rYiIk3BhnVvrdMCL65GYDvYQl6",
-            alt: "Zenit Health Hub",
+            alt: "Zenith Health Hub",
           },
           href: "/clubs/the-academy",
         },

@@ -3,6 +3,7 @@
 @import "./themes/slate-studio.css";
 @import "./themes/nocturne-lavender.css";
 @import "./themes/obsidian-precision.css";
+@import "./themes/clubs-bundle.css";
 
 /* Structural tokens shared by every color theme */
 :root {
