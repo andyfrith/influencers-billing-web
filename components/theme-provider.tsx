@@ -45,6 +45,13 @@ export function ThemeProvider({
   );
   const [colorTheme, setColorThemeState] = React.useState<ColorThemeId>(() => initialColorThemeId);
 
+  React.useEffect(() => {
+    setColorThemeState(initialColorThemeId);
+    if (typeof document !== "undefined") {
+      document.documentElement.setAttribute("data-color-theme", initialColorThemeId);
+    }
+  }, [initialColorThemeId]);
+
   React.useLayoutEffect(() => {
     const domLight = document.documentElement.classList.contains("light");
     setThemeState(domLight ? "light" : "dark");

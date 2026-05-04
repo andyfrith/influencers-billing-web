@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { Geist, Geist_Mono, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 
@@ -8,7 +8,13 @@ import { AuthenticatedShell } from "@/components/authenticated-shell";
 import { PublicSiteHeader } from "@/components/layout/public-site-header";
 import { Providers } from "@/components/providers";
 import { getAppSession } from "@/lib/session";
-import { COLOR_THEME_IDS, DEFAULT_COLOR_THEME_ID } from "@/lib/color-themes";
+import {
+  COLOR_THEME_IDS,
+  DEFAULT_COLOR_THEME_ID,
+  isColorThemeId,
+  type ColorThemeId,
+} from "@/lib/color-themes";
+import { DISCOVER_ROUTE_COLOR_THEME_HEADER } from "@/lib/discover-club-theme";
 import {
   COLOR_THEME_STORAGE_KEY,
   parseColorThemeCookie,
@@ -53,14 +59,28 @@ export default async function RootLayout({
   const session = await getAppSession();
   const isAuthenticated = Boolean(session?.user?.id);
   const cookieStore = await cookies();
+  const headerList = await headers();
   const themeCookie = cookieStore.get(THEME_STORAGE_KEY)?.value;
   const initialThemeIsLight = themeCookie === "light";
-  const initialColorThemeId = parseColorThemeCookie(cookieStore.get(COLOR_THEME_STORAGE_KEY)?.value);
+
+  const routeThemeHeader = headerList.get(DISCOVER_ROUTE_COLOR_THEME_HEADER);
+  const routeColorThemeOverride: ColorThemeId | null =
+    routeThemeHeader != null && isColorThemeId(routeThemeHeader)
+      ? routeThemeHeader
+      : null;
+
+  const initialColorThemeId: ColorThemeId =
+    routeColorThemeOverride ??
+    parseColorThemeCookie(cookieStore.get(COLOR_THEME_STORAGE_KEY)?.value);
 
   const colorThemeAllowlist = JSON.stringify(
     Object.fromEntries(COLOR_THEME_IDS.map((id) => [id, true])),
   );
-  const themeInitScript = `(function(){var el=document.documentElement;var SK=${JSON.stringify(THEME_STORAGE_KEY)};var CK=${JSON.stringify(COLOR_THEME_STORAGE_KEY)};var OK=${colorThemeAllowlist};var DEF=${JSON.stringify(DEFAULT_COLOR_THEME_ID)};function readCookie(k){try{var m=document.cookie.match(new RegExp("(?:^|; )"+k+"=([^;]*)(?:;|$)"));return m?m[1]:null}catch(e){return null}}function readLs(k){try{return localStorage.getItem(k)}catch(e){return null}}var lum=readCookie(SK)||readLs(SK);if(lum==="light")el.classList.add("light");else if(lum==="dark")el.classList.remove("light");var ct=readCookie(CK)||readLs(CK);if(OK[ct])el.setAttribute("data-color-theme",ct);else el.setAttribute("data-color-theme",DEF);})();`;
+  const rtJsLiteral =
+    routeColorThemeOverride !== null
+      ? JSON.stringify(routeColorThemeOverride)
+      : "null";
+  const themeInitScript = `(function(){var el=document.documentElement;var SK=${JSON.stringify(THEME_STORAGE_KEY)};var CK=${JSON.stringify(COLOR_THEME_STORAGE_KEY)};var OK=${colorThemeAllowlist};var DEF=${JSON.stringify(DEFAULT_COLOR_THEME_ID)};var RT=${rtJsLiteral};function readCookie(k){try{var m=document.cookie.match(new RegExp("(?:^|; )"+k+"=([^;]*)(?:;|$)"));return m?m[1]:null}catch(e){return null}}function readLs(k){try{return localStorage.getItem(k)}catch(e){return null}}var lum=readCookie(SK)||readLs(SK);if(lum==="light")el.classList.add("light");else if(lum==="dark")el.classList.remove("light");if(RT&&OK[RT])el.setAttribute("data-color-theme",RT);else{var ct=readCookie(CK)||readLs(CK);if(OK[ct])el.setAttribute("data-color-theme",ct);else el.setAttribute("data-color-theme",DEF)}})();`;
 
   return (
     <html

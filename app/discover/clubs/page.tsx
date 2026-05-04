@@ -1,11 +1,11 @@
-import { clubLandingContent } from "@/data/clubs";
+import { resolveClubLandingContent } from "@/data/clubs";
 import Landing from "@/components/clubs/template/landing";
 
-export default async function Page() {
+export default async function DiscoverClubsPage(): Promise<React.JSX.Element> {
   return (
     <Landing
       isAuthenticated={false}
-      clubLandingContent={clubLandingContent[0]}
+      clubLandingContent={resolveClubLandingContent(undefined)}
     />
   );
 }

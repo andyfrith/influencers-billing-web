@@ -20,7 +20,7 @@ export default function Landing({
 }) {
   return (
     <main className="min-h-screen bg-background text-foreground">
-      {isAuthenticated ? (
+      {/* {isAuthenticated ? (
         <header className="sticky top-0 z-50 border-b border-border-subtle bg-surface-deepest/90 backdrop-blur">
           <div className="flex h-16 w-full items-center justify-between px-4 sm:px-5 md:px-6">
             <Link
@@ -65,7 +65,9 @@ export default function Landing({
             </div>
           </div>
         </header>
-      ) : null}
+      ) : (
+        <div>Not logged in</div>
+      )} */}
 
       <Hero hero={clubLandingContent.hero} />
       <Benefits benefits={clubLandingContent.benefits} />

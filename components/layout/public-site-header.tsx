@@ -45,13 +45,13 @@ export function PublicSiteHeader(): React.JSX.Element {
 
   return (
     <header className="shrink-0 bg-surface-deepest">
-      <div className="flex h-20 w-full items-center justify-between gap-3 px-4 sm:px-5 md:px-6">
-        <Link
+      <div className="flex h-20 w-full items-center justify-center gap-3 px-4 sm:px-5 md:px-6">
+        {/* <Link
           href="/"
           className="text-xl font-bold uppercase tracking-[0.14em] text-primary"
         >
           Vanguard Club
-        </Link>
+        </Link> */}
         <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
           {NAV_ITEMS.map((item) => {
             const active = isNavActive(pathname, item);
@@ -72,7 +72,10 @@ export function PublicSiteHeader(): React.JSX.Element {
         </nav>
         <div className="flex shrink-0 items-center justify-end gap-2">
           <ThemePicker className="inline-flex max-sm:max-w-[8.5rem]" />
-          <ThemeToggle size="sm" className="shrink-0 border-border bg-card/80" />
+          <ThemeToggle
+            size="sm"
+            className="shrink-0 border-border bg-card/80"
+          />
           <Link
             href="/sign-in"
             className="text-xs font-semibold text-primary hover:underline md:hidden"

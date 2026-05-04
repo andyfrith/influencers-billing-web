@@ -11,7 +11,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "design:enrich": "node scripts/enrich-design-docs.mjs",
-    "design:generate-themes": "node scripts/generate-themes-from-designs.mjs"
+    "design:generate-themes": "node scripts/generate-themes-from-designs.mjs",
+    "club-landings:generate": "node scripts/generate-club-landings-from-designs.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
