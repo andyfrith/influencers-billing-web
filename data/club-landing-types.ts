@@ -1,5 +1,27 @@
 import type { ColorThemeId } from "@/lib/color-themes";
 
+export type JoinContent = {
+  headline: string;
+  preHeadline: string;
+  subheadline: string;
+  form: {
+    headline: string;
+    subheadline: string;
+    submitButtonLabel: string;
+  };
+};
+
+export type LoginContent = {
+  headline: string;
+  preHeadline: string;
+  subheadline: string;
+  form: {
+    headline: string;
+    subheadline: string;
+    submitButtonLabel: string;
+  };
+};
+
 export type HeroContent = {
   headline: string;
   subheadline: string;
@@ -64,13 +86,42 @@ export type ExploreItemContent = {
   href: string;
 };
 
+export type LandingSectionVisibility = {
+  hero: boolean;
+  benefits: boolean;
+  explore: boolean;
+  attention: boolean;
+};
+
+export type LandingSectionKey = keyof LandingSectionVisibility;
+
+export const DEFAULT_LANDING_SECTION_VISIBILITY: LandingSectionVisibility = {
+  hero: true,
+  benefits: true,
+  explore: true,
+  attention: true,
+};
+
+export const DEFAULT_LANDING_SECTION_ORDER: LandingSectionKey[] = [
+  "hero",
+  "benefits",
+  "explore",
+  "attention",
+];
+
 export type ClubLandingContent = {
   id: number;
   name: string;
-  /** Named color theme (`html[data-color-theme]`) for this club’s discover landing. */
   colorThemeId: ColorThemeId;
+  sections?: LandingSectionVisibility;
+  sectionOrder?: LandingSectionKey[];
+  join?: JoinContent;
+  login?: LoginContent;
   hero: HeroContent;
   benefits: BenefitsContent;
   explore: ExploreContent;
   attention: AttentionContent;
 };
+
+/** Payload persisted in the database `clubs.landing_content` column (numeric `id` is client-only). */
+export type ClubLandingStoragePayload = Omit<ClubLandingContent, "id">;

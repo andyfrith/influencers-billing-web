@@ -75,10 +75,11 @@ export default async function Home() {
   const isAuthenticated = Boolean(session?.user);
 
   return (
-    <Landing
-      isAuthenticated={isAuthenticated}
-      features={features}
-      clubs={clubs}
-    />
+    // <Landing
+    //   isAuthenticated={isAuthenticated}
+    //   features={features}
+    //   clubs={clubs}
+    // />
+    <div>Home</div>
   );
 }

@@ -6,6 +6,10 @@ import Benefits from "@/components/clubs/template/benefits";
 import Explore from "@/components/clubs/template/explore";
 import Attention from "@/components/clubs/template/attention";
 import Footer from "@/components/clubs/template/footer";
+import {
+  DEFAULT_LANDING_SECTION_ORDER,
+  DEFAULT_LANDING_SECTION_VISIBILITY,
+} from "@/data/club-landing-types";
 
 export default function Landing({
   isAuthenticated,
@@ -18,6 +22,18 @@ export default function Landing({
   clubLandingContent: ClubLandingContent;
   // clubs: Club[];
 }) {
+  const sectionVisibility = {
+    ...DEFAULT_LANDING_SECTION_VISIBILITY,
+    ...(clubLandingContent.sections ?? {}),
+  };
+  const sectionOrder = clubLandingContent.sectionOrder ?? DEFAULT_LANDING_SECTION_ORDER;
+  const sectionMap = {
+    hero: <Hero hero={clubLandingContent.hero} />,
+    benefits: <Benefits benefits={clubLandingContent.benefits} />,
+    explore: <Explore explore={clubLandingContent.explore} />,
+    attention: <Attention attention={clubLandingContent.attention} />,
+  } as const;
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* {isAuthenticated ? (
@@ -69,11 +85,8 @@ export default function Landing({
         <div>Not logged in</div>
       )} */}
 
-      <Hero hero={clubLandingContent.hero} />
-      <Benefits benefits={clubLandingContent.benefits} />
-      <Explore explore={clubLandingContent.explore} />
-      <Attention attention={clubLandingContent.attention} />
-      <Footer name={clubLandingContent.name} />
+      {sectionOrder.map((key) => (sectionVisibility[key] ? <div key={key}>{sectionMap[key]}</div> : null))}
+      <Footer clubName={clubLandingContent.name} />
     </main>
   );
 }

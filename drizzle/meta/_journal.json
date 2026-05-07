@@ -15,6 +15,34 @@
       "when": 1777316188009,
       "tag": "0001_greedy_shen",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778114489062,
+      "tag": "0002_club_landing_content",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1778116475050,
+      "tag": "0003_club_landing_variations_and_revisions",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1778171013898,
+      "tag": "0004_club_context_and_new_status",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1778171143028,
+      "tag": "0005_club_status_default_new",
+      "breakpoints": true
     }
   ]
 }

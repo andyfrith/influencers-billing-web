@@ -1,8 +1,9 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 import { db } from "@/db/client";
 import { clubs } from "@/db/schema";
+import { getAdminClubLifecyclePhase } from "@/lib/admin-club-directory";
 import { requireAdminSession } from "@/lib/authorization";
 import { createClubSchema, updateClubStatusSchema } from "@/lib/validators/memberships";
 
@@ -13,8 +14,36 @@ export async function GET(): Promise<Response> {
   }
 
   try {
-    const rows = await db.select().from(clubs);
-    return NextResponse.json({ clubs: rows });
+    const rows = await db
+      .select({
+        id: clubs.id,
+        name: clubs.name,
+        slug: clubs.slug,
+        description: clubs.description,
+        contextMarkdown: clubs.contextMarkdown,
+        status: clubs.status,
+        publishedLandingRevisionId: clubs.publishedLandingRevisionId,
+        heroPreviewSrc: sql<string | null>`${clubs.landingContent}->'hero'->'backgroundImage'->>'src'`,
+        hasLegacyLanding: sql<boolean>`${clubs.landingContent} is not null`,
+      })
+      .from(clubs);
+
+    const clubsPayload = rows.map((row) => ({
+      id: row.id,
+      name: row.name,
+      slug: row.slug,
+      description: row.description,
+      contextMarkdown: row.contextMarkdown,
+      status: row.status,
+      publishedLandingRevisionId: row.publishedLandingRevisionId,
+      heroPreviewSrc: row.heroPreviewSrc,
+      lifecyclePhase: getAdminClubLifecyclePhase({
+        publishedLandingRevisionId: row.publishedLandingRevisionId,
+        hasLegacyLanding: row.hasLegacyLanding,
+      }),
+    }));
+
+    return NextResponse.json({ clubs: clubsPayload });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Failed to load clubs." }, { status: 500 });
@@ -38,7 +67,10 @@ export async function POST(request: Request): Promise<Response> {
       return NextResponse.json({ error: "Slug already exists." }, { status: 409 });
     }
 
-    const [club] = await db.insert(clubs).values(parsed.data).returning();
+    const [club] = await db
+      .insert(clubs)
+      .values({ ...parsed.data, status: "new" })
+      .returning();
     return NextResponse.json({ club });
   } catch (error) {
     console.error(error);

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Hero({ hero }: { hero: HeroContent }) {
   return (
-    <section className="relative overflow-hidden border-b border-border-subtle">
+    <section className="relative overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center opacity-60"
         style={{

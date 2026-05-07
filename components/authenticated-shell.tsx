@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { SideNavBar } from "@/components/side-nav-bar";
+import { SideNav } from "@/components/admin/side-nav";
 
 const NAV_COLLAPSED_STORAGE_KEY = "influencers-billing-nav-collapsed";
 
@@ -49,7 +49,11 @@ export function AuthenticatedShell({
         collapsed ? "lg:pl-20" : "lg:pl-64"
       }`}
     >
-      <SideNavBar isAdmin={isAdmin} collapsed={collapsed} onToggleCollapsed={toggleCollapsed} />
+      <SideNav
+        variant={isAdmin ? "admin" : "member"}
+        collapsed={collapsed}
+        onToggleCollapsed={toggleCollapsed}
+      />
       <div className="flex min-h-0 flex-1 flex-col">{children}</div>
     </div>
   );

@@ -29,26 +29,43 @@ export default function Explore({ explore }: { explore: ExploreContent }) {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3 md:grid-rows-2">
-          {explore.items.map((item) => (
+          <article className="relative min-h-[320px] overflow-hidden rounded-2xl border border-border md:col-span-2 md:row-span-2">
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url('${explore.items[0].image.src}')`,
+              }}
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-background via-background/30 to-transparent" />
+            <div className="absolute bottom-0 p-5">
+              <p className="text-xs text-muted-foreground">
+                {explore.items[0].preHeadline}
+              </p>
+              <h3 className="mt-1 text-3xl font-semibold text-foreground">
+                {explore.items[0].headline}
+              </h3>
+              <p className="mt-2 max-w-md text-sm text-muted-foreground">
+                {explore.items[0].subheadline}
+              </p>
+            </div>
+          </article>
+          {explore.items.slice(1).map((item) => (
             <article
               key={item.headline}
-              className="relative min-h-[320px] overflow-hidden rounded-2xl border border-border md:col-span-2 md:row-span-2"
+              className="relative min-h-[150px] overflow-hidden rounded-2xl border border-border"
             >
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url('${item.image.src}')` }}
               />
               <div className="absolute inset-0 bg-linear-to-t from-background via-background/30 to-transparent" />
-              <div className="absolute bottom-0 p-5">
+              <div className="absolute bottom-0 p-4">
                 <p className="text-xs text-muted-foreground">
                   {item.preHeadline}
                 </p>
-                <h3 className="mt-1 text-3xl font-semibold text-foreground">
+                <h3 className="mt-1 text-xl font-semibold text-foreground">
                   {item.headline}
                 </h3>
-                <p className="mt-2 max-w-md text-sm text-muted-foreground">
-                  {item.subheadline}
-                </p>
               </div>
             </article>
           ))}

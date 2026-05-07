@@ -6,7 +6,8 @@ import * as React from "react";
 
 import { ThemePicker } from "@/components/theme-picker";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
+import { SignInButton } from "../auth/sign-in-button";
+import { JoinButton } from "../auth/join-button";
 
 type NavItem = {
   href: string;
@@ -16,16 +17,13 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "Home", match: "exact" },
-  { href: "/clubs", label: "Clubs", match: "prefix" },
-  { href: "/#about", label: "About", match: "none" },
-  { href: "/forgot-password", label: "Support", match: "prefix" },
-  { href: "/sign-in", label: "Membership", match: "prefix" },
+  // { href: "/discover/clubs/the-explorer", label: "Home", match: "exact" },
+  // { href: "/discover/clubs", label: "Clubs", match: "prefix" },
+  // { href: "/#about", label: "About", match: "none" },
+  // { href: "/forgot-password", label: "Support", match: "prefix" },
+  // { href: "/sign-in", label: "Membership", match: "prefix" },
 ];
 
-/**
- * Returns whether the current path should highlight the given nav item.
- */
 function isNavActive(pathname: string, item: NavItem): boolean {
   if (item.match === "none") {
     return false;
@@ -36,22 +34,18 @@ function isNavActive(pathname: string, item: NavItem): boolean {
   return pathname === item.href || pathname.startsWith(`${item.href}/`);
 }
 
-/**
- * Top navigation for visitors who are not signed in. Rendered from the root
- * layout whenever there is no authenticated session.
- */
 export function PublicSiteHeader(): React.JSX.Element {
   const pathname = usePathname();
-
+  const slug = pathname.split("/").pop();
   return (
     <header className="shrink-0 bg-surface-deepest">
-      <div className="flex h-20 w-full items-center justify-center gap-3 px-4 sm:px-5 md:px-6">
-        {/* <Link
+      <div className="flex h-20 w-full items-center justify-around gap-3 px-4 sm:px-5 md:px-6">
+        <Link
           href="/"
           className="text-xl font-bold uppercase tracking-[0.14em] text-primary"
         >
-          Vanguard Club
-        </Link> */}
+          {slug ? slug : "Discoveries"}
+        </Link>
         <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
           {NAV_ITEMS.map((item) => {
             const active = isNavActive(pathname, item);
@@ -71,23 +65,25 @@ export function PublicSiteHeader(): React.JSX.Element {
           })}
         </nav>
         <div className="flex shrink-0 items-center justify-end gap-2">
-          <ThemePicker className="inline-flex max-sm:max-w-[8.5rem]" />
+          <ThemePicker className="inline-flex max-sm:max-w-34" />
+          {slug && (
+            <>
+              <JoinButton
+                size="sm"
+                className="h-9 rounded-full bg-primary px-4 text-xs font-semibold text-primary-foreground hover:bg-primary-hover"
+                slug={slug}
+              />
+              <SignInButton
+                size="sm"
+                className="h-9 rounded-full bg-primary px-4 text-xs font-semibold text-primary-foreground hover:bg-primary-hover"
+                slug={slug}
+              />
+            </>
+          )}
           <ThemeToggle
             size="sm"
             className="shrink-0 border-border bg-card/80"
           />
-          <Link
-            href="/sign-in"
-            className="text-xs font-semibold text-primary hover:underline md:hidden"
-          >
-            Sign in
-          </Link>
-          <Button
-            asChild
-            className="h-9 rounded-full bg-primary px-4 text-xs font-semibold text-primary-foreground hover:bg-primary-hover"
-          >
-            <Link href="/sign-up">Join</Link>
-          </Button>
         </div>
       </div>
     </header>

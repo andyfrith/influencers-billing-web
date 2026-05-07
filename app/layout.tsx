@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
-import { Geist, Geist_Mono, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
-
+import { geistSans, geistMono, plusJakarta, inter } from "@/lib/fonts";
 import "./globals.css";
-import { AuthenticatedShell } from "@/components/authenticated-shell";
+import { AdminShell } from "@/components/admin/admin-shell";
+import { AuthenticatedShell } from "@/components/authenticated/authenticated-shell";
 import { PublicSiteHeader } from "@/components/layout/public-site-header";
 import { Providers } from "@/components/providers";
 import { getAppSession } from "@/lib/session";
@@ -14,37 +14,16 @@ import {
   isColorThemeId,
   type ColorThemeId,
 } from "@/lib/color-themes";
+import { resolveDiscoverColorThemeForSlug } from "@/lib/club-landing-resolution";
 import { DISCOVER_ROUTE_COLOR_THEME_HEADER } from "@/lib/discover-club-theme";
+import { DISCOVER_ROUTE_CLUB_SLUG_HEADER } from "@/lib/discover-club-slug-header";
 import {
   COLOR_THEME_STORAGE_KEY,
   parseColorThemeCookie,
   THEME_STORAGE_KEY,
 } from "@/lib/theme-storage";
+import { CLUB_LANDING_PREVIEW_HEADER } from "@/lib/club-landing-preview";
 import { cn } from "@/lib/utils";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-club-kinetic",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Influencers Billing",
@@ -57,17 +36,24 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>): Promise<React.JSX.Element> {
   const session = await getAppSession();
+  const isAdmin = session?.user?.role === "admin";
   const isAuthenticated = Boolean(session?.user?.id);
   const cookieStore = await cookies();
   const headerList = await headers();
   const themeCookie = cookieStore.get(THEME_STORAGE_KEY)?.value;
   const initialThemeIsLight = themeCookie === "light";
 
-  const routeThemeHeader = headerList.get(DISCOVER_ROUTE_COLOR_THEME_HEADER);
-  const routeColorThemeOverride: ColorThemeId | null =
-    routeThemeHeader != null && isColorThemeId(routeThemeHeader)
-      ? routeThemeHeader
-      : null;
+  const clubLandingPreviewFrame = headerList.get(CLUB_LANDING_PREVIEW_HEADER) === "1";
+
+  const discoverSlugHeader = headerList.get(DISCOVER_ROUTE_CLUB_SLUG_HEADER)?.trim();
+  const legacyDiscoverThemeHeader = headerList.get(DISCOVER_ROUTE_COLOR_THEME_HEADER);
+
+  let routeColorThemeOverride: ColorThemeId | null = null;
+  if (discoverSlugHeader != null && discoverSlugHeader !== "") {
+    routeColorThemeOverride = await resolveDiscoverColorThemeForSlug(discoverSlugHeader);
+  } else if (legacyDiscoverThemeHeader != null && isColorThemeId(legacyDiscoverThemeHeader)) {
+    routeColorThemeOverride = legacyDiscoverThemeHeader;
+  }
 
   const initialColorThemeId: ColorThemeId =
     routeColorThemeOverride ??
@@ -106,11 +92,16 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Providers initialColorThemeId={initialColorThemeId} initialThemeIsLight={initialThemeIsLight}>
-          {isAuthenticated ? (
-            <AuthenticatedShell isAdmin={session?.user?.role === "admin"}>
-              {children}
-            </AuthenticatedShell>
+        <Providers
+          initialColorThemeId={initialColorThemeId}
+          initialThemeIsLight={initialThemeIsLight}
+        >
+          {clubLandingPreviewFrame ? (
+            <div className="min-h-0 flex-1">{children}</div>
+          ) : isAuthenticated && isAdmin ? (
+            <AdminShell>{children}</AdminShell>
+          ) : isAuthenticated ? (
+            <AuthenticatedShell>{children}</AuthenticatedShell>
           ) : (
             <div className="flex min-h-full flex-1 flex-col">
               <PublicSiteHeader />

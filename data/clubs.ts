@@ -10,9 +10,12 @@ export type {
   BenefitsContent,
   BenefitsItemContent,
   ClubLandingContent,
+  ClubLandingStoragePayload,
   ExploreContent,
   ExploreItemContent,
   HeroContent,
+  JoinContent,
+  LoginContent,
 } from "./club-landing-types";
 
 export const clubLandingContent: ClubLandingContent[] = [
@@ -255,6 +258,30 @@ export const clubLandingContent: ClubLandingContent[] = [
             href: "/contact",
           },
         ],
+      },
+    },
+    join: {
+      headline: "Access the Garden",
+      preHeadline: "The Garden Standard",
+      subheadline:
+        "Join the next generation of global leadership and claim your place at The Greenhouse.",
+      form: {
+        headline: "Claim Your Spot in the Garden",
+        subheadline:
+          "Welcome to a world of curated excellence. Your membership starts with this step.",
+        submitButtonLabel: "Join the Greenhouse",
+      },
+    },
+    login: {
+      headline: "The Pinnacle of Private Membership.",
+      preHeadline:
+        "Experience the intersection of high-technology and exclusive luxury.",
+      subheadline:
+        "Join the next generation of global leadership and claim your place at The Greenhouse.",
+      form: {
+        headline: "Welcome Back",
+        subheadline: "Please enter your credentials to access the club.",
+        submitButtonLabel: "Login",
       },
     },
   },

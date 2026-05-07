@@ -69,13 +69,11 @@ export function ThemeProvider({
   );
 
   const toggleTheme = React.useCallback(() => {
-    setThemeState((prev) => {
-      const next = prev === "dark" ? "light" : "dark";
-      applyTheme(next);
-      router.refresh();
-      return next;
-    });
-  }, [router]);
+    const next: ThemeChoice = theme === "dark" ? "light" : "dark";
+    setThemeState(next);
+    applyTheme(next);
+    router.refresh();
+  }, [theme, router]);
 
   const setColorTheme = React.useCallback(
     (themeId: ColorThemeId) => {

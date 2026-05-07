@@ -1,6 +1,7 @@
 import {
   boolean,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -9,8 +10,10 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
+import type { ClubLandingStoragePayload } from "@/data/club-landing-types";
+
 export const userRoleEnum = pgEnum("user_role", ["member", "admin"]);
-export const clubStatusEnum = pgEnum("club_status", ["active", "archived"]);
+export const clubStatusEnum = pgEnum("club_status", ["new", "active", "archived"]);
 export const planIntervalEnum = pgEnum("plan_interval", ["month", "year"]);
 export const membershipStatusEnum = pgEnum("membership_status", [
   "active",
@@ -104,13 +107,65 @@ export const clubs = pgTable(
     name: text("name").notNull(),
     slug: text("slug").notNull(),
     description: text("description").notNull(),
-    status: clubStatusEnum("status").default("active").notNull(),
+    /** Markdown brief describing purpose/context for design and content generation. */
+    contextMarkdown: text("context_markdown").notNull().default(""),
+    /** @deprecated Prefer {@link clubLandingRevisions}; kept for migration / fallback reads. */
+    landingContent: jsonb("landing_content").$type<ClubLandingStoragePayload | null>(),
+    /** Which variation is public for `/discover` (FK added in SQL migration to avoid circular schema refs). */
+    publishedLandingVariationId: uuid("published_landing_variation_id"),
+    /** Exact revision served publicly (FK added in SQL migration). */
+    publishedLandingRevisionId: uuid("published_landing_revision_id"),
+    status: clubStatusEnum("status").default("new").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({
     slugUniqueIdx: uniqueIndex("clubs_slug_unique_idx").on(table.slug),
   }),
+);
+
+/**
+ * Named landing variants per club (e.g. default vs seasonal).
+ */
+export const clubLandingVariations = pgTable(
+  "club_landing_variations",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    clubId: uuid("club_id")
+      .notNull()
+      .references(() => clubs.id, { onDelete: "cascade" }),
+    /** Stable slug segment unique per club (e.g. `default`, `holiday-2026`). */
+    key: text("key").notNull(),
+    displayName: text("display_name").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    clubKeyUniqueIdx: uniqueIndex("club_landing_variations_club_key_unique_idx").on(
+      table.clubId,
+      table.key,
+    ),
+  }),
+);
+
+/**
+ * Append-only history of landing JSON per variation.
+ */
+export const clubLandingRevisions = pgTable(
+  "club_landing_revisions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    variationId: uuid("variation_id")
+      .notNull()
+      .references(() => clubLandingVariations.id, { onDelete: "cascade" }),
+    landingContent: jsonb("landing_content").$type<ClubLandingStoragePayload>().notNull(),
+    /** Optional label shown in admin history (e.g. “Publish”, “WIP”). */
+    note: text("note"),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
 );
 
 export const clubSubscriptionPlans = pgTable(
