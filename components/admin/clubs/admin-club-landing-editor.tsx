@@ -1,14 +1,10 @@
 "use client";
 
+import * as React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronDown, GripVertical } from "lucide-react";
 import Link from "next/link";
-import * as React from "react";
-import {
-  Panel,
-  PanelGroup,
-  PanelResizeHandle,
-} from "react-resizable-panels";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,9 +24,7 @@ import {
   type LandingSectionKey,
 } from "@/data/club-landing-types";
 import { COLOR_THEME_OPTIONS, type ColorThemeId } from "@/lib/color-themes";
-import {
-  CLUB_LANDING_PREVIEW_MESSAGE_TYPE,
-} from "@/lib/club-landing-preview";
+import { CLUB_LANDING_PREVIEW_MESSAGE_TYPE } from "@/lib/club-landing-preview";
 import {
   getClubLandingTemplatePayload,
   listClubLandingTemplates,
@@ -221,7 +215,9 @@ function pushPreview(
 /**
  * Structured landing editor with standard templates, theme selection, and live iframe preview.
  */
-export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): React.JSX.Element {
+export function AdminClubLandingEditor({
+  clubId,
+}: ClubLandingEditorProps): React.JSX.Element {
   const queryClient = useQueryClient();
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
   const draftRef = React.useRef<ClubLandingStoragePayloadInput | null>(null);
@@ -229,20 +225,31 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
   const templates = React.useMemo(() => listClubLandingTemplates(), []);
   const defaultTemplateSlug = templates[0]?.slug ?? "";
 
-  const [draft, setDraft] = React.useState<ClubLandingStoragePayloadInput | null>(null);
-  const [templateSlug, setTemplateSlug] = React.useState<string>(defaultTemplateSlug);
+  const [draft, setDraft] =
+    React.useState<ClubLandingStoragePayloadInput | null>(null);
+  const [templateSlug, setTemplateSlug] =
+    React.useState<string>(defaultTemplateSlug);
   const [message, setMessage] = React.useState<string>("");
   const [validationError, setValidationError] = React.useState<string>("");
   const [saveNote, setSaveNote] = React.useState<string>("");
   const [publishAfterSave, setPublishAfterSave] = React.useState(false);
-  const [workspaceVariationId, setWorkspaceVariationId] = React.useState<string | undefined>();
-  const [workspaceRevisionId, setWorkspaceRevisionId] = React.useState<string | undefined>();
+  const [workspaceVariationId, setWorkspaceVariationId] = React.useState<
+    string | undefined
+  >();
+  const [workspaceRevisionId, setWorkspaceRevisionId] = React.useState<
+    string | undefined
+  >();
   const hydrateKeyRef = React.useRef<string>("");
 
   draftRef.current = draft;
 
   const workspaceQuery = useQuery({
-    queryKey: ["admin-club-landing-workspace", clubId, workspaceVariationId, workspaceRevisionId],
+    queryKey: [
+      "admin-club-landing-workspace",
+      clubId,
+      workspaceVariationId,
+      workspaceRevisionId,
+    ],
     queryFn: async (): Promise<WorkspaceResponse> => {
       const params = new URLSearchParams();
       if (workspaceVariationId) params.set("variationId", workspaceVariationId);
@@ -250,7 +257,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
       const qs = params.toString();
       const url = `/api/admin/clubs/${clubId}/landing/workspace${qs ? `?${qs}` : ""}`;
       const response = await fetch(url);
-      const payload = (await response.json()) as WorkspaceResponse & { error?: string };
+      const payload = (await response.json()) as WorkspaceResponse & {
+        error?: string;
+      };
       if (!response.ok) {
         throw new Error(payload.error ?? "Failed to load landing workspace.");
       }
@@ -300,7 +309,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
     const slug = defaultTemplateSlug;
     const base = slug ? getClubLandingTemplatePayload(slug) : null;
     if (base) {
-      setDraft(withDefaultSections({ ...structuredClone(base), name: club.name }));
+      setDraft(
+        withDefaultSections({ ...structuredClone(base), name: club.name }),
+      );
       setTemplateSlug(slug);
     }
   }, [workspaceQuery.data, defaultTemplateSlug]);
@@ -335,17 +346,23 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
       if (!ws) {
         throw new Error("Workspace not loaded.");
       }
-      const response = await fetch(`/api/admin/clubs/${clubId}/landing/revisions`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          variationId: ws.selectedVariationId,
-          landingContent: input.landingContent,
-          note: input.note,
-          publish: input.publish,
-        }),
-      });
-      const payload = (await response.json()) as { error?: string; details?: unknown };
+      const response = await fetch(
+        `/api/admin/clubs/${clubId}/landing/revisions`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            variationId: ws.selectedVariationId,
+            landingContent: input.landingContent,
+            note: input.note,
+            publish: input.publish,
+          }),
+        },
+      );
+      const payload = (await response.json()) as {
+        error?: string;
+        details?: unknown;
+      };
       if (!response.ok) {
         const detail =
           payload.details != null ? ` ${JSON.stringify(payload.details)}` : "";
@@ -357,7 +374,11 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
       setSaveNote("");
       setPublishAfterSave(false);
       setWorkspaceRevisionId(undefined);
-      setMessage(variables.publish ? "Saved revision and published live." : "Saved new revision.");
+      setMessage(
+        variables.publish
+          ? "Saved revision and published live."
+          : "Saved new revision.",
+      );
       await queryClient.invalidateQueries({
         queryKey: ["admin-club-landing-workspace", clubId],
       });
@@ -373,15 +394,21 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
       if (!ws?.selectedRevisionId) {
         throw new Error("Select a revision to publish.");
       }
-      const response = await fetch(`/api/admin/clubs/${clubId}/landing/publish`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          variationId: ws.selectedVariationId,
-          revisionId: ws.selectedRevisionId,
-        }),
-      });
-      const payload = (await response.json()) as { error?: string; details?: unknown };
+      const response = await fetch(
+        `/api/admin/clubs/${clubId}/landing/publish`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            variationId: ws.selectedVariationId,
+            revisionId: ws.selectedRevisionId,
+          }),
+        },
+      );
+      const payload = (await response.json()) as {
+        error?: string;
+        details?: unknown;
+      };
       if (!response.ok) {
         const detail =
           payload.details != null ? ` ${JSON.stringify(payload.details)}` : "";
@@ -401,16 +428,21 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
 
   const unpublishMutation = useMutation({
     mutationFn: async () => {
-      const response = await fetch(`/api/admin/clubs/${clubId}/landing/unpublish`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `/api/admin/clubs/${clubId}/landing/unpublish`,
+        {
+          method: "DELETE",
+        },
+      );
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
         throw new Error(payload.error ?? "Unpublish failed.");
       }
     },
     onSuccess: async () => {
-      setMessage("Unpublished — discover will use legacy JSON or static defaults.");
+      setMessage(
+        "Unpublished — discover will use legacy JSON or static defaults.",
+      );
       await queryClient.invalidateQueries({
         queryKey: ["admin-club-landing-workspace", clubId],
       });
@@ -422,11 +454,14 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
 
   const createVariationMutation = useMutation({
     mutationFn: async (body: { key: string; displayName: string }) => {
-      const response = await fetch(`/api/admin/clubs/${clubId}/landing/variations`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        `/api/admin/clubs/${clubId}/landing/variations`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        },
+      );
       const payload = (await response.json()) as {
         error?: string;
         details?: unknown;
@@ -435,7 +470,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
       if (!response.ok) {
         const detail =
           payload.details != null ? ` ${JSON.stringify(payload.details)}` : "";
-        throw new Error(`${payload.error ?? "Failed to create variation."}${detail}`);
+        throw new Error(
+          `${payload.error ?? "Failed to create variation."}${detail}`,
+        );
       }
       if (!payload.variation?.id) {
         throw new Error("Invalid response from server.");
@@ -485,16 +522,20 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
     [],
   );
 
-  const [draggingSection, setDraggingSection] = React.useState<LandingSectionKey | null>(null);
+  const [draggingSection, setDraggingSection] =
+    React.useState<LandingSectionKey | null>(null);
 
-  const setSectionOrder = React.useCallback((nextOrder: LandingSectionKey[]): void => {
-    setDraft((prev) => {
-      if (!prev) {
-        return prev;
-      }
-      return { ...prev, sectionOrder: nextOrder };
-    });
-  }, []);
+  const setSectionOrder = React.useCallback(
+    (nextOrder: LandingSectionKey[]): void => {
+      setDraft((prev) => {
+        if (!prev) {
+          return prev;
+        }
+        return { ...prev, sectionOrder: nextOrder };
+      });
+    },
+    [],
+  );
 
   const moveSection = React.useCallback(
     (from: LandingSectionKey, to: LandingSectionKey): void => {
@@ -502,7 +543,8 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
         return;
       }
       const currentOrder =
-        (draft?.sectionOrder as LandingSectionKey[] | undefined) ?? DEFAULT_LANDING_SECTION_ORDER;
+        (draft?.sectionOrder as LandingSectionKey[] | undefined) ??
+        DEFAULT_LANDING_SECTION_ORDER;
       const next = currentOrder.slice();
       const fromIndex = next.indexOf(from);
       const toIndex = next.indexOf(to);
@@ -530,7 +572,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
     return (
       <Card>
         <CardContent className="py-8">
-          <p className="text-sm text-destructive">{(workspaceQuery.error as Error).message}</p>
+          <p className="text-sm text-destructive">
+            {(workspaceQuery.error as Error).message}
+          </p>
         </CardContent>
       </Card>
     );
@@ -541,7 +585,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
     return (
       <Card>
         <CardContent className="py-8">
-          <p className="text-sm text-muted-foreground">Could not load workspace.</p>
+          <p className="text-sm text-muted-foreground">
+            Could not load workspace.
+          </p>
         </CardContent>
       </Card>
     );
@@ -560,7 +606,8 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
   }
 
   const activeSectionOrder =
-    (draft.sectionOrder as LandingSectionKey[] | undefined) ?? DEFAULT_LANDING_SECTION_ORDER;
+    (draft.sectionOrder as LandingSectionKey[] | undefined) ??
+    DEFAULT_LANDING_SECTION_ORDER;
   const sectionOrderIndex = Object.fromEntries(
     activeSectionOrder.map((key, index) => [key, index]),
   ) as Record<LandingSectionKey, number>;
@@ -589,7 +636,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
     ) {
       return;
     }
-    setDraft(withDefaultSections({ ...structuredClone(next), name: club.name }));
+    setDraft(
+      withDefaultSections({ ...structuredClone(next), name: club.name }),
+    );
     setTemplateSlug(slug);
     setValidationError("");
     setMessage("");
@@ -633,10 +682,8 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
 
   const onCreateVariation = (): void => {
     setMessage("");
-    const key = window.prompt(
-      "Variation key (lowercase letters, numbers, hyphens only)",
-      "",
-    )
+    const key = window
+      .prompt("Variation key (lowercase letters, numbers, hyphens only)", "")
       ?.trim()
       .toLowerCase();
     if (!key) {
@@ -660,215 +707,251 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
         direction="horizontal"
         className="min-h-0 min-w-0 flex-1"
       >
-      <Panel
-        defaultSize={52}
-        minSize={22}
-        maxSize={78}
-        className="flex min-h-0 min-w-0 flex-col"
-      >
-        <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overflow-x-hidden px-3 pb-6 pt-1 sm:px-4">
-        <LandingFormSection title="Club landing" defaultOpen contentClassName="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Editing{" "}
-              <span className="font-medium text-foreground">{club.name}</span> — slug{" "}
-              <span className="font-mono text-foreground">{club.slug}</span> (
-              <Link className="underline" href={`/discover/clubs/${club.slug}`}>
-                live page
-              </Link>
-              ).
-            </p>
-
-            {club.publishedLandingRevisionId ? (
-              <p className="text-xs text-muted-foreground">
-                Live site points at variation{" "}
-                <span className="font-mono">
-                  {ws.variations.find((v) => v.id === club.publishedLandingVariationId)?.key ??
-                    club.publishedLandingVariationId?.slice(0, 8)}
-                </span>
-                , revision{" "}
-                <span className="font-mono">{club.publishedLandingRevisionId.slice(0, 8)}…</span>
+        <Panel
+          defaultSize={52}
+          minSize={22}
+          maxSize={78}
+          className="flex min-h-0 min-w-0 flex-col"
+        >
+          <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overflow-x-hidden px-3 pb-6 pt-1 sm:px-4">
+            <LandingFormSection
+              title="Club landing"
+              defaultOpen
+              contentClassName="space-y-4"
+            >
+              <p className="text-sm text-muted-foreground">
+                Editing{" "}
+                <span className="font-medium text-foreground">{club.name}</span>{" "}
+                — slug{" "}
+                <span className="font-mono text-foreground">{club.slug}</span> (
+                <Link
+                  className="underline"
+                  href={`/discover/clubs/${club.slug}`}
+                >
+                  live page
+                </Link>
+                ).
               </p>
-            ) : (
-              <p className="text-xs text-muted-foreground">
-                Nothing published — discover uses legacy JSON or bundled defaults until you publish a
-                revision.
-              </p>
-            )}
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="landing-variation">Variation</Label>
-                <div className="flex flex-wrap items-end gap-2">
-                  <Select
-                    value={ws.selectedVariationId}
-                    onValueChange={(id) => {
-                      setWorkspaceVariationId(id);
-                      setWorkspaceRevisionId(undefined);
+              {club.publishedLandingRevisionId ? (
+                <p className="text-xs text-muted-foreground">
+                  Live site points at variation{" "}
+                  <span className="font-mono">
+                    {ws.variations.find(
+                      (v) => v.id === club.publishedLandingVariationId,
+                    )?.key ?? club.publishedLandingVariationId?.slice(0, 8)}
+                  </span>
+                  , revision{" "}
+                  <span className="font-mono">
+                    {club.publishedLandingRevisionId.slice(0, 8)}…
+                  </span>
+                </p>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  Nothing published — discover uses legacy JSON or bundled
+                  defaults until you publish a revision.
+                </p>
+              )}
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="landing-variation">Variation</Label>
+                  <div className="flex flex-wrap items-end gap-2">
+                    <Select
+                      value={ws.selectedVariationId}
+                      onValueChange={(id) => {
+                        setWorkspaceVariationId(id);
+                        setWorkspaceRevisionId(undefined);
+                      }}
+                    >
+                      <SelectTrigger
+                        id="landing-variation"
+                        className="max-w-md flex-1"
+                      >
+                        <SelectValue placeholder="Variation" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ws.variations.map((v) => (
+                          <SelectItem key={v.id} value={v.id}>
+                            {`${v.displayName} (${v.key})${v.isPublishedLive ? " — live" : ""}`}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={mutationsBusy}
+                      onClick={onCreateVariation}
+                    >
+                      New variation
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Variations hold separate histories; publish one revision per
+                    club for the public page.
+                  </p>
+                </div>
+
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="landing-revision">Revision</Label>
+                  <select
+                    id="landing-revision"
+                    className={revisionSelectClass}
+                    value={ws.selectedRevisionId ?? ""}
+                    disabled={ws.revisions.length === 0}
+                    onChange={(event) => {
+                      const next = event.target.value;
+                      setWorkspaceRevisionId(next ? next : undefined);
                     }}
                   >
-                    <SelectTrigger id="landing-variation" className="max-w-md flex-1">
-                      <SelectValue placeholder="Variation" />
+                    {ws.revisions.length === 0 ? (
+                      <option value="">
+                        No revisions yet — save to create the first
+                      </option>
+                    ) : (
+                      ws.revisions.map((r) => (
+                        <option key={r.id} value={r.id}>
+                          {formatRevisionOptionTimestamp(r.createdAt)}
+                          {r.note ? ` — ${r.note}` : ""}
+                          {r.isPublished ? " (live)" : ""}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label>Standard layout</Label>
+                  <Select
+                    value={templateSlug}
+                    onValueChange={(value) => {
+                      if (value === SAVED_TEMPLATE_VALUE) {
+                        return;
+                      }
+                      onPickTemplate(value);
+                    }}
+                  >
+                    <SelectTrigger aria-label="Standard landing layout">
+                      <SelectValue placeholder="Choose layout" />
                     </SelectTrigger>
                     <SelectContent>
-                      {ws.variations.map((v) => (
-                        <SelectItem key={v.id} value={v.id}>
-                          {`${v.displayName} (${v.key})${v.isPublishedLive ? " — live" : ""}`}
+                      {templateSlug === SAVED_TEMPLATE_VALUE ? (
+                        <SelectItem value={SAVED_TEMPLATE_VALUE}>
+                          Saved content
+                        </SelectItem>
+                      ) : null}
+                      {templates.map((t) => (
+                        <SelectItem key={t.slug} value={t.slug}>
+                          {t.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    disabled={mutationsBusy}
-                    onClick={onCreateVariation}
-                  >
-                    New variation
-                  </Button>
+                  <p className="text-xs text-muted-foreground">
+                    Starts from a bundled design; you can edit every field
+                    below.
+                  </p>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Variations hold separate histories; publish one revision per club for the public page.
-                </p>
-              </div>
 
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="landing-revision">Revision</Label>
-                <select
-                  id="landing-revision"
-                  className={revisionSelectClass}
-                  value={ws.selectedRevisionId ?? ""}
-                  disabled={ws.revisions.length === 0}
-                  onChange={(event) => {
-                    const next = event.target.value;
-                    setWorkspaceRevisionId(next ? next : undefined);
-                  }}
-                >
-                  {ws.revisions.length === 0 ? (
-                    <option value="">No revisions yet — save to create the first</option>
-                  ) : (
-                    ws.revisions.map((r) => (
-                      <option key={r.id} value={r.id}>
-                        {formatRevisionOptionTimestamp(r.createdAt)}
-                        {r.note ? ` — ${r.note}` : ""}
-                        {r.isPublished ? " (live)" : ""}
-                      </option>
-                    ))
-                  )}
-                </select>
-              </div>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Standard layout</Label>
-                <Select
-                  value={templateSlug}
-                  onValueChange={(value) => {
-                    if (value === SAVED_TEMPLATE_VALUE) {
-                      return;
+                <div className="space-y-2">
+                  <Label>Color theme</Label>
+                  <Select
+                    value={draft.colorThemeId}
+                    onValueChange={(id) =>
+                      update({ colorThemeId: id as ColorThemeId })
                     }
-                    onPickTemplate(value);
-                  }}
-                >
-                  <SelectTrigger aria-label="Standard landing layout">
-                    <SelectValue placeholder="Choose layout" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {templateSlug === SAVED_TEMPLATE_VALUE ? (
-                      <SelectItem value={SAVED_TEMPLATE_VALUE}>Saved content</SelectItem>
-                    ) : null}
-                    {templates.map((t) => (
-                      <SelectItem key={t.slug} value={t.slug}>
-                        {t.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <p className="text-xs text-muted-foreground">
-                  Starts from a bundled design; you can edit every field below.
-                </p>
+                  >
+                    <SelectTrigger aria-label="Color theme">
+                      <SelectValue placeholder="Theme" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COLOR_THEME_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.id} value={opt.id}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               <div className="space-y-2">
-                <Label>Color theme</Label>
-                <Select
-                  value={draft.colorThemeId}
-                  onValueChange={(id) => update({ colorThemeId: id as ColorThemeId })}
-                >
-                  <SelectTrigger aria-label="Color theme">
-                    <SelectValue placeholder="Theme" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {COLOR_THEME_OPTIONS.map((opt) => (
-                      <SelectItem key={opt.id} value={opt.id}>
-                        {opt.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="landing-club-name">Display name</Label>
+                <Input
+                  id="landing-club-name"
+                  value={draft.name}
+                  onChange={(event) => update({ name: event.target.value })}
+                />
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="landing-club-name">Display name</Label>
-              <Input
-                id="landing-club-name"
-                value={draft.name}
-                onChange={(event) => update({ name: event.target.value })}
-              />
-            </div>
+              <div className="space-y-2 border-t border-border pt-4">
+                <Label htmlFor="landing-revision-note">
+                  Revision note (optional)
+                </Label>
+                <Input
+                  id="landing-revision-note"
+                  value={saveNote}
+                  placeholder="e.g. Hero copy refresh"
+                  disabled={mutationsBusy}
+                  onChange={(event) => setSaveNote(event.target.value)}
+                />
+              </div>
 
-            <div className="space-y-2 border-t border-border pt-4">
-              <Label htmlFor="landing-revision-note">Revision note (optional)</Label>
-              <Input
-                id="landing-revision-note"
-                value={saveNote}
-                placeholder="e.g. Hero copy refresh"
-                disabled={mutationsBusy}
-                onChange={(event) => setSaveNote(event.target.value)}
-              />
-            </div>
+              <label className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground">
+                <input
+                  type="checkbox"
+                  className="size-4 rounded border-input"
+                  checked={publishAfterSave}
+                  disabled={mutationsBusy}
+                  onChange={(event) =>
+                    setPublishAfterSave(event.target.checked)
+                  }
+                />
+                Publish immediately after save
+              </label>
 
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground">
-              <input
-                type="checkbox"
-                className="size-4 rounded border-input"
-                checked={publishAfterSave}
-                disabled={mutationsBusy}
-                onChange={(event) => setPublishAfterSave(event.target.checked)}
-              />
-              Publish immediately after save
-            </label>
-
-            <div className="flex flex-wrap gap-2">
-              <Button type="button" onClick={onSaveRevision} disabled={mutationsBusy}>
-                {saveMutation.isPending ? "Saving…" : "Save new revision"}
-              </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                disabled={mutationsBusy || !ws.selectedRevisionId}
-                onClick={onPublishSelected}
-              >
-                {publishMutation.isPending ? "Publishing…" : "Publish selected revision"}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={mutationsBusy || !club.publishedLandingRevisionId}
-                onClick={onUnpublishLive}
-              >
-                {unpublishMutation.isPending ? "Unpublishing…" : "Unpublish live landing"}
-              </Button>
-            </div>
-            {validationError ? (
-              <pre className="max-h-40 overflow-auto rounded-md bg-muted p-3 text-xs text-destructive">
-                {validationError}
-              </pre>
-            ) : null}
-            {message ? <p className="text-sm text-muted-foreground">{message}</p> : null}
-        </LandingFormSection>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  onClick={onSaveRevision}
+                  disabled={mutationsBusy}
+                >
+                  {saveMutation.isPending ? "Saving…" : "Save new revision"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  disabled={mutationsBusy || !ws.selectedRevisionId}
+                  onClick={onPublishSelected}
+                >
+                  {publishMutation.isPending
+                    ? "Publishing…"
+                    : "Publish selected revision"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={mutationsBusy || !club.publishedLandingRevisionId}
+                  onClick={onUnpublishLive}
+                >
+                  {unpublishMutation.isPending
+                    ? "Unpublishing…"
+                    : "Unpublish live landing"}
+                </Button>
+              </div>
+              {validationError ? (
+                <pre className="max-h-40 overflow-auto rounded-md bg-muted p-3 text-xs text-destructive">
+                  {validationError}
+                </pre>
+              ) : null}
+              {message ? (
+                <p className="text-sm text-muted-foreground">{message}</p>
+              ) : null}
+            </LandingFormSection>
 
             <div
               style={{ order: sectionOrderIndex.hero + 1 }}
@@ -884,38 +967,40 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                 }
               }}
             >
-            <LandingFormSection
-              title="Hero"
-              titleClassName="text-base"
-              contentClassName="grid gap-4 sm:grid-cols-2"
-              headerLeft={
-                <button
-                  type="button"
-                  draggable
-                  title="Drag to reorder section"
-                  className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-muted/40 hover:text-foreground"
-                  onDragStart={(event) => {
-                    setDraggingSection("hero");
-                    event.dataTransfer.effectAllowed = "move";
-                    event.dataTransfer.setData("text/plain", "hero");
-                  }}
-                  onDragEnd={() => setDraggingSection(null)}
-                >
-                  <GripVertical className="size-4" aria-hidden />
-                </button>
-              }
-              headerRight={
-                <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
-                  <input
-                    type="checkbox"
-                    className="size-3.5 rounded border-input"
-                    checked={draft.sections?.hero ?? true}
-                    onChange={(event) => setSectionVisibility("hero", event.target.checked)}
-                  />
-                  Show
-                </label>
-              }
-            >
+              <LandingFormSection
+                title="Hero"
+                titleClassName="text-base"
+                contentClassName="grid gap-4 sm:grid-cols-2"
+                headerLeft={
+                  <button
+                    type="button"
+                    draggable
+                    title="Drag to reorder section"
+                    className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-muted/40 hover:text-foreground"
+                    onDragStart={(event) => {
+                      setDraggingSection("hero");
+                      event.dataTransfer.effectAllowed = "move";
+                      event.dataTransfer.setData("text/plain", "hero");
+                    }}
+                    onDragEnd={() => setDraggingSection(null)}
+                  >
+                    <GripVertical className="size-4" aria-hidden />
+                  </button>
+                }
+                headerRight={
+                  <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
+                    <input
+                      type="checkbox"
+                      className="size-3.5 rounded border-input"
+                      checked={draft.sections?.hero ?? true}
+                      onChange={(event) =>
+                        setSectionVisibility("hero", event.target.checked)
+                      }
+                    />
+                    Show
+                  </label>
+                }
+              >
                 <div className="space-y-2 sm:col-span-2">
                   <Label>Headline</Label>
                   <Input
@@ -936,7 +1021,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     onChange={(event) =>
                       setDraft({
                         ...draft,
-                        hero: { ...draft.hero, subheadline: event.target.value },
+                        hero: {
+                          ...draft.hero,
+                          subheadline: event.target.value,
+                        },
                       })
                     }
                   />
@@ -1002,7 +1090,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                           hero: {
                             ...draft.hero,
                             cta: {
-                              items: [...draft.hero.cta.items, { label: "New link", href: "/" }],
+                              items: [
+                                ...draft.hero.cta.items,
+                                { label: "New link", href: "/" },
+                              ],
                             },
                           },
                         })
@@ -1013,15 +1104,24 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                   </div>
                   <ul className="space-y-3">
                     {draft.hero.cta.items.map((item, index) => (
-                      <li key={`hero-cta-${index}`} className="flex flex-wrap gap-2 rounded-md border border-border p-3">
+                      <li
+                        key={`hero-cta-${index}`}
+                        className="flex flex-wrap gap-2 rounded-md border border-border p-3"
+                      >
                         <Input
                           className="min-w-[8rem] flex-1"
                           placeholder="Label"
                           value={item.label}
                           onChange={(event) => {
                             const items = draft.hero.cta.items.slice();
-                            items[index] = { ...items[index], label: event.target.value };
-                            setDraft({ ...draft, hero: { ...draft.hero, cta: { items } } });
+                            items[index] = {
+                              ...items[index],
+                              label: event.target.value,
+                            };
+                            setDraft({
+                              ...draft,
+                              hero: { ...draft.hero, cta: { items } },
+                            });
                           }}
                         />
                         <Input
@@ -1030,8 +1130,14 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                           value={item.href}
                           onChange={(event) => {
                             const items = draft.hero.cta.items.slice();
-                            items[index] = { ...items[index], href: event.target.value };
-                            setDraft({ ...draft, hero: { ...draft.hero, cta: { items } } });
+                            items[index] = {
+                              ...items[index],
+                              href: event.target.value,
+                            };
+                            setDraft({
+                              ...draft,
+                              hero: { ...draft.hero, cta: { items } },
+                            });
                           }}
                         />
                         <Button
@@ -1040,8 +1146,13 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                           size="sm"
                           disabled={draft.hero.cta.items.length <= 1}
                           onClick={() => {
-                            const items = draft.hero.cta.items.filter((_, i) => i !== index);
-                            setDraft({ ...draft, hero: { ...draft.hero, cta: { items } } });
+                            const items = draft.hero.cta.items.filter(
+                              (_, i) => i !== index,
+                            );
+                            setDraft({
+                              ...draft,
+                              hero: { ...draft.hero, cta: { items } },
+                            });
                           }}
                         >
                           Remove
@@ -1050,7 +1161,7 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     ))}
                   </ul>
                 </div>
-            </LandingFormSection>
+              </LandingFormSection>
             </div>
 
             <div
@@ -1067,38 +1178,40 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                 }
               }}
             >
-            <LandingFormSection
-              title="Benefits"
-              titleClassName="text-base"
-              contentClassName="space-y-4"
-              headerLeft={
-                <button
-                  type="button"
-                  draggable
-                  title="Drag to reorder section"
-                  className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-muted/40 hover:text-foreground"
-                  onDragStart={(event) => {
-                    setDraggingSection("benefits");
-                    event.dataTransfer.effectAllowed = "move";
-                    event.dataTransfer.setData("text/plain", "benefits");
-                  }}
-                  onDragEnd={() => setDraggingSection(null)}
-                >
-                  <GripVertical className="size-4" aria-hidden />
-                </button>
-              }
-              headerRight={
-                <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
-                  <input
-                    type="checkbox"
-                    className="size-3.5 rounded border-input"
-                    checked={draft.sections?.benefits ?? true}
-                    onChange={(event) => setSectionVisibility("benefits", event.target.checked)}
-                  />
-                  Show
-                </label>
-              }
-            >
+              <LandingFormSection
+                title="Benefits"
+                titleClassName="text-base"
+                contentClassName="space-y-4"
+                headerLeft={
+                  <button
+                    type="button"
+                    draggable
+                    title="Drag to reorder section"
+                    className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-muted/40 hover:text-foreground"
+                    onDragStart={(event) => {
+                      setDraggingSection("benefits");
+                      event.dataTransfer.effectAllowed = "move";
+                      event.dataTransfer.setData("text/plain", "benefits");
+                    }}
+                    onDragEnd={() => setDraggingSection(null)}
+                  >
+                    <GripVertical className="size-4" aria-hidden />
+                  </button>
+                }
+                headerRight={
+                  <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
+                    <input
+                      type="checkbox"
+                      className="size-3.5 rounded border-input"
+                      checked={draft.sections?.benefits ?? true}
+                      onChange={(event) =>
+                        setSectionVisibility("benefits", event.target.checked)
+                      }
+                    />
+                    Show
+                  </label>
+                }
+              >
                 <div className="space-y-2">
                   <Label>Section headline</Label>
                   <Input
@@ -1106,7 +1219,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     onChange={(event) =>
                       setDraft({
                         ...draft,
-                        benefits: { ...draft.benefits, headline: event.target.value },
+                        benefits: {
+                          ...draft.benefits,
+                          headline: event.target.value,
+                        },
                       })
                     }
                   />
@@ -1119,7 +1235,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     onChange={(event) =>
                       setDraft({
                         ...draft,
-                        benefits: { ...draft.benefits, subheadline: event.target.value },
+                        benefits: {
+                          ...draft.benefits,
+                          subheadline: event.target.value,
+                        },
                       })
                     }
                   />
@@ -1152,9 +1271,14 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                 </div>
                 <ul className="space-y-4">
                   {draft.benefits.items.map((item, index) => (
-                    <li key={`benefit-${index}`} className="space-y-3 rounded-md border border-border p-4">
+                    <li
+                      key={`benefit-${index}`}
+                      className="space-y-3 rounded-md border border-border p-4"
+                    >
                       <div className="flex justify-between gap-2">
-                        <span className="text-sm font-medium text-foreground">Benefit {index + 1}</span>
+                        <span className="text-sm font-medium text-foreground">
+                          Benefit {index + 1}
+                        </span>
                         <Button
                           type="button"
                           variant="outline"
@@ -1165,7 +1289,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                               ...draft,
                               benefits: {
                                 ...draft.benefits,
-                                items: draft.benefits.items.filter((_, i) => i !== index),
+                                items: draft.benefits.items.filter(
+                                  (_, i) => i !== index,
+                                ),
                               },
                             })
                           }
@@ -1175,13 +1301,21 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                       </div>
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div className="space-y-2">
-                          <Label className="text-xs">Icon (Material symbol name)</Label>
+                          <Label className="text-xs">
+                            Icon (Material symbol name)
+                          </Label>
                           <Input
                             value={item.icon}
                             onChange={(event) => {
                               const items = draft.benefits.items.slice();
-                              items[index] = { ...items[index], icon: event.target.value };
-                              setDraft({ ...draft, benefits: { ...draft.benefits, items } });
+                              items[index] = {
+                                ...items[index],
+                                icon: event.target.value,
+                              };
+                              setDraft({
+                                ...draft,
+                                benefits: { ...draft.benefits, items },
+                              });
                             }}
                           />
                         </div>
@@ -1193,9 +1327,15 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                               const items = draft.benefits.items.slice();
                               items[index] = {
                                 ...items[index],
-                                image: { ...items[index].image, src: event.target.value },
+                                image: {
+                                  ...items[index].image,
+                                  src: event.target.value,
+                                },
                               };
-                              setDraft({ ...draft, benefits: { ...draft.benefits, items } });
+                              setDraft({
+                                ...draft,
+                                benefits: { ...draft.benefits, items },
+                              });
                             }}
                           />
                         </div>
@@ -1207,9 +1347,15 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                               const items = draft.benefits.items.slice();
                               items[index] = {
                                 ...items[index],
-                                image: { ...items[index].image, alt: event.target.value },
+                                image: {
+                                  ...items[index].image,
+                                  alt: event.target.value,
+                                },
                               };
-                              setDraft({ ...draft, benefits: { ...draft.benefits, items } });
+                              setDraft({
+                                ...draft,
+                                benefits: { ...draft.benefits, items },
+                              });
                             }}
                           />
                         </div>
@@ -1219,8 +1365,14 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                             value={item.headline}
                             onChange={(event) => {
                               const items = draft.benefits.items.slice();
-                              items[index] = { ...items[index], headline: event.target.value };
-                              setDraft({ ...draft, benefits: { ...draft.benefits, items } });
+                              items[index] = {
+                                ...items[index],
+                                headline: event.target.value,
+                              };
+                              setDraft({
+                                ...draft,
+                                benefits: { ...draft.benefits, items },
+                              });
                             }}
                           />
                         </div>
@@ -1231,8 +1383,14 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                             value={item.subheadline}
                             onChange={(event) => {
                               const items = draft.benefits.items.slice();
-                              items[index] = { ...items[index], subheadline: event.target.value };
-                              setDraft({ ...draft, benefits: { ...draft.benefits, items } });
+                              items[index] = {
+                                ...items[index],
+                                subheadline: event.target.value,
+                              };
+                              setDraft({
+                                ...draft,
+                                benefits: { ...draft.benefits, items },
+                              });
                             }}
                           />
                         </div>
@@ -1240,7 +1398,7 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     </li>
                   ))}
                 </ul>
-            </LandingFormSection>
+              </LandingFormSection>
             </div>
 
             <div
@@ -1257,38 +1415,40 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                 }
               }}
             >
-            <LandingFormSection
-              title="Explore"
-              titleClassName="text-base"
-              contentClassName="space-y-4"
-              headerLeft={
-                <button
-                  type="button"
-                  draggable
-                  title="Drag to reorder section"
-                  className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-muted/40 hover:text-foreground"
-                  onDragStart={(event) => {
-                    setDraggingSection("explore");
-                    event.dataTransfer.effectAllowed = "move";
-                    event.dataTransfer.setData("text/plain", "explore");
-                  }}
-                  onDragEnd={() => setDraggingSection(null)}
-                >
-                  <GripVertical className="size-4" aria-hidden />
-                </button>
-              }
-              headerRight={
-                <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
-                  <input
-                    type="checkbox"
-                    className="size-3.5 rounded border-input"
-                    checked={draft.sections?.explore ?? true}
-                    onChange={(event) => setSectionVisibility("explore", event.target.checked)}
-                  />
-                  Show
-                </label>
-              }
-            >
+              <LandingFormSection
+                title="Explore"
+                titleClassName="text-base"
+                contentClassName="space-y-4"
+                headerLeft={
+                  <button
+                    type="button"
+                    draggable
+                    title="Drag to reorder section"
+                    className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-muted/40 hover:text-foreground"
+                    onDragStart={(event) => {
+                      setDraggingSection("explore");
+                      event.dataTransfer.effectAllowed = "move";
+                      event.dataTransfer.setData("text/plain", "explore");
+                    }}
+                    onDragEnd={() => setDraggingSection(null)}
+                  >
+                    <GripVertical className="size-4" aria-hidden />
+                  </button>
+                }
+                headerRight={
+                  <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
+                    <input
+                      type="checkbox"
+                      className="size-3.5 rounded border-input"
+                      checked={draft.sections?.explore ?? true}
+                      onChange={(event) =>
+                        setSectionVisibility("explore", event.target.checked)
+                      }
+                    />
+                    Show
+                  </label>
+                }
+              >
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label>Section headline</Label>
@@ -1297,7 +1457,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                       onChange={(event) =>
                         setDraft({
                           ...draft,
-                          explore: { ...draft.explore, headline: event.target.value },
+                          explore: {
+                            ...draft.explore,
+                            headline: event.target.value,
+                          },
                         })
                       }
                     />
@@ -1310,7 +1473,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                       onChange={(event) =>
                         setDraft({
                           ...draft,
-                          explore: { ...draft.explore, subheadline: event.target.value },
+                          explore: {
+                            ...draft.explore,
+                            subheadline: event.target.value,
+                          },
                         })
                       }
                     />
@@ -1324,7 +1490,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                           ...draft,
                           explore: {
                             ...draft.explore,
-                            cta: { ...draft.explore.cta, label: event.target.value },
+                            cta: {
+                              ...draft.explore.cta,
+                              label: event.target.value,
+                            },
                           },
                         })
                       }
@@ -1339,7 +1508,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                           ...draft,
                           explore: {
                             ...draft.explore,
-                            cta: { ...draft.explore.cta, href: event.target.value },
+                            cta: {
+                              ...draft.explore.cta,
+                              href: event.target.value,
+                            },
                           },
                         })
                       }
@@ -1374,9 +1546,14 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                 </div>
                 <ul className="space-y-4">
                   {draft.explore.items.map((item, index) => (
-                    <li key={`explore-${index}`} className="space-y-3 rounded-md border border-border p-4">
+                    <li
+                      key={`explore-${index}`}
+                      className="space-y-3 rounded-md border border-border p-4"
+                    >
                       <div className="flex justify-between gap-2">
-                        <span className="text-sm font-medium text-foreground">Card {index + 1}</span>
+                        <span className="text-sm font-medium text-foreground">
+                          Card {index + 1}
+                        </span>
                         <Button
                           type="button"
                           variant="outline"
@@ -1387,7 +1564,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                               ...draft,
                               explore: {
                                 ...draft.explore,
-                                items: draft.explore.items.filter((_, i) => i !== index),
+                                items: draft.explore.items.filter(
+                                  (_, i) => i !== index,
+                                ),
                               },
                             })
                           }
@@ -1402,8 +1581,14 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                             value={item.headline}
                             onChange={(event) => {
                               const items = draft.explore.items.slice();
-                              items[index] = { ...items[index], headline: event.target.value };
-                              setDraft({ ...draft, explore: { ...draft.explore, items } });
+                              items[index] = {
+                                ...items[index],
+                                headline: event.target.value,
+                              };
+                              setDraft({
+                                ...draft,
+                                explore: { ...draft.explore, items },
+                              });
                             }}
                           />
                         </div>
@@ -1413,13 +1598,21 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                             value={item.preHeadline}
                             onChange={(event) => {
                               const items = draft.explore.items.slice();
-                              items[index] = { ...items[index], preHeadline: event.target.value };
-                              setDraft({ ...draft, explore: { ...draft.explore, items } });
+                              items[index] = {
+                                ...items[index],
+                                preHeadline: event.target.value,
+                              };
+                              setDraft({
+                                ...draft,
+                                explore: { ...draft.explore, items },
+                              });
                             }}
                           />
                         </div>
                         <div className="space-y-2 sm:col-span-2">
-                          <Label className="text-xs">Subheadline (optional)</Label>
+                          <Label className="text-xs">
+                            Subheadline (optional)
+                          </Label>
                           <Input
                             value={item.subheadline ?? ""}
                             onChange={(event) => {
@@ -1427,9 +1620,14 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                               const value = event.target.value.trim();
                               items[index] = {
                                 ...items[index],
-                                ...(value ? { subheadline: value } : { subheadline: undefined }),
+                                ...(value
+                                  ? { subheadline: value }
+                                  : { subheadline: undefined }),
                               };
-                              setDraft({ ...draft, explore: { ...draft.explore, items } });
+                              setDraft({
+                                ...draft,
+                                explore: { ...draft.explore, items },
+                              });
                             }}
                           />
                         </div>
@@ -1441,9 +1639,15 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                               const items = draft.explore.items.slice();
                               items[index] = {
                                 ...items[index],
-                                image: { ...items[index].image, src: event.target.value },
+                                image: {
+                                  ...items[index].image,
+                                  src: event.target.value,
+                                },
                               };
-                              setDraft({ ...draft, explore: { ...draft.explore, items } });
+                              setDraft({
+                                ...draft,
+                                explore: { ...draft.explore, items },
+                              });
                             }}
                           />
                         </div>
@@ -1453,8 +1657,14 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                             value={item.href}
                             onChange={(event) => {
                               const items = draft.explore.items.slice();
-                              items[index] = { ...items[index], href: event.target.value };
-                              setDraft({ ...draft, explore: { ...draft.explore, items } });
+                              items[index] = {
+                                ...items[index],
+                                href: event.target.value,
+                              };
+                              setDraft({
+                                ...draft,
+                                explore: { ...draft.explore, items },
+                              });
                             }}
                           />
                         </div>
@@ -1466,9 +1676,15 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                               const items = draft.explore.items.slice();
                               items[index] = {
                                 ...items[index],
-                                image: { ...items[index].image, alt: event.target.value },
+                                image: {
+                                  ...items[index].image,
+                                  alt: event.target.value,
+                                },
                               };
-                              setDraft({ ...draft, explore: { ...draft.explore, items } });
+                              setDraft({
+                                ...draft,
+                                explore: { ...draft.explore, items },
+                              });
                             }}
                           />
                         </div>
@@ -1476,7 +1692,7 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     </li>
                   ))}
                 </ul>
-            </LandingFormSection>
+              </LandingFormSection>
             </div>
 
             <div
@@ -1493,38 +1709,40 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                 }
               }}
             >
-            <LandingFormSection
-              title="Attention"
-              titleClassName="text-base"
-              contentClassName="space-y-4"
-              headerLeft={
-                <button
-                  type="button"
-                  draggable
-                  title="Drag to reorder section"
-                  className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-muted/40 hover:text-foreground"
-                  onDragStart={(event) => {
-                    setDraggingSection("attention");
-                    event.dataTransfer.effectAllowed = "move";
-                    event.dataTransfer.setData("text/plain", "attention");
-                  }}
-                  onDragEnd={() => setDraggingSection(null)}
-                >
-                  <GripVertical className="size-4" aria-hidden />
-                </button>
-              }
-              headerRight={
-                <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
-                  <input
-                    type="checkbox"
-                    className="size-3.5 rounded border-input"
-                    checked={draft.sections?.attention ?? true}
-                    onChange={(event) => setSectionVisibility("attention", event.target.checked)}
-                  />
-                  Show
-                </label>
-              }
-            >
+              <LandingFormSection
+                title="Attention"
+                titleClassName="text-base"
+                contentClassName="space-y-4"
+                headerLeft={
+                  <button
+                    type="button"
+                    draggable
+                    title="Drag to reorder section"
+                    className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-muted/40 hover:text-foreground"
+                    onDragStart={(event) => {
+                      setDraggingSection("attention");
+                      event.dataTransfer.effectAllowed = "move";
+                      event.dataTransfer.setData("text/plain", "attention");
+                    }}
+                    onDragEnd={() => setDraggingSection(null)}
+                  >
+                    <GripVertical className="size-4" aria-hidden />
+                  </button>
+                }
+                headerRight={
+                  <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
+                    <input
+                      type="checkbox"
+                      className="size-3.5 rounded border-input"
+                      checked={draft.sections?.attention ?? true}
+                      onChange={(event) =>
+                        setSectionVisibility("attention", event.target.checked)
+                      }
+                    />
+                    Show
+                  </label>
+                }
+              >
                 <div className="space-y-2">
                   <Label>Headline</Label>
                   <Input
@@ -1532,7 +1750,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     onChange={(event) =>
                       setDraft({
                         ...draft,
-                        attention: { ...draft.attention, headline: event.target.value },
+                        attention: {
+                          ...draft.attention,
+                          headline: event.target.value,
+                        },
                       })
                     }
                   />
@@ -1545,7 +1766,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     onChange={(event) =>
                       setDraft({
                         ...draft,
-                        attention: { ...draft.attention, subheadline: event.target.value },
+                        attention: {
+                          ...draft.attention,
+                          subheadline: event.target.value,
+                        },
                       })
                     }
                   />
@@ -1561,7 +1785,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                         attention: {
                           ...draft.attention,
                           cta: {
-                            items: [...draft.attention.cta.items, { label: "New link", href: "/" }],
+                            items: [
+                              ...draft.attention.cta.items,
+                              { label: "New link", href: "/" },
+                            ],
                           },
                         },
                       })
@@ -1572,14 +1799,20 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                 </div>
                 <ul className="space-y-3">
                   {draft.attention.cta.items.map((item, index) => (
-                    <li key={`attention-cta-${index}`} className="flex flex-wrap gap-2 rounded-md border border-border p-3">
+                    <li
+                      key={`attention-cta-${index}`}
+                      className="flex flex-wrap gap-2 rounded-md border border-border p-3"
+                    >
                       <Input
                         className="min-w-[8rem] flex-1"
                         placeholder="Label"
                         value={item.label}
                         onChange={(event) => {
                           const items = draft.attention.cta.items.slice();
-                          items[index] = { ...items[index], label: event.target.value };
+                          items[index] = {
+                            ...items[index],
+                            label: event.target.value,
+                          };
                           setDraft({
                             ...draft,
                             attention: { ...draft.attention, cta: { items } },
@@ -1592,7 +1825,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                         value={item.href}
                         onChange={(event) => {
                           const items = draft.attention.cta.items.slice();
-                          items[index] = { ...items[index], href: event.target.value };
+                          items[index] = {
+                            ...items[index],
+                            href: event.target.value,
+                          };
                           setDraft({
                             ...draft,
                             attention: { ...draft.attention, cta: { items } },
@@ -1605,7 +1841,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                         size="sm"
                         disabled={draft.attention.cta.items.length <= 1}
                         onClick={() => {
-                          const items = draft.attention.cta.items.filter((_, i) => i !== index);
+                          const items = draft.attention.cta.items.filter(
+                            (_, i) => i !== index,
+                          );
                           setDraft({
                             ...draft,
                             attention: { ...draft.attention, cta: { items } },
@@ -1617,15 +1855,15 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     </li>
                   ))}
                 </ul>
-            </LandingFormSection>
+              </LandingFormSection>
             </div>
 
             <div style={{ order: 99 }}>
-            <LandingFormSection
-              title="Join & sign-in copy"
-              titleClassName="text-base"
-              contentClassName="space-y-6"
-            >
+              <LandingFormSection
+                title="Join & sign-in copy"
+                titleClassName="text-base"
+                contentClassName="space-y-6"
+              >
                 <label className="flex cursor-pointer items-center gap-2 text-sm">
                   <input
                     type="checkbox"
@@ -1634,7 +1872,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     onChange={(event) =>
                       setDraft({
                         ...draft,
-                        join: event.target.checked ? draft.join ?? DEFAULT_JOIN : undefined,
+                        join: event.target.checked
+                          ? (draft.join ?? DEFAULT_JOIN)
+                          : undefined,
                       })
                     }
                   />
@@ -1649,7 +1889,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                         onChange={(event) =>
                           setDraft({
                             ...draft,
-                            join: { ...draft.join!, preHeadline: event.target.value },
+                            join: {
+                              ...draft.join!,
+                              preHeadline: event.target.value,
+                            },
                           })
                         }
                       />
@@ -1661,7 +1904,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                         onChange={(event) =>
                           setDraft({
                             ...draft,
-                            join: { ...draft.join!, headline: event.target.value },
+                            join: {
+                              ...draft.join!,
+                              headline: event.target.value,
+                            },
                           })
                         }
                       />
@@ -1674,13 +1920,18 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                         onChange={(event) =>
                           setDraft({
                             ...draft,
-                            join: { ...draft.join!, subheadline: event.target.value },
+                            join: {
+                              ...draft.join!,
+                              subheadline: event.target.value,
+                            },
                           })
                         }
                       />
                     </div>
                     <div className="space-y-2 sm:col-span-2 border-t border-border pt-4">
-                      <p className="text-xs font-medium text-muted-foreground">Form panel</p>
+                      <p className="text-xs font-medium text-muted-foreground">
+                        Form panel
+                      </p>
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div className="space-y-2">
                           <Label className="text-xs">Form headline</Label>
@@ -1691,7 +1942,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                                 ...draft,
                                 join: {
                                   ...draft.join!,
-                                  form: { ...draft.join!.form, headline: event.target.value },
+                                  form: {
+                                    ...draft.join!.form,
+                                    headline: event.target.value,
+                                  },
                                 },
                               })
                             }
@@ -1725,7 +1979,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                                 ...draft,
                                 join: {
                                   ...draft.join!,
-                                  form: { ...draft.join!.form, subheadline: event.target.value },
+                                  form: {
+                                    ...draft.join!.form,
+                                    subheadline: event.target.value,
+                                  },
                                 },
                               })
                             }
@@ -1744,7 +2001,9 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     onChange={(event) =>
                       setDraft({
                         ...draft,
-                        login: event.target.checked ? draft.login ?? DEFAULT_LOGIN : undefined,
+                        login: event.target.checked
+                          ? (draft.login ?? DEFAULT_LOGIN)
+                          : undefined,
                       })
                     }
                   />
@@ -1759,7 +2018,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                         onChange={(event) =>
                           setDraft({
                             ...draft,
-                            login: { ...draft.login!, preHeadline: event.target.value },
+                            login: {
+                              ...draft.login!,
+                              preHeadline: event.target.value,
+                            },
                           })
                         }
                       />
@@ -1771,7 +2033,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                         onChange={(event) =>
                           setDraft({
                             ...draft,
-                            login: { ...draft.login!, headline: event.target.value },
+                            login: {
+                              ...draft.login!,
+                              headline: event.target.value,
+                            },
                           })
                         }
                       />
@@ -1784,13 +2049,18 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                         onChange={(event) =>
                           setDraft({
                             ...draft,
-                            login: { ...draft.login!, subheadline: event.target.value },
+                            login: {
+                              ...draft.login!,
+                              subheadline: event.target.value,
+                            },
                           })
                         }
                       />
                     </div>
                     <div className="space-y-2 sm:col-span-2 border-t border-border pt-4">
-                      <p className="text-xs font-medium text-muted-foreground">Form panel</p>
+                      <p className="text-xs font-medium text-muted-foreground">
+                        Form panel
+                      </p>
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div className="space-y-2">
                           <Label className="text-xs">Form headline</Label>
@@ -1801,7 +2071,10 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                                 ...draft,
                                 login: {
                                   ...draft.login!,
-                                  form: { ...draft.login!.form, headline: event.target.value },
+                                  form: {
+                                    ...draft.login!.form,
+                                    headline: event.target.value,
+                                  },
                                 },
                               })
                             }
@@ -1848,38 +2121,42 @@ export function AdminClubLandingEditor({ clubId }: ClubLandingEditorProps): Reac
                     </div>
                   </div>
                 ) : null}
-            </LandingFormSection>
+              </LandingFormSection>
             </div>
-        </div>
-      </Panel>
-
-      <PanelResizeHandle
-        aria-label="Resize editor and preview"
-        className="flex w-3 shrink-0 cursor-col-resize items-center justify-center bg-border/45 outline-none hover:bg-border focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        <span className="pointer-events-none h-28 w-1 shrink-0 rounded-full bg-muted-foreground/40" />
-      </PanelResizeHandle>
-
-      <Panel
-        defaultSize={48}
-        minSize={22}
-        maxSize={78}
-        className="flex min-h-0 min-w-0 flex-col"
-      >
-        <div className="flex min-h-0 flex-1 flex-col gap-2 px-3 pb-6 pt-1 sm:px-4">
-          <div className="flex shrink-0 items-center justify-between gap-2">
-            <p className="text-sm font-medium text-foreground">Live preview</p>
-            <span className="text-xs text-muted-foreground">Drag the divider to resize</span>
           </div>
-          <iframe
-            ref={iframeRef}
-            title="Club landing preview"
-            className="min-h-0 w-full min-w-0 flex-1 rounded-lg border border-border bg-background shadow-sm"
-            src="/preview/club-landing"
-            sandbox="allow-scripts allow-same-origin"
-          />
-        </div>
-      </Panel>
+        </Panel>
+
+        <PanelResizeHandle
+          aria-label="Resize editor and preview"
+          className="flex w-3 shrink-0 cursor-col-resize items-center justify-center bg-border/45 outline-none hover:bg-border focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <span className="pointer-events-none h-28 w-1 shrink-0 rounded-full bg-muted-foreground/40" />
+        </PanelResizeHandle>
+
+        <Panel
+          defaultSize={48}
+          minSize={22}
+          maxSize={78}
+          className="flex min-h-0 min-w-0 flex-col"
+        >
+          <div className="flex min-h-0 flex-1 flex-col gap-2 px-3 pb-6 pt-1 sm:px-4">
+            <div className="flex shrink-0 items-center justify-between gap-2">
+              <p className="text-sm font-medium text-foreground">
+                Live preview
+              </p>
+              <span className="text-xs text-muted-foreground">
+                Drag the divider to resize
+              </span>
+            </div>
+            <iframe
+              ref={iframeRef}
+              title="Club landing preview"
+              className="min-h-0 w-full min-w-0 flex-1 rounded-lg border border-border bg-background shadow-sm"
+              src="/preview/club-landing"
+              sandbox="allow-scripts allow-same-origin"
+            />
+          </div>
+        </Panel>
       </PanelGroup>
     </div>
   );

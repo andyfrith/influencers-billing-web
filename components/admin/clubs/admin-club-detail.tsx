@@ -1,9 +1,8 @@
 "use client";
 
+import * as React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import * as React from "react";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -27,7 +26,11 @@ type ClubDetail = {
 /**
  * Club overview: metadata, lifecycle, links, archive actions.
  */
-export function AdminClubDetail({ clubId }: { clubId: string }): React.JSX.Element {
+export function AdminClubDetail({
+  clubId,
+}: {
+  clubId: string;
+}): React.JSX.Element {
   const queryClient = useQueryClient();
   const [message, setMessage] = React.useState("");
 
@@ -35,7 +38,10 @@ export function AdminClubDetail({ clubId }: { clubId: string }): React.JSX.Eleme
     queryKey: ["admin-club", clubId],
     queryFn: async () => {
       const response = await fetch(`/api/admin/clubs/${clubId}`);
-      const payload = (await response.json()) as { club?: ClubDetail; error?: string };
+      const payload = (await response.json()) as {
+        club?: ClubDetail;
+        error?: string;
+      };
       if (!response.ok || !payload.club) {
         throw new Error(payload.error ?? "Failed to load club.");
       }
@@ -44,7 +50,10 @@ export function AdminClubDetail({ clubId }: { clubId: string }): React.JSX.Eleme
   });
 
   const archiveClubMutation = useMutation({
-    mutationFn: async (input: { clubId: string; status: "new" | "active" | "archived" }) => {
+    mutationFn: async (input: {
+      clubId: string;
+      status: "new" | "active" | "archived";
+    }) => {
       const response = await fetch("/api/admin/clubs", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -67,7 +76,9 @@ export function AdminClubDetail({ clubId }: { clubId: string }): React.JSX.Eleme
       <Card>
         <CardContent className="py-10">
           <p className="text-sm text-muted-foreground">
-            {clubQuery.isLoading ? "Loading club…" : (clubQuery.error as Error)?.message ?? "Not found."}
+            {clubQuery.isLoading
+              ? "Loading club…"
+              : ((clubQuery.error as Error)?.message ?? "Not found.")}
           </p>
         </CardContent>
       </Card>
@@ -98,27 +109,39 @@ export function AdminClubDetail({ clubId }: { clubId: string }): React.JSX.Eleme
               </span>
             </div>
             <CardTitle className="text-2xl">{club.name}</CardTitle>
-            <p className="font-mono text-sm text-muted-foreground">{club.slug}</p>
+            <p className="font-mono text-sm text-muted-foreground">
+              {club.slug}
+            </p>
             <p className="text-sm text-muted-foreground">{club.description}</p>
             <div className="flex flex-wrap gap-2 pt-2">
               <Button asChild>
-                <Link href={`/admin/clubs/${club.id}/landing`}>Landing page</Link>
+                <Link href={`/admin/clubs/${club.id}/landing`}>
+                  Landing page
+                </Link>
               </Button>
               <Button asChild variant="secondary">
                 <Link href={`/admin/clubs/${club.id}/plans`}>Plans</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href={`/discover/clubs/${club.slug}`}>View discover page</Link>
+                <Link href={`/discover/clubs/${club.slug}`}>
+                  View discover page
+                </Link>
               </Button>
             </div>
           </CardHeader>
           <div className="relative min-h-[200px] bg-muted md:min-h-full">
             {club.heroPreviewSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={club.heroPreviewSrc} alt="" className="absolute inset-0 size-full object-cover" />
+              <img
+                src={club.heroPreviewSrc}
+                alt=""
+                className="absolute inset-0 size-full object-cover"
+              />
             ) : (
               <div className="flex size-full min-h-[200px] items-center justify-center bg-gradient-to-br from-primary/25 via-muted to-muted md:min-h-full">
-                <span className="text-5xl font-semibold text-primary/80">{initial}</span>
+                <span className="text-5xl font-semibold text-primary/80">
+                  {initial}
+                </span>
               </div>
             )}
           </div>
@@ -138,9 +161,14 @@ export function AdminClubDetail({ clubId }: { clubId: string }): React.JSX.Eleme
               </span>
             </p>
           ) : (
-            <p>No published landing revision — discover falls back to legacy JSON or bundled defaults.</p>
+            <p>
+              No published landing revision — discover falls back to legacy JSON
+              or bundled defaults.
+            </p>
           )}
-          <p className="text-xs">Updated {new Date(club.updatedAt).toLocaleString()}</p>
+          <p className="text-xs">
+            Updated {new Date(club.updatedAt).toLocaleString()}
+          </p>
         </CardContent>
       </Card>
 
@@ -163,7 +191,12 @@ export function AdminClubDetail({ clubId }: { clubId: string }): React.JSX.Eleme
           {club.status === "active" ? (
             <Button
               variant="outline"
-              onClick={() => archiveClubMutation.mutate({ clubId: club.id, status: "archived" })}
+              onClick={() =>
+                archiveClubMutation.mutate({
+                  clubId: club.id,
+                  status: "archived",
+                })
+              }
               disabled={archiveClubMutation.isPending}
             >
               Archive club
@@ -171,13 +204,20 @@ export function AdminClubDetail({ clubId }: { clubId: string }): React.JSX.Eleme
           ) : (
             <Button
               variant="outline"
-              onClick={() => archiveClubMutation.mutate({ clubId: club.id, status: "active" })}
+              onClick={() =>
+                archiveClubMutation.mutate({
+                  clubId: club.id,
+                  status: "active",
+                })
+              }
               disabled={archiveClubMutation.isPending}
             >
               Re-activate club
             </Button>
           )}
-          {message ? <p className="text-sm text-destructive">{message}</p> : null}
+          {message ? (
+            <p className="text-sm text-destructive">{message}</p>
+          ) : null}
         </CardContent>
       </Card>
     </div>

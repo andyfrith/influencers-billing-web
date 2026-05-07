@@ -1,5 +1,5 @@
 import { AdminNav } from "@/components/admin-nav";
-import { AdminClubCreateForm } from "@/components/admin/admin-club-create-form";
+import { AdminClubCreateForm } from "@/components/admin/clubs/admin-club-create-form";
 
 export default async function AdminNewClubPage(): Promise<React.JSX.Element> {
   return (

@@ -1,5 +1,5 @@
 import { AdminNav } from "@/components/admin-nav";
-import { AdminClubPlansManager } from "@/components/admin/admin-club-plans-manager";
+import { AdminClubPlansManager } from "@/components/admin/clubs/admin-club-plans-manager";
 
 export default async function AdminClubPlansPage({
   params,

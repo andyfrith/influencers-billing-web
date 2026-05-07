@@ -1,5 +1,5 @@
 import { AdminNav } from "@/components/admin-nav";
-import { AdminClubLandingEditor } from "@/components/admin/admin-club-landing-editor";
+import { AdminClubLandingEditor } from "@/components/admin/clubs/admin-club-landing-editor";
 
 export default async function AdminClubLandingPage({
   params,

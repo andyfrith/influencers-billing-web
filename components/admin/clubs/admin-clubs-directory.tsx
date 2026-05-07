@@ -1,10 +1,9 @@
 "use client";
 
+import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import * as React from "react";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -39,7 +38,11 @@ function matchesSearch(club: AdminClubDirectoryRow, q: string): boolean {
 /**
  * Thumbnail card linking to club admin detail.
  */
-function ClubThumbnailCard({ club }: { club: AdminClubDirectoryRow }): React.JSX.Element {
+function ClubThumbnailCard({
+  club,
+}: {
+  club: AdminClubDirectoryRow;
+}): React.JSX.Element {
   const initial = club.name.trim().charAt(0).toUpperCase() || "?";
 
   return (
@@ -50,7 +53,7 @@ function ClubThumbnailCard({ club }: { club: AdminClubDirectoryRow }): React.JSX
         club.status === "archived" && "opacity-80",
       )}
     >
-      <div className="aspect-[4/3] w-full bg-muted">
+      <div className="aspect-4/3 w-full bg-muted">
         {club.heroPreviewSrc ? (
           // eslint-disable-next-line @next/next/no-img-element -- arbitrary admin-provided URLs
           <img
@@ -59,12 +62,14 @@ function ClubThumbnailCard({ club }: { club: AdminClubDirectoryRow }): React.JSX
             className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
           />
         ) : (
-          <div className="flex size-full items-center justify-center bg-gradient-to-br from-primary/25 via-muted to-muted">
-            <span className="text-4xl font-semibold text-primary/80">{initial}</span>
+          <div className="flex size-full items-center justify-center bg-linear-to-br from-primary/25 via-muted to-muted">
+            <span className="text-4xl font-semibold text-primary/80">
+              {initial}
+            </span>
           </div>
         )}
       </div>
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 via-background/70 to-transparent px-3 pb-3 pt-10">
+      <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-background/95 via-background/70 to-transparent px-3 pb-3 pt-10">
         <div className="flex flex-wrap items-center gap-2">
           <span
             className={cn(
@@ -72,11 +77,15 @@ function ClubThumbnailCard({ club }: { club: AdminClubDirectoryRow }): React.JSX
               club.status === "new"
                 ? "bg-sky-500/20 text-sky-700 dark:text-sky-300"
                 : club.lifecyclePhase === "live"
-                ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-400"
-                : "bg-amber-500/20 text-amber-800 dark:text-amber-300",
+                  ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-400"
+                  : "bg-amber-500/20 text-amber-800 dark:text-amber-300",
             )}
           >
-            {club.status === "new" ? "New" : club.lifecyclePhase === "live" ? "Live" : "In design"}
+            {club.status === "new"
+              ? "New"
+              : club.lifecyclePhase === "live"
+                ? "Live"
+                : "In design"}
           </span>
           {club.status === "archived" ? (
             <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
@@ -84,8 +93,12 @@ function ClubThumbnailCard({ club }: { club: AdminClubDirectoryRow }): React.JSX
             </span>
           ) : null}
         </div>
-        <p className="mt-1 truncate font-semibold text-foreground">{club.name}</p>
-        <p className="truncate font-mono text-xs text-muted-foreground">{club.slug}</p>
+        <p className="mt-1 truncate font-semibold text-foreground">
+          {club.name}
+        </p>
+        <p className="truncate font-mono text-xs text-muted-foreground">
+          {club.slug}
+        </p>
       </div>
     </Link>
   );
@@ -108,7 +121,10 @@ export function AdminClubsDirectory(): React.JSX.Element {
     queryKey: ["admin-clubs"],
     queryFn: async () => {
       const response = await fetch("/api/admin/clubs");
-      const payload = (await response.json()) as { clubs?: AdminClubDirectoryRow[]; error?: string };
+      const payload = (await response.json()) as {
+        clubs?: AdminClubDirectoryRow[];
+        error?: string;
+      };
       if (!response.ok || !payload.clubs) {
         throw new Error(payload.error ?? "Failed to load clubs.");
       }
@@ -176,11 +192,15 @@ export function AdminClubsDirectory(): React.JSX.Element {
         <p className="text-sm text-muted-foreground">Loading clubs…</p>
       ) : null}
       {clubsQuery.error ? (
-        <p className="text-sm text-destructive">{(clubsQuery.error as Error).message}</p>
+        <p className="text-sm text-destructive">
+          {(clubsQuery.error as Error).message}
+        </p>
       ) : null}
 
       {filtered.length === 0 && !clubsQuery.isLoading ? (
-        <p className="text-sm text-muted-foreground">No clubs match these filters.</p>
+        <p className="text-sm text-muted-foreground">
+          No clubs match these filters.
+        </p>
       ) : (
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((club) => (
